@@ -35,19 +35,19 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xfff6f6f6),
+        color: Color(0xfff2f2f2),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        keyboardType: TextInputType.text,
+        textAlignVertical: TextAlignVertical.top,
         cursorColor: Colors.black,
         autofocus: false,
         autocorrect: false,
         onSaved: onSaved,
         validator: validator,
         style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w500,
-        ),
+            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
         decoration: InputDecoration(
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

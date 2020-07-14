@@ -5,6 +5,7 @@ import 'cart_page.dart';
 import 'favorite_page.dart';
 import 'search_page.dart';
 import 'profile_page.dart';
+import 'home_page_2.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Manage your route names here
             switch (settings.name) {
               case '/':
-                builder = (BuildContext context) => HomePage();
+                builder = (BuildContext context) => HomePage2();
                 break;
               case '/search':
                 builder = (BuildContext context) => Search();
