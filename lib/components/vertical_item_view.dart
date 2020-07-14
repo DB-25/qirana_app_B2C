@@ -10,10 +10,12 @@ class VerticalView extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height - 200,
         child: ListView.builder(
+            padding: EdgeInsets.only(top: 0),
             scrollDirection: Axis.vertical,
             itemCount: 5,
             itemBuilder: (BuildContext context, int index) {
               return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   ItemViewVertical(),
                   ItemViewVertical(),

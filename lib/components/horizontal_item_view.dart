@@ -11,7 +11,7 @@ class HorizontalView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        height: 400,
+        height: 355,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
