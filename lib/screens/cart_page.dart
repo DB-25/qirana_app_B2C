@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
+import 'checkout_page.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -7,6 +8,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  int total = 750;
+  int itemCount = 5;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,7 +34,7 @@ class _CartState extends State<Cart> {
                           fontWeight: FontWeight.w900),
                     ),
                     Text(
-                      '5 Products',
+                      '$itemCount Products',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
@@ -52,8 +55,9 @@ class _CartState extends State<Cart> {
                         'https://www.jessicagavin.com/wp-content/uploads/2019/02/carrots-7-600x900.jpg',
                     productName: 'Carrot',
                     price: 150,
+                    quantity: 1,
                   ),
-                  itemCount: 5,
+                  itemCount: itemCount,
                 ),
               ),
               Padding(
@@ -73,7 +77,7 @@ class _CartState extends State<Cart> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                     ),
                     Text(
-                      'Rs 1500',
+                      'Rs ' + total.toString(),
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
                     )
@@ -100,7 +104,12 @@ class _CartState extends State<Cart> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckOutPage()));
+                  },
                 ),
               ),
               SizedBox(

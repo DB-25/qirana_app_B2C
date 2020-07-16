@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'settings_page.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -166,11 +166,19 @@ class _ProfileState extends State<Profile> {
                       thickness: 1,
                     ),
                   ),
-                  ListTile(
-                    title: Text("Settings"),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsPage()));
+                    },
+                    child: ListTile(
+                      title: Text("Settings"),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                      ),
                     ),
                   ),
                   Padding(
