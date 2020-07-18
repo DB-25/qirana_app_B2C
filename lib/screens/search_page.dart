@@ -74,13 +74,18 @@ class _SearchState extends State<Search> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: ListTile(
-                          title: Text("Ground Coffee"),
-                          leading: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.access_time,
-                              size: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            searchTerm = 'Ground Coffee';
+                          },
+                          child: ListTile(
+                            title: Text("Ground Coffee"),
+                            leading: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.access_time,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ),
@@ -93,13 +98,18 @@ class _SearchState extends State<Search> {
                           thickness: 1,
                         ),
                       ),
-                      ListTile(
-                        title: Text("Hand Sanitiser"),
-                        leading: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.access_time,
-                            size: 20,
+                      GestureDetector(
+                        onTap: () {
+                          searchTerm = 'Hand Sanitizer';
+                        },
+                        child: ListTile(
+                          title: Text("Hand Sanitiser"),
+                          leading: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.access_time,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),

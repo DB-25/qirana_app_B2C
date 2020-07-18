@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'item_view_vertical.dart';
+import 'package:qirana_app/screens/vertical_view_page.dart';
 
 class HorizontalView extends StatelessWidget {
   final String title;
@@ -18,16 +19,22 @@ class HorizontalView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 25,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
                 FlatButton(
                   onPressed: () {
-                    //TODO:ADD Feature
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VerticalViewPage()));
                   },
                   child: Text(
                     'View all',
