@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'home_page.dart';
 import 'cart_page.dart';
 import 'favorite_page.dart';
 import 'search_page.dart';
@@ -57,6 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
