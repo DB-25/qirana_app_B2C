@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
+import 'package:qirana_app/model/product_model.dart';
 
-class VerticalViewPage extends StatelessWidget {
+class VerticalViewPage extends StatefulWidget {
+  final List data;
+  VerticalViewPage(this.data);
+  @override
+  _VerticalViewPageState createState() => _VerticalViewPageState(data);
+}
+
+class _VerticalViewPageState extends State<VerticalViewPage> {
+  List data;
+  _VerticalViewPageState(this.data);
+  List<ProductModel> productModel = List<ProductModel>();
+  void getData(List data) {
+    for (var i = 0; i < data.length; i++) {
+      productModel.add(ProductModel.fromMap(data[i]));
+    }
+    print(productModel[0]);
+  }
+
+  @override
+  void initState() {
+    getData(data);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +62,14 @@ class VerticalViewPage extends StatelessWidget {
                     child: ListView.builder(
                       itemBuilder: (BuildContext context, int index) =>
                           ItemHorizontalView(
-                        url:
-                            'https://www.jessicagavin.com/wp-content/uploads/2019/02/carrots-7-600x900.jpg',
-                        productName: 'Carrot',
-                        price: 150,
+                        url: 'https://www.fagnum.com/wp' +
+                            productModel[index].imageOne,
+                        productName: productModel[index].metaDescription,
+                        price: productModel[index].price.toInt(),
                         quantity: 1,
+                        size: productModel[index].size,
                       ),
-                      itemCount: 10,
+                      itemCount: productModel.length,
                     ),
                   ),
                 ],

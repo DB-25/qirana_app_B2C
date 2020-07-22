@@ -4,11 +4,11 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
 import 'package:qirana_app/components/vertical_item_view.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
-import 'package:qirana_app/components/input_field.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/model/banner_model.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 class HomePage2 extends StatefulWidget {
   @override
@@ -75,28 +75,22 @@ class _HomePage2State extends State<HomePage2> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8, right: 8),
                   child: SizedBox(
-                    height: 55,
+                    height: 80,
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          flex: 8,
-                          child: InputField(
-                            hintText: 'Search',
-                            validator: null,
-                            onSaved: (val) {
-                              searchedTerm = val;
-                            },
-                          ),
-                        ),
+                            flex: 8,
+                            child: SearchBar(
+                              onSearch: null,
+                              onItemFound: null,
+                              minimumChars: 3,
+                            )),
                         Expanded(flex: 1, child: Icon(Icons.notifications))
                       ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
                 ),
                 HorizontalCategory(
                   categoryModel: categoryModel,

@@ -31,10 +31,10 @@ class HorizontalView extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VerticalViewPage()));
+//                    Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => VerticalViewPage()));//TODO:ADD later
                   },
                   child: Text(
                     'View all',

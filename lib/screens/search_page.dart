@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qirana_app/components/input_field.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
 
 class Search extends StatefulWidget {
@@ -52,12 +52,13 @@ class _SearchState extends State<Search> {
                   SizedBox(
                     height: 20,
                   ),
-                  InputField(
-                    hintText: 'Search',
-                    validator: emptyValidator('This can\'t be empty'),
-                    onSaved: (val) {
-                      searchTerm = val;
-                    },
+                  Container(
+                    height: 80,
+                    child: SearchBar(
+                      onSearch: null,
+                      onItemFound: null,
+                      minimumChars: 3,
+                    ),
                   ),
                   SizedBox(
                     height: 20,

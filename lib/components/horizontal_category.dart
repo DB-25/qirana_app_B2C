@@ -49,19 +49,21 @@ class HorizontalCategory extends StatelessWidget {
               height: 5,
             ),
             Expanded(
-                child: categoryModel == null
-                    ? Container()
-                    : ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categoryModel.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            CategoryCard(
-                              text1: categoryModel[index].name,
-                              text2: categoryModel[index].description,
-                              icon: getIcon(categoryModel[index].name),
-                              color1: getColor1(categoryModel[index].name),
-                              color2: getColor2(categoryModel[index].name),
-                            )))
+              child: categoryModel == null
+                  ? Container()
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: categoryModel.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          CategoryCard(
+                        text1: categoryModel[index].name,
+                        text2: categoryModel[index].description,
+                        icon: getIcon(categoryModel[index].name),
+                        color1: getColor1(categoryModel[index].name),
+                        color2: getColor2(categoryModel[index].name),
+                      ),
+                    ),
+            ), 
           ],
         ),
       ),

@@ -4,24 +4,25 @@ class ProductModel {
   String metaDescription;
   String description;
   String url;
-  String discount;
+  int discount;
   String imageOne;
   String imageTwo;
-  String price;
+  double price;
   String status;
+  String size;
 
-  ProductModel({
-    this.primaryId,
-    this.name,
-    this.metaDescription,
-    this.description,
-    this.url,
-    this.discount,
-    this.imageOne,
-    this.imageTwo,
-    this.price,
-    this.status,
-  });
+  ProductModel(
+      {this.primaryId,
+      this.name,
+      this.metaDescription,
+      this.description,
+      this.url,
+      this.discount,
+      this.imageOne,
+      this.imageTwo,
+      this.price,
+      this.status,
+      this.size});
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
@@ -38,6 +39,7 @@ class ProductModel {
       imageTwo: map.containsKey('imageTwo') ? (map['imageTwo'] ?? '') : '',
       price: map.containsKey('price') ? (map['price'] ?? '') : '',
       status: map.containsKey('status') ? (map['status'] ?? '') : '',
+      size: map.containsKey('size') ? (map['size'] ?? '') : '',
     );
   }
 }

@@ -56,6 +56,7 @@ class _CartState extends State<Cart> {
                     productName: 'Carrot',
                     price: 150,
                     quantity: 1,
+                    size: '5KG',
                   ),
                   itemCount: itemCount,
                 ),
