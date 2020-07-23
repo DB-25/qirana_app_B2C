@@ -1,53 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'item_view_vertical.dart';
+import 'package:qirana_app/model/product_model.dart';
 
 class VerticalView extends StatelessWidget {
+  final List<ProductModel> productModel;
+
+  VerticalView({this.productModel});
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-//          height: MediaQuery.of(context).size.height - 200,
-          child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              ItemViewVertical(),
-              ItemViewVertical(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              ItemViewVertical(),
-              ItemViewVertical(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              ItemViewVertical(),
-              ItemViewVertical(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              ItemViewVertical(),
-              ItemViewVertical(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              ItemViewVertical(),
-              ItemViewVertical(),
-            ],
-          ),
-        ],
-      )),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 200,
+          child: GridView.count(
+            childAspectRatio: (itemWidth / itemHeight),
+            shrinkWrap: true,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            children: List.generate(productModel.length, (index) {
+              return ItemViewVertical(
+                url: productModel[index].imageOne,
+                productName: productModel[index].metaDescription,
+                price: productModel[index].price,
+              );
+            }),
+          )),
     );
   }
 }

@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qirana_app/model/product_model.dart';
 import 'item_view_vertical.dart';
 import 'package:qirana_app/screens/vertical_view_page.dart';
 
 class HorizontalView extends StatelessWidget {
+  final List<ProductModel> productModel;
   final String title;
   final Axis axisDirection;
-  HorizontalView({this.title, this.axisDirection});
+  HorizontalView({this.title, this.axisDirection, this.productModel});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        height: 355,
+        height: 375,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -31,10 +33,11 @@ class HorizontalView extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) => VerticalViewPage()));//TODO:ADD later
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                VerticalViewPage(productModel)));
                   },
                   child: Text(
                     'View all',
@@ -49,9 +52,13 @@ class HorizontalView extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                   scrollDirection: axisDirection,
-                  itemCount: 10,
+                  itemCount: productModel.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ItemViewVertical();
+                    return ItemViewVertical(
+                      productName: productModel[index].metaDescription,
+                      url: productModel[index].imageOne,
+                      price: productModel[index].price,
+                    );
                   }),
             )
           ],

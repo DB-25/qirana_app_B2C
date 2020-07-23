@@ -3,26 +3,18 @@ import 'package:qirana_app/components/item_horizontal_view.dart';
 import 'package:qirana_app/model/product_model.dart';
 
 class VerticalViewPage extends StatefulWidget {
-  final List data;
-  VerticalViewPage(this.data);
+  final List<ProductModel> productModel;
+  VerticalViewPage(this.productModel);
   @override
-  _VerticalViewPageState createState() => _VerticalViewPageState(data);
+  _VerticalViewPageState createState() => _VerticalViewPageState(productModel);
 }
 
 class _VerticalViewPageState extends State<VerticalViewPage> {
-  List data;
-  _VerticalViewPageState(this.data);
-  List<ProductModel> productModel = List<ProductModel>();
-  void getData(List data) {
-    for (var i = 0; i < data.length; i++) {
-      productModel.add(ProductModel.fromMap(data[i]));
-    }
-    print(productModel[0]);
-  }
+  final List<ProductModel> productModel;
+  _VerticalViewPageState(this.productModel);
 
   @override
   void initState() {
-    getData(data);
     super.initState();
   }
 

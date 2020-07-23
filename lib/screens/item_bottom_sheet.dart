@@ -4,7 +4,7 @@ class ItemBottomSheet extends StatefulWidget {
   ItemBottomSheet({this.price, this.productName, this.url});
 
   final String productName;
-  final String price;
+  final double price;
   final String url;
   @override
   _ItemBottomSheetState createState() => _ItemBottomSheetState(
@@ -17,7 +17,7 @@ class ItemBottomSheet extends StatefulWidget {
 class _ItemBottomSheetState extends State<ItemBottomSheet> {
   _ItemBottomSheetState({this.price, this.productName, this.url});
   final String productName;
-  final String price;
+  final double price;
   final String url;
   int quantity = 1;
 
@@ -98,7 +98,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           width: 100,
                           child: Card(
                             child: Image.network(
-                              url,
+                              'https://www.fagnum.com/wp' + url,
                               fit: BoxFit.scaleDown,
                             ),
                           ),
@@ -114,7 +114,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       ],
                     ),
                     Text(
-                      price,
+                      'Rs ' + price.toInt().toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),

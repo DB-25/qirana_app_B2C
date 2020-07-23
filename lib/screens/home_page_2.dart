@@ -5,6 +5,7 @@ import 'package:qirana_app/components/horizontal_category.dart';
 import 'package:qirana_app/components/vertical_item_view.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
 import 'package:qirana_app/model/category_model.dart';
+import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/model/banner_model.dart';
@@ -20,6 +21,7 @@ class _HomePage2State extends State<HomePage2> {
   ApiDriver apiDriver = new ApiDriver();
   BannerModel bannerModel;
   List<CategoryModel> categoryModel = List<CategoryModel>();
+  List<ProductModel> productModel = List<ProductModel>();
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _HomePage2State extends State<HomePage2> {
     getBannerDetails(responseBanner.listData[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
     getCategoryDetails(responseCategory.listData);
+    ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
+    getBestDealsDetails(responseBestDeals.listData);
     Future.delayed(new Duration(seconds: 1), () {
       setState(() {});
     });
@@ -44,6 +48,12 @@ class _HomePage2State extends State<HomePage2> {
     Future.delayed(new Duration(seconds: 5), () {
       setState(() {});
     });
+  }
+
+  void getBestDealsDetails(List data) {
+    for (var i = 0; i < data.length; i++) {
+      productModel.add(ProductModel.fromMap(data[i]));
+    }
   }
 
   void getCategoryDetails(List data) {
@@ -142,6 +152,7 @@ class _HomePage2State extends State<HomePage2> {
                   height: 10,
                 ),
                 HorizontalView(
+                  productModel: productModel,
                   title: 'BEST DEALS',
                   axisDirection: Axis.horizontal,
                 ),
@@ -155,7 +166,9 @@ class _HomePage2State extends State<HomePage2> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
-                VerticalView(),
+                VerticalView(
+                  productModel: productModel,
+                ),
               ],
             ),
           ),
