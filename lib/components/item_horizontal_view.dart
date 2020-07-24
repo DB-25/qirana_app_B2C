@@ -45,137 +45,230 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        width: MediaQuery.of(context).size.width,
+        child: ListTile(
+          leading: Container(
+            height: 100,
+            width: 50,
+            child: Image.network(
+              url,
+              fit: BoxFit.contain,
+            ),
+          ),
+          title: Text(
+            productName,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+            maxLines: 2,
+            softWrap: true,
+          ),
+          subtitle: Text(
+            size,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+          ),
+          trailing: Container(
+            height: 70,
+            width: 70,
+            child: Column(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  child: Image.network(
-                    url,
-                    fit: BoxFit.contain,
-                  ),
+                Text(
+                  'Rs ' + value.toString(),
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
                 ),
                 SizedBox(
-                  width: 5,
+                  height: 5,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: Text(
-                        productName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 18),
-                        maxLines: 2,
-                        softWrap: true,
+                      height: 25,
+                      width: 25,
+                      child: FittedBox(
+                        child: FloatingActionButton(
+                            elevation: 5,
+                            backgroundColor: Colors.white,
+                            onPressed: () {
+                              setState(() {
+                                if (quan != 1) quan--;
+                                value = price * quan;
+                              });
+                            },
+                            child: Text(
+                              '-',
+                              style: TextStyle(
+                                  fontSize: 30, color: Color(0xFFff5860)),
+                            )),
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      quan.toString(),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      height: 25,
+                      width: 25,
+                      child: FittedBox(
+                        child: FloatingActionButton(
+                          elevation: 5,
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              quan++;
+                              value = price * quan;
+                            });
+                          },
                           child: Text(
-                            size,
+                            '+',
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 17),
+                                fontSize: 30, color: Color(0xFFff5860)),
                           ),
                         ),
-                        SizedBox(
-                          width: 50,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Rs ' + value.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: FittedBox(
-                                      child: FloatingActionButton(
-                                          elevation: 5,
-                                          backgroundColor: Colors.white,
-                                          onPressed: () {
-                                            setState(() {
-                                              if (quan != 1) quan--;
-                                              value = price * quan;
-                                            });
-                                          },
-                                          child: Text(
-                                            '-',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                color: Color(0xFFff5860)),
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    quan.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: FittedBox(
-                                      child: FloatingActionButton(
-                                        elevation: 5,
-                                        backgroundColor: Colors.white,
-                                        onPressed: () {
-                                          setState(() {
-                                            quan++;
-                                            value = price * quan;
-                                          });
-                                        },
-                                        child: Text(
-                                          '+',
-                                          style: TextStyle(
-                                              fontSize: 30,
-                                              color: Color(0xFFff5860)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+//
+//Row(
+//mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//crossAxisAlignment: CrossAxisAlignment.start,
+//children: <Widget>[
+//Row(
+//crossAxisAlignment: CrossAxisAlignment.start,
+//children: <Widget>[
+//Container(
+//height: 110,
+//width: 110,
+//child: Image.network(
+//url,
+//fit: BoxFit.contain,
+//),
+//),
+//SizedBox(
+//width: 5,
+//),
+//Column(
+//crossAxisAlignment: CrossAxisAlignment.start,
+//children: <Widget>[
+//Container(
+//width: MediaQuery.of(context).size.width * 0.6,
+//child: Text(
+//productName,
+//style: TextStyle(
+//fontWeight: FontWeight.w700, fontSize: 18),
+//maxLines: 2,
+//softWrap: true,
+//),
+//),
+//Row(
+//crossAxisAlignment: CrossAxisAlignment.start,
+//mainAxisAlignment: MainAxisAlignment.end,
+//children: <Widget>[
+//Padding(
+//padding: const EdgeInsets.all(8.0),
+//child: Text(
+//size,
+//style: TextStyle(
+//fontWeight: FontWeight.w700, fontSize: 17),
+//),
+//),
+//SizedBox(
+//width: 50,
+//),
+//Padding(
+//padding: const EdgeInsets.all(8.0),
+//child: Column(
+////                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//children: <Widget>[
+//Text(
+//'Rs ' + value.toString(),
+//style: TextStyle(
+//fontWeight: FontWeight.w700, fontSize: 20),
+//),
+//SizedBox(
+//height: 5,
+//),
+//Row(
+//children: <Widget>[
+//Container(
+//height: 30,
+//width: 30,
+//child: FittedBox(
+//child: FloatingActionButton(
+//elevation: 5,
+//backgroundColor: Colors.white,
+//onPressed: () {
+//setState(() {
+//if (quan != 1) quan--;
+//value = price * quan;
+//});
+//},
+//child: Text(
+//'-',
+//style: TextStyle(
+//fontSize: 30,
+//color: Color(0xFFff5860)),
+//)),
+//),
+//),
+//SizedBox(
+//width: 10,
+//),
+//Text(
+//quan.toString(),
+//style: TextStyle(
+//fontWeight: FontWeight.w700,
+//fontSize: 20),
+//),
+//SizedBox(
+//width: 10,
+//),
+//Container(
+//height: 30,
+//width: 30,
+//child: FittedBox(
+//child: FloatingActionButton(
+//elevation: 5,
+//backgroundColor: Colors.white,
+//onPressed: () {
+//setState(() {
+//quan++;
+//value = price * quan;
+//});
+//},
+//child: Text(
+//'+',
+//style: TextStyle(
+//fontSize: 30,
+//color: Color(0xFFff5860)),
+//),
+//),
+//),
+//),
+//],
+//),
+//],
+//),
+//)
+//],
+//),
+//],
+//),
+//],
+//),
+//],
+//),

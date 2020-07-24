@@ -14,21 +14,23 @@ class HorizontalCategory extends StatelessWidget {
     return Icons.local_dining;
   }
 
-  Color getColor1(String name) {
-    if (name == 'Grocery') return Color(0xff066E4B);
-    if (name == 'Personal Care') return Color(0xffA8DEEA);
-    if (name == 'Snacks & All') return Color(0xffFEBE50);
-    if (name == 'Household') return Color(0xffF3DCEC);
-    if (name == 'Beverages') return Color(0xffFEBE50);
+  Color getColor1(int num) {
+    num = num % 5;
+    if (num == 0) return Color(0xff066E4B);
+    if (num == 1) return Color(0xffA8DEEA);
+    if (num == 2) return Color(0xffFEBE50);
+    if (num == 3) return Color(0xffF3DCEC);
+    if (num == 4) return Color(0xffFEBE50);
     return Color(0xff183B8C);
   }
 
-  Color getColor2(String name) {
-    if (name == 'Grocery') return Color(0xffFFB74A);
-    if (name == 'Personal Care') return Color(0xff066E4B);
-    if (name == 'Snacks & All') return Color(0xffFF5465);
-    if (name == 'Household') return Color(0xff1D4491);
-    if (name == 'Beverages') return Color(0xffFFFFFF);
+  Color getColor2(int num) {
+    num = num % 5;
+    if (num == 0) return Color(0xffFFB74A);
+    if (num == 1) return Color(0xff066E4B);
+    if (num == 2) return Color(0xffFF5465);
+    if (num == 3) return Color(0xff1D4491);
+    if (num == 4) return Color(0xffFFFFFF);
     return Color(0xffF3DCEC);
   }
 
@@ -49,21 +51,20 @@ class HorizontalCategory extends StatelessWidget {
               height: 5,
             ),
             Expanded(
-              child: categoryModel == null
-                  ? Container()
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categoryModel.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          CategoryCard(
-                        text1: categoryModel[index].name,
-                        text2: categoryModel[index].description,
-                        icon: getIcon(categoryModel[index].name),
-                        color1: getColor1(categoryModel[index].name),
-                        color2: getColor2(categoryModel[index].name),
-                      ),
-                    ),
-            ), 
+                child: categoryModel == null
+                    ? Container()
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categoryModel.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            CategoryCard(
+                                text1: categoryModel[index].name,
+                                text2: categoryModel[index].description,
+                                icon: getIcon(categoryModel[index].name),
+                                color1: getColor1(index),
+                                color2: getColor2(index),
+                                categoryId: categoryModel[index].categoryId,
+                                url: categoryModel[index].url)))
           ],
         ),
       ),
