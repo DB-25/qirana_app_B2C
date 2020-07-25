@@ -24,9 +24,7 @@ class VerticalView extends StatelessWidget {
             crossAxisCount: 2,
             children: List.generate(productModel.length, (index) {
               return ItemViewVertical(
-                url: productModel[index].imageOne,
-                productName: productModel[index].metaDescription,
-                price: productModel[index].price,
+                productModel: productModel[index],
               );
             }),
           )),

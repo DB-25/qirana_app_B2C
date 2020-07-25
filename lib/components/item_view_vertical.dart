@@ -1,22 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/screens/item_bottom_sheet.dart';
+import 'package:qirana_app/database/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ItemViewVertical extends StatefulWidget {
-  final String productName;
-  final double price;
-  final String url;
-  ItemViewVertical({this.price, this.productName, this.url});
+  final ProductModel productModel;
+  ItemViewVertical({this.productModel});
   @override
   _ItemViewVerticalState createState() =>
-      _ItemViewVerticalState(productName: productName, price: price, url: url);
+      _ItemViewVerticalState(productModel: productModel);
 }
 
 class _ItemViewVerticalState extends State<ItemViewVertical> {
-  final String productName;
-  final double price;
-  final String url;
-  _ItemViewVerticalState({this.price, this.productName, this.url});
+  final ProductModel productModel;
+
+  _ItemViewVerticalState({this.productModel});
+
+  FToast fToast;
+
+  _showToast(String msg) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.grey,
+      ),
+      child: Text(msg),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
+
+  @override
+  void initState() {
+    fToast = FToast(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +51,11 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
         onTap: () {
           showModalBottomSheet(
               context: context,
-              builder: (BuildContext context) => ItemBottomSheet(
-                    price: price,
-                    productName: productName,
-                    url: url,
-                  ));
+              builder: (BuildContext context) =>
+                  ItemBottomSheet(product: productModel));
         },
         child: SizedBox(
-          width: MediaQuery.of(context).size.width / 3 + 40,
+          width: MediaQuery.of(context).size.width / 3 + 45,
           height: MediaQuery.of(context).size.height / 4 + 90,
           child: Card(
             child: Column(
@@ -47,7 +69,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                       height: MediaQuery.of(context).size.height / 4,
                       width: MediaQuery.of(context).size.width / 3 + 15,
                       child: Image.network(
-                        'https://www.fagnum.com/wp' + url,
+                        'https://www.fagnum.com/wp' + productModel.imageOne,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -58,11 +80,14 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    productName,
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    maxLines: 2,
-                    softWrap: true,
+                  child: Container(
+                    child: Text(
+                      productModel.name,
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      maxLines: 2,
+                      softWrap: true,
+                    ),
                   ),
                 ),
                 Padding(
@@ -71,7 +96,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Rs ' + price.toInt().toString(),
+                        'Rs ' + productModel.price.toString(),
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
@@ -86,7 +111,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                               size: 18,
                             ),
                             onPressed: () {
-                              //TODO:ADD
+                              SQLiteDbProvider.db.insert(productModel, 0, 1, 1);
+                              _showToast('Item added to Favorite');
                             },
                           ),
                           IconButton(
@@ -97,7 +123,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                               size: 18,
                             ),
                             onPressed: () {
-                              //TODO:ADD
+                              SQLiteDbProvider.db.insert(productModel, 1, 0, 1);
+                              _showToast('Item added to Cart');
                             },
                           ),
                         ],

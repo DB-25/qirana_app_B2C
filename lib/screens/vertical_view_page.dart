@@ -80,12 +80,7 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) =>
                             ItemHorizontalView(
-                          url: 'https://www.fagnum.com/wp' +
-                              productModel[index].imageOne,
-                          productName: productModel[index].metaDescription,
-                          price: productModel[index].price.toInt(),
-                          quantity: 1,
-                          size: productModel[index].size,
+                          product: productModel[index],
                         ),
                         itemCount: productModel.length,
                       ),

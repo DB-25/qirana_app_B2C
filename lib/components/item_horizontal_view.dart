@@ -1,43 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:qirana_app/database/database.dart';
+import 'package:qirana_app/model/product_model.dart';
 
+// ignore: must_be_immutable
 class ItemHorizontalView extends StatefulWidget {
-  ItemHorizontalView(
-      {this.price, this.productName, this.url, this.quantity, this.size});
+  ItemHorizontalView({this.product});
 
-  final String size;
-  final String productName;
-  final int price;
-  final String url;
-  final quantity;
+  ProductModel product;
   @override
-  _ItemHorizontalViewState createState() => _ItemHorizontalViewState(
-      price: price,
-      productName: productName,
-      url: url,
-      quantity: quantity,
-      size: size);
+  _ItemHorizontalViewState createState() =>
+      _ItemHorizontalViewState(productModel: product);
 }
 
 class _ItemHorizontalViewState extends State<ItemHorizontalView> {
-  _ItemHorizontalViewState(
-      {this.price, this.productName, this.url, this.quantity, this.size});
-  final String productName;
-  final int price;
-  final String url;
-  final String size;
-  int value;
-  final quantity;
-  int quan;
+  _ItemHorizontalViewState({this.productModel});
+  ProductModel productModel;
+  int quantity = 0;
 
   @override
   void initState() {
-    quan = quantity;
-    value = price;
+    quantity = int.parse(productModel.quantity);
     super.initState();
-  }
-
-  int getValue() {
-    return value;
   }
 
   @override
@@ -51,18 +34,18 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
             height: 100,
             width: 50,
             child: Image.network(
-              url,
+              'https://www.fagnum.com/wp' + productModel.imageOne,
               fit: BoxFit.contain,
             ),
           ),
           title: Text(
-            productName,
+            productModel.name,
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
             maxLines: 2,
             softWrap: true,
           ),
           subtitle: Text(
-            size,
+            productModel.size,
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
           ),
           trailing: Container(
@@ -71,10 +54,17 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
             child: Column(
 //                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  'Rs ' + value.toString(),
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-                ),
+                (quantity == 0)
+                    ? Text(
+                        'Rs ' + productModel.price.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 17),
+                      )
+                    : Text(
+                        'Rs ' + (productModel.price * quantity).toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 17),
+                      ),
                 SizedBox(
                   height: 5,
                 ),
@@ -89,8 +79,13 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                             backgroundColor: Colors.white,
                             onPressed: () {
                               setState(() {
-                                if (quan != 1) quan--;
-                                value = price * quan;
+                                if (quantity > 0) quantity--;
+                                productModel.quantity = quantity.toString();
+                                if (quantity == 0)
+                                  SQLiteDbProvider.db
+                                      .delete(productModel.productId);
+                                else
+                                  SQLiteDbProvider.db.update(productModel);
                               });
                             },
                             child: Text(
@@ -104,7 +99,7 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                       width: 5,
                     ),
                     Text(
-                      quan.toString(),
+                      quantity.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                     ),
@@ -120,8 +115,13 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                           backgroundColor: Colors.white,
                           onPressed: () {
                             setState(() {
-                              quan++;
-                              value = price * quan;
+                              quantity++;
+                              productModel.quantity = quantity.toString();
+                              if (quantity == 1)
+                                SQLiteDbProvider.db
+                                    .insert(productModel, 1, 0, quantity);
+                              else
+                                SQLiteDbProvider.db.update(productModel);
                             });
                           },
                           child: Text(
@@ -142,133 +142,3 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
     );
   }
 }
-//
-//Row(
-//mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//crossAxisAlignment: CrossAxisAlignment.start,
-//children: <Widget>[
-//Row(
-//crossAxisAlignment: CrossAxisAlignment.start,
-//children: <Widget>[
-//Container(
-//height: 110,
-//width: 110,
-//child: Image.network(
-//url,
-//fit: BoxFit.contain,
-//),
-//),
-//SizedBox(
-//width: 5,
-//),
-//Column(
-//crossAxisAlignment: CrossAxisAlignment.start,
-//children: <Widget>[
-//Container(
-//width: MediaQuery.of(context).size.width * 0.6,
-//child: Text(
-//productName,
-//style: TextStyle(
-//fontWeight: FontWeight.w700, fontSize: 18),
-//maxLines: 2,
-//softWrap: true,
-//),
-//),
-//Row(
-//crossAxisAlignment: CrossAxisAlignment.start,
-//mainAxisAlignment: MainAxisAlignment.end,
-//children: <Widget>[
-//Padding(
-//padding: const EdgeInsets.all(8.0),
-//child: Text(
-//size,
-//style: TextStyle(
-//fontWeight: FontWeight.w700, fontSize: 17),
-//),
-//),
-//SizedBox(
-//width: 50,
-//),
-//Padding(
-//padding: const EdgeInsets.all(8.0),
-//child: Column(
-////                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//children: <Widget>[
-//Text(
-//'Rs ' + value.toString(),
-//style: TextStyle(
-//fontWeight: FontWeight.w700, fontSize: 20),
-//),
-//SizedBox(
-//height: 5,
-//),
-//Row(
-//children: <Widget>[
-//Container(
-//height: 30,
-//width: 30,
-//child: FittedBox(
-//child: FloatingActionButton(
-//elevation: 5,
-//backgroundColor: Colors.white,
-//onPressed: () {
-//setState(() {
-//if (quan != 1) quan--;
-//value = price * quan;
-//});
-//},
-//child: Text(
-//'-',
-//style: TextStyle(
-//fontSize: 30,
-//color: Color(0xFFff5860)),
-//)),
-//),
-//),
-//SizedBox(
-//width: 10,
-//),
-//Text(
-//quan.toString(),
-//style: TextStyle(
-//fontWeight: FontWeight.w700,
-//fontSize: 20),
-//),
-//SizedBox(
-//width: 10,
-//),
-//Container(
-//height: 30,
-//width: 30,
-//child: FittedBox(
-//child: FloatingActionButton(
-//elevation: 5,
-//backgroundColor: Colors.white,
-//onPressed: () {
-//setState(() {
-//quan++;
-//value = price * quan;
-//});
-//},
-//child: Text(
-//'+',
-//style: TextStyle(
-//fontSize: 30,
-//color: Color(0xFFff5860)),
-//),
-//),
-//),
-//),
-//],
-//),
-//],
-//),
-//)
-//],
-//),
-//],
-//),
-//],
-//),
-//],
-//),

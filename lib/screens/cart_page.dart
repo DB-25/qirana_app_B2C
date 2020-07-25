@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
+import 'package:qirana_app/model/product_model.dart';
 import 'checkout_page.dart';
+import 'package:qirana_app/database/database.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -8,8 +10,38 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  int total = 750;
-  int itemCount = 5;
+  int total = 0;
+  List<ProductModel> products = List();
+  int itemCount = 0;
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  void getData() async {
+    products = await SQLiteDbProvider.db.getCart();
+    if (products.isNotEmpty) {
+      itemCount = products.length;
+      for (int i = 0; i < itemCount; i++)
+        total = total +
+            (products[i].price.toInt() * int.parse(products[i].quantity));
+    }
+    Future.delayed(new Duration(seconds: 1), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 2), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 3), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 5), () {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,18 +80,18 @@ class _CartState extends State<Cart> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) =>
-                      ItemHorizontalView(
-                    url:
-                        'https://www.jessicagavin.com/wp-content/uploads/2019/02/carrots-7-600x900.jpg',
-                    productName: 'Carrot',
-                    price: 150,
-                    quantity: 1,
-                    size: '5KG',
-                  ),
-                  itemCount: itemCount,
-                ),
+                child: products.isEmpty
+                    ? Text(
+                        'No Items in the Cart',
+                        style: TextStyle(fontSize: 30, color: Colors.black54),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (BuildContext context, int index) =>
+                            ItemHorizontalView(
+                          product: products[index],
+                        ),
+                        itemCount: itemCount,
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),

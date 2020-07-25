@@ -55,9 +55,7 @@ class HorizontalView extends StatelessWidget {
                   itemCount: productModel.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ItemViewVertical(
-                      productName: productModel[index].metaDescription,
-                      url: productModel[index].imageOne,
-                      price: productModel[index].price,
+                      productModel: productModel[index],
                     );
                   }),
             )

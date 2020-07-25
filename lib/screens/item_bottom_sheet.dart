@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:qirana_app/database/database.dart';
+import 'package:qirana_app/model/product_model.dart';
 
 class ItemBottomSheet extends StatefulWidget {
-  ItemBottomSheet({this.price, this.productName, this.url});
-
-  final String productName;
-  final double price;
-  final String url;
+  ItemBottomSheet({this.product});
+  final ProductModel product;
   @override
-  _ItemBottomSheetState createState() => _ItemBottomSheetState(
-        price: price,
-        productName: productName,
-        url: url,
-      );
+  _ItemBottomSheetState createState() =>
+      _ItemBottomSheetState(productModel: product);
 }
 
 class _ItemBottomSheetState extends State<ItemBottomSheet> {
-  _ItemBottomSheetState({this.price, this.productName, this.url});
-  final String productName;
-  final double price;
-  final String url;
-  int quantity = 1;
+  _ItemBottomSheetState({this.productModel});
+  ProductModel productModel;
+  int quantity;
+  @override
+  void initState() {
+    quantity = int.parse(productModel.quantity);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,8 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                         backgroundColor: Color(0xfff6f6f6),
                         onPressed: () {
                           setState(() {
-                            if (quantity != 0) quantity--;
+                            if (quantity > 0) quantity--;
+                            productModel.quantity = quantity.toString();
                           });
                         },
                         child: Text(
@@ -70,6 +70,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       onPressed: () {
                         setState(() {
                           quantity++;
+                          productModel.quantity = quantity.toString();
                         });
                       },
                       child: Text(
@@ -98,7 +99,8 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           width: 100,
                           child: Card(
                             child: Image.network(
-                              'https://www.fagnum.com/wp' + url,
+                              'https://www.fagnum.com/wp' +
+                                  productModel.imageOne,
                               fit: BoxFit.scaleDown,
                             ),
                           ),
@@ -106,15 +108,19 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          productName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 20),
+                        Container(
+                          child: Text(
+                            productModel.metaDescription,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 20),
+                            maxLines: 2,
+                            softWrap: true,
+                          ),
                         ),
                       ],
                     ),
                     Text(
-                      'Rs ' + price.toInt().toString(),
+                      'Rs ' + productModel.price.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
@@ -141,7 +147,11 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (quantity != 0)
+                      SQLiteDbProvider.db.insert(productModel, 1, 0, quantity);
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ],
