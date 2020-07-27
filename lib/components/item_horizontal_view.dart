@@ -25,34 +25,33 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: ListTile(
-          leading: Container(
-            height: 100,
-            width: 50,
-            child: Image.network(
-              'https://www.fagnum.com/wp' + productModel.imageOne,
-              fit: BoxFit.contain,
-            ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: ListTile(
+        leading: Container(
+          height: 100,
+          width: 50,
+          child: Image.network(
+            'https://www.fagnum.com/wp' + productModel.imageOne,
+            fit: BoxFit.contain,
           ),
-          title: Text(
-            productModel.name,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-            maxLines: 2,
-            softWrap: true,
-          ),
-          subtitle: Text(
-            productModel.size,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-          ),
-          trailing: Container(
-            height: 70,
-            width: 70,
+        ),
+        title: Text(
+          productModel.name,
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+          maxLines: 2,
+          softWrap: true,
+        ),
+        subtitle: Text(
+          productModel.size,
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+        ),
+        trailing: Container(
+          height: 100,
+          width: 90,
+          child: Center(
             child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 (quantity == 0)
                     ? Text(
@@ -61,7 +60,8 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                             fontWeight: FontWeight.w700, fontSize: 17),
                       )
                     : Text(
-                        'Rs ' + (productModel.price * quantity).toString(),
+                        'Rs ' +
+                            (productModel.price * quantity).round().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 17),
                       ),

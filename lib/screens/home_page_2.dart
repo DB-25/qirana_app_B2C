@@ -7,35 +7,36 @@ import 'package:qirana_app/components/horizontal_item_view.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
-import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/model/banner_model.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 class HomePage2 extends StatefulWidget {
+  final BannerModel bannerModel;
+  final List<CategoryModel> categoryModel;
+  final List<ProductModel> productModel;
+  HomePage2({this.bannerModel, this.productModel, this.categoryModel});
   @override
-  _HomePage2State createState() => _HomePage2State();
+  _HomePage2State createState() => _HomePage2State(
+      bannerModel: bannerModel,
+      productModel: productModel,
+      categoryModel: categoryModel);
 }
 
 class _HomePage2State extends State<HomePage2> {
   String searchedTerm;
   ApiDriver apiDriver = new ApiDriver();
   BannerModel bannerModel;
-  List<CategoryModel> categoryModel = List<CategoryModel>();
-  List<ProductModel> productModel = List<ProductModel>();
+  List<CategoryModel> categoryModel;
+  List<ProductModel> productModel;
+  _HomePage2State({this.bannerModel, this.productModel, this.categoryModel});
 
   @override
   void initState() {
-    getDataForAll();
+    refresh();
     super.initState();
   }
 
-  void getDataForAll() async {
-    ApiResponse responseBanner = await apiDriver.getData('banner-all');
-    getBannerDetails(responseBanner.listData[0]);
-    ApiResponse responseCategory = await apiDriver.getData('category-all');
-    getCategoryDetails(responseCategory.listData);
-    ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
-    getBestDealsDetails(responseBestDeals.listData);
+  void refresh() {
     Future.delayed(new Duration(seconds: 1), () {
       setState(() {});
     });
@@ -48,22 +49,6 @@ class _HomePage2State extends State<HomePage2> {
     Future.delayed(new Duration(seconds: 5), () {
       setState(() {});
     });
-  }
-
-  void getBestDealsDetails(List data) {
-    for (var i = 0; i < data.length; i++) {
-      productModel.add(ProductModel.fromMap(data[i]));
-    }
-  }
-
-  void getCategoryDetails(List data) {
-    for (var i = 0; i < data.length; i++) {
-      categoryModel.add(CategoryModel.fromMap(data[i]));
-    }
-  }
-
-  void getBannerDetails(Map<String, dynamic> map) {
-    bannerModel = BannerModel.fromMap(map);
   }
 
   @override

@@ -5,6 +5,11 @@ import 'favorite_page.dart';
 import 'search_page.dart';
 import 'profile_page.dart';
 import 'home_page_2.dart';
+import 'package:qirana_app/model/category_model.dart';
+import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/networking/api_driver.dart';
+import 'package:qirana_app/networking/ApiResponse.dart';
+import 'package:qirana_app/model/banner_model.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -59,7 +64,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    getDataForAll();
     super.initState();
+  }
+
+  ApiDriver apiDriver = new ApiDriver();
+  BannerModel bannerModel;
+  List<CategoryModel> categoryModel = List<CategoryModel>();
+  List<ProductModel> productModel = List<ProductModel>();
+
+  void getDataForAll() async {
+    ApiResponse responseBanner = await apiDriver.getData('banner-all');
+    getBannerDetails(responseBanner.listData[0]);
+    ApiResponse responseCategory = await apiDriver.getData('category-all');
+    getCategoryDetails(responseCategory.listData);
+    ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
+    getBestDealsDetails(responseBestDeals.listData);
+  }
+
+  void getBestDealsDetails(List data) {
+    for (var i = 0; i < data.length; i++) {
+      productModel.add(ProductModel.fromMap(data[i]));
+    }
+  }
+
+  void getCategoryDetails(List data) {
+    for (var i = 0; i < data.length; i++) {
+      categoryModel.add(CategoryModel.fromMap(data[i]));
+    }
+  }
+
+  void getBannerDetails(Map<String, dynamic> map) {
+    bannerModel = BannerModel.fromMap(map);
   }
 
   @override
@@ -87,7 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
             // Manage your route names here
             switch (settings.name) {
               case '/':
-                builder = (BuildContext context) => HomePage2();
+                builder = (BuildContext context) => HomePage2(
+                      productModel: productModel,
+                      bannerModel: bannerModel,
+                      categoryModel: categoryModel,
+                    );
                 break;
               case '/search':
                 builder = (BuildContext context) => Search();
