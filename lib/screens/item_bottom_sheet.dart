@@ -149,7 +149,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                   ),
                   onPressed: () {
                     if (quantity != 0)
-                      SQLiteDbProvider.db.insert(productModel, 1, 0, quantity);
+                      SQLiteDbProvider.db.insert(productModel, 1, 0);
                     Navigator.pop(context);
                   },
                 ),

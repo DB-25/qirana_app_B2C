@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
+import 'package:qirana_app/model/product_model.dart';
 
 class Search extends StatefulWidget {
+  final List<ProductModel> productModel;
+  Search({this.productModel});
   @override
-  _SearchState createState() => _SearchState();
+  _SearchState createState() => _SearchState(productModel: productModel);
 }
 
 class _SearchState extends State<Search> {
   String searchTerm;
+  final List<ProductModel> productModel;
+  _SearchState({this.productModel});
+
+  void refresh() {
+    Future.delayed(new Duration(seconds: 1), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 2), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 3), () {
+      setState(() {});
+    });
+    Future.delayed(new Duration(seconds: 5), () {
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    refresh();
+    print(productModel);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -128,6 +156,7 @@ class _SearchState extends State<Search> {
                     height: 20,
                   ),
                   HorizontalView(
+                    productModel: productModel,
                     title: 'BEST DEALS',
                     axisDirection: Axis.horizontal,
                   ),

@@ -51,30 +51,54 @@ class SQLiteDbProvider {
     return products;
   }
 
-  insert(ProductModel product, int cart, int fav, int quantity) async {
+  insert(ProductModel product, int cart, int fav) async {
     final db = await database;
 //    var maxIdResult = await db.rawQuery("SELECT MAX(primaryId)+1 as last_inserted_primaryId FROM Product");
 //    var id = maxIdResult.first["last_inserted_primaryId"];
-    var result = await db.rawInsert(
-        "INSERT Into Product (productId, name, metaDescription, price, imageOne,cart,fav,quantity,size)"
-        " VALUES (?, ?, ?, ?, ?,?,?,?,?)",
-        [
-          product.productId,
-          product.name,
-          product.metaDescription,
-          product.price,
-          product.imageOne,
-          cart,
-          fav,
-          quantity,
-          product.size
-        ]);
-    return result;
+    if (await checkItem(product.productId)) {
+      if (cart == 1) {
+        var result = update(product, cart, 1);
+        return result;
+      } else if (fav == 1) {
+        var result = update(product, 1, fav);
+        return result;
+      }
+    } else {
+      var result = await db.rawInsert(
+          "INSERT Into Product (productId, name, metaDescription, price, imageOne,cart,fav,quantity,size)"
+          " VALUES (?, ?, ?, ?, ?,?,?,?,?)",
+          [
+            product.productId,
+            product.name,
+            product.metaDescription,
+            product.price,
+            product.imageOne,
+            cart,
+            fav,
+            product.quantity,
+            product.size
+          ]);
+      return result;
+    }
   }
 
-  update(ProductModel product) async {
+  Future<bool> checkItem(String id) async {
     final db = await database;
-    var result = await db.update("Product", product.toMap(),
+    var result =
+        await db.rawQuery("SELECT * FROM Product WHERE productId LIKE '%$id%'");
+    if (result.isNotEmpty) {
+      ProductModel product = ProductModel.fromMap(result[0]);
+      if (product.productId == id)
+        return true;
+      else
+        return false;
+    } else
+      return false;
+  }
+
+  update(ProductModel product, int cart, int fav) async {
+    final db = await database;
+    var result = await db.update("Product", product.toMap(cart, fav),
         where: "productId = ?", whereArgs: [product.productId]);
     return result;
   }

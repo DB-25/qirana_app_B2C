@@ -85,7 +85,8 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                                   SQLiteDbProvider.db
                                       .delete(productModel.productId);
                                 else
-                                  SQLiteDbProvider.db.update(productModel);
+                                  SQLiteDbProvider.db
+                                      .update(productModel, 1, 0);
                               });
                             },
                             child: Text(
@@ -118,10 +119,9 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
                               quantity++;
                               productModel.quantity = quantity.toString();
                               if (quantity == 1)
-                                SQLiteDbProvider.db
-                                    .insert(productModel, 1, 0, quantity);
+                                SQLiteDbProvider.db.insert(productModel, 1, 0);
                               else
-                                SQLiteDbProvider.db.update(productModel);
+                                SQLiteDbProvider.db.update(productModel, 1, 0);
                             });
                           },
                           child: Text(

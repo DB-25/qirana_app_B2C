@@ -57,7 +57,7 @@ class ProductModel {
     );
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap(int cart, int fav) => {
         "productId": productId,
         "name": name,
         "metaDescription": metaDescription,
@@ -65,5 +65,7 @@ class ProductModel {
         "imageOne": imageOne,
         "size": size,
         "quantity": quantity,
+        "cart": cart,
+        "fav": fav
       };
 }

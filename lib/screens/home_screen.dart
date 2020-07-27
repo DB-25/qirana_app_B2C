@@ -130,7 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                 break;
               case '/search':
-                builder = (BuildContext context) => Search();
+                builder = (BuildContext context) => Search(
+                      productModel: productModel,
+                    );
                 break;
               case '/cart':
                 builder = (BuildContext context) => Cart();

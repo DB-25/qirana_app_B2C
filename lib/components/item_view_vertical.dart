@@ -25,7 +25,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: Colors.grey,
+        color: Colors.blueGrey,
       ),
       child: Text(msg),
     );
@@ -111,7 +111,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                               size: 18,
                             ),
                             onPressed: () {
-                              SQLiteDbProvider.db.insert(productModel, 0, 1, 1);
+                              productModel.quantity = 1.toString();
+                              SQLiteDbProvider.db.insert(productModel, 0, 1);
                               _showToast('Item added to Favorite');
                             },
                           ),
@@ -123,7 +124,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                               size: 18,
                             ),
                             onPressed: () {
-                              SQLiteDbProvider.db.insert(productModel, 1, 0, 1);
+                              productModel.quantity = 1.toString();
+                              SQLiteDbProvider.db.insert(productModel, 1, 0);
                               _showToast('Item added to Cart');
                             },
                           ),
