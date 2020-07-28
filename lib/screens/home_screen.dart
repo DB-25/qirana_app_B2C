@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'cart_page.dart';
 import 'favorite_page.dart';
 import 'search_page.dart';
-import 'profile_page.dart';
 import 'home_page_2.dart';
+import 'inventory_page.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       else if (_selectedIndex == 3)
         _navigatorKey.currentState.pushNamed('/fav');
       else if (_selectedIndex == 4)
-        _navigatorKey.currentState.pushNamed('/profile');
+        _navigatorKey.currentState.pushNamed('/inventory');
     });
   }
 
@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ProductModel> productModel = List<ProductModel>();
 
   void getDataForAll() async {
-    ApiResponse responseBanner = await apiDriver.getData('banner-all');
-    getBannerDetails(responseBanner.listData[0]);
+//    ApiResponse responseBanner = await apiDriver.getData('banner-all');
+//    getBannerDetails(responseBanner.listData[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
     getCategoryDetails(responseCategory.listData);
     ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
@@ -140,8 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
               case '/fav':
                 builder = (BuildContext context) => Fav();
                 break;
-              case '/profile':
-                builder = (BuildContext context) => Profile();
+              case '/inventory':
+                builder = (BuildContext context) => Inventory();
                 break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
+            icon: Icon(Icons.menu),
             title: Text(
               '',
               style: TextStyle(fontSize: 0),

@@ -109,21 +109,47 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           width: 10,
                         ),
                         Container(
-                          child: Text(
-                            productModel.metaDescription,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 20),
-                            maxLines: 2,
-                            softWrap: true,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                productModel.metaDescription,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
+                                maxLines: 2,
+                                softWrap: true,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                productModel.size,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    color: Colors.black.withOpacity(0.7)),
+                                maxLines: 2,
+                                softWrap: true,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    Text(
-                      'Rs ' + productModel.price.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                    ),
+                    (quantity == 0)
+                        ? Text(
+                            'Rs ' + productModel.price.round().toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 20),
+                          )
+                        : Text(
+                            'Rs ' +
+                                (productModel.price * quantity)
+                                    .round()
+                                    .toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 20),
+                          ),
                   ],
                 ),
               ),

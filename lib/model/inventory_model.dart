@@ -2,10 +2,10 @@ class InventoryModel {
   String primaryId;
   String buyingDate;
   String item;
-  String quantity;
+  int quantity;
   String weight;
-  String price;
-  String mrp;
+  double price;
+  double mrp;
   String buyerName;
 
   InventoryModel(

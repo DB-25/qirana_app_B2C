@@ -4,6 +4,7 @@ import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/screens/vertical_view_page.dart';
 
+// ignore: must_be_immutable
 class CategoryCard extends StatelessWidget {
   final String categoryId;
   final Color color1;

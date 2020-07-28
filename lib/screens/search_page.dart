@@ -33,7 +33,6 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     refresh();
-    print(productModel);
     super.initState();
   }
 

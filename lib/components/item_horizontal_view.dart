@@ -55,7 +55,7 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
               children: <Widget>[
                 (quantity == 0)
                     ? Text(
-                        'Rs ' + productModel.price.toString(),
+                        'Rs ' + productModel.price.round().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 17),
                       )
