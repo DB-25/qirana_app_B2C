@@ -28,6 +28,7 @@ class InventoryItem extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8.0, left: 8, right: 8),
                 child: Container(
                     child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Column(
@@ -35,24 +36,24 @@ class InventoryItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
+                          'Price: ' + inventory.price.toString(),
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                        ),
+                        Text(
                           'Unit Price: ' +
                               (inventory.price / inventory.quantity).toString(),
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
                         Text(
-                          'Price: ' + inventory.price.toString(),
+                          'Weight: ' + inventory.weight,
                           style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          'Quantity: ' + inventory.quantity.toString(),
-                          style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
@@ -63,11 +64,11 @@ class InventoryItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Weight: ' + inventory.weight,
+                          'Quantity: ' + inventory.quantity.toString(),
                           style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(0.8)),
+                              color: Colors.black),
                         ),
                         Text(
                           'MRP: ' + inventory.mrp.toString(),
@@ -84,7 +85,7 @@ class InventoryItem extends StatelessWidget {
                               color: Colors.black.withOpacity(0.8)),
                         ),
                         Text(
-                          'Buyer Name: ' + inventory.buyerName,
+                          inventory.buyerName,
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
