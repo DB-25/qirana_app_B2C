@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ProductModel> productModel = List<ProductModel>();
 
   void getDataForAll() async {
-//    ApiResponse responseBanner = await apiDriver.getData('banner-all');
-//    getBannerDetails(responseBanner.listData[0]);
+    ApiResponse responseBanner = await apiDriver.getData('banner-all');
+    getBannerDetails(responseBanner.listData[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
     getCategoryDetails(responseCategory.listData);
     ApiResponse responseBestDeals = await apiDriver.getData('product-slider');

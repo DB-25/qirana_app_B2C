@@ -4,7 +4,7 @@ class ProductModel {
   String metaDescription;
   String description;
   String url;
-  double discount;
+  int discount;
   String imageOne;
   String imageTwo;
   double price;
@@ -47,7 +47,7 @@ class ProductModel {
       description:
           map.containsKey('description') ? (map['description'] ?? '') : '',
       url: map.containsKey('url') ? (map['url'] ?? '') : '',
-      discount: map.containsKey('discount') ? (map['discount'] ?? '') : '',
+//      discount: map.containsKey('discount') ? (map['discount'] ?? '') : 0,
       imageOne: map.containsKey('imageOne') ? (map['imageOne'] ?? '') : '',
       imageTwo: map.containsKey('imageTwo') ? (map['imageTwo'] ?? '') : '',
       price: map.containsKey('price') ? (map['price'] + 0.0 ?? '') : '',

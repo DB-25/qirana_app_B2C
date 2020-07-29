@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'search_result.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
 
 class VerticalViewPage extends StatefulWidget {
@@ -67,8 +67,49 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
                     ],
                   ),
                   Container(
-                    height: 80,
-                    child: SearchBar(onSearch: null, onItemFound: null),
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchResult()));
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text(
+                          'Search a Product',
+                          style: TextStyle(fontSize: 18, color: Colors.black54),
+                        ),
+//                                title: TextField(
+//                                  onSubmitted: (searchedTerm) {
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => SearchResult(
+//                                                  search: searchedTerm,
+//                                                )));
+//                                  },
+//                                  style: TextStyle(fontSize: 18),
+//                                  keyboardType: TextInputType.text,
+//                                  cursorColor: Colors.black,
+//                                  showCursor: true,
+//                                  autocorrect: true,
+//                                  autofocus: false,
+//                                  decoration: new InputDecoration(
+//                                      border: InputBorder.none,
+//                                      focusedBorder: InputBorder.none,
+//                                      enabledBorder: InputBorder.none,
+//                                      errorBorder: InputBorder.none,
+//                                      disabledBorder: InputBorder.none,
+//                                      contentPadding: EdgeInsets.only(
+//                                          bottom: 11, top: 11, right: 15),
+//                                      hintText: 'Search a Product'),
+//                                ),
+                      ),
+                    ),
                   ),
                   subCategory == null
                       ? Container()

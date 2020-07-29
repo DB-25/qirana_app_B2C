@@ -8,7 +8,7 @@ import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/model/banner_model.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:qirana_app/screens/search_result.dart';
 
 class HomePage2 extends StatefulWidget {
   final BannerModel bannerModel;
@@ -23,7 +23,6 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
-  String searchedTerm;
   ApiDriver apiDriver = new ApiDriver();
   BannerModel bannerModel;
   List<CategoryModel> categoryModel;
@@ -77,10 +76,53 @@ class _HomePage2State extends State<HomePage2> {
                       children: <Widget>[
                         Expanded(
                             flex: 8,
-                            child: SearchBar(
-                              onSearch: null,
-                              onItemFound: null,
-                              minimumChars: 3,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SearchResult()));
+                                },
+                                child: ListTile(
+                                  leading: Icon(Icons.search),
+                                  title: Text(
+                                    'Search a Product',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.black54),
+                                  ),
+//                                title: TextField(
+//                                  onSubmitted: (searchedTerm) {
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => SearchResult(
+//                                                  search: searchedTerm,
+//                                                )));
+//                                  },
+//                                  style: TextStyle(fontSize: 18),
+//                                  keyboardType: TextInputType.text,
+//                                  cursorColor: Colors.black,
+//                                  showCursor: true,
+//                                  autocorrect: true,
+//                                  autofocus: false,
+//                                  decoration: new InputDecoration(
+//                                      border: InputBorder.none,
+//                                      focusedBorder: InputBorder.none,
+//                                      enabledBorder: InputBorder.none,
+//                                      errorBorder: InputBorder.none,
+//                                      disabledBorder: InputBorder.none,
+//                                      contentPadding: EdgeInsets.only(
+//                                          bottom: 11, top: 11, right: 15),
+//                                      hintText: 'Search a Product'),
+//                                ),
+                                ),
+                              ),
                             )),
                         Expanded(flex: 1, child: Icon(Icons.notifications))
                       ],

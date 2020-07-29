@@ -7,6 +7,7 @@ class InventoryModel {
   double price;
   double mrp;
   String buyerName;
+  String unitPrice;
 
   InventoryModel(
       {this.primaryId,
@@ -16,7 +17,8 @@ class InventoryModel {
       this.weight,
       this.price,
       this.mrp,
-      this.buyerName});
+      this.buyerName,
+      this.unitPrice});
 
   factory InventoryModel.fromMap(Map<String, dynamic> map) {
     return InventoryModel(
@@ -29,6 +31,7 @@ class InventoryModel {
       price: map.containsKey('price') ? (map['price'] ?? '') : '',
       mrp: map.containsKey('mrp') ? (map['mrp'] ?? '') : '',
       buyerName: map.containsKey('buyerName') ? (map['buyerName'] ?? '') : '',
+      unitPrice: map.containsKey('unitPrice') ? (map['unitPrice'] ?? '') : '',
     );
   }
 }

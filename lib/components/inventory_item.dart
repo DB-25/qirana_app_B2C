@@ -43,8 +43,7 @@ class InventoryItem extends StatelessWidget {
                               color: Colors.black),
                         ),
                         Text(
-                          'Unit Price: ' +
-                              (inventory.price / inventory.quantity).toString(),
+                          'Unit Price: ' + inventory.unitPrice,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

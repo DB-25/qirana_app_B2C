@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'search_result.dart';
 
 class Search extends StatefulWidget {
   final List<ProductModel> productModel;
@@ -80,11 +80,48 @@ class _SearchState extends State<Search> {
                     height: 20,
                   ),
                   Container(
-                    height: 80,
-                    child: SearchBar(
-                      onSearch: null,
-                      onItemFound: null,
-                      minimumChars: 3,
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchResult()));
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text(
+                          'Search a Product',
+                          style: TextStyle(fontSize: 18, color: Colors.black54),
+                        ),
+//                                title: TextField(
+//                                  onSubmitted: (searchedTerm) {
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => SearchResult(
+//                                                  search: searchedTerm,
+//                                                )));
+//                                  },
+//                                  style: TextStyle(fontSize: 18),
+//                                  keyboardType: TextInputType.text,
+//                                  cursorColor: Colors.black,
+//                                  showCursor: true,
+//                                  autocorrect: true,
+//                                  autofocus: false,
+//                                  decoration: new InputDecoration(
+//                                      border: InputBorder.none,
+//                                      focusedBorder: InputBorder.none,
+//                                      enabledBorder: InputBorder.none,
+//                                      errorBorder: InputBorder.none,
+//                                      disabledBorder: InputBorder.none,
+//                                      contentPadding: EdgeInsets.only(
+//                                          bottom: 11, top: 11, right: 15),
+//                                      hintText: 'Search a Product'),
+//                                ),
+                      ),
                     ),
                   ),
                   SizedBox(
