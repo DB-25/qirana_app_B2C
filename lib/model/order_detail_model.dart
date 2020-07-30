@@ -1,34 +1,54 @@
 class OrderDetailModel {
-  String primaryId;
-  String buyingDate;
-  String item;
-  String quantity;
-  String weight;
-  String price;
-  String mrp;
-  String buyerName;
+  String area;
+  String city;
+  String contactNumber;
+  String contestName;
+  String country;
+  String emailId;
+  String houseNo;
+  String name;
+  String orderId;
+  String paymentOption;
+  String paymentOrderId;
+  String state;
+  String referralCode;
 
   OrderDetailModel(
-      {this.primaryId,
-      this.buyingDate,
-      this.item,
-      this.quantity,
-      this.weight,
-      this.price,
-      this.mrp,
-      this.buyerName});
+      {this.area,
+      this.city,
+      this.contactNumber,
+      this.contestName,
+      this.country,
+      this.emailId,
+      this.houseNo,
+      this.name,
+      this.orderId,
+      this.paymentOption,
+      this.paymentOrderId,
+      this.state,
+      this.referralCode});
 
   factory OrderDetailModel.fromMap(Map<String, dynamic> map) {
     return OrderDetailModel(
-      primaryId: map.containsKey('primaryId') ? (map['primaryId'] ?? '') : '',
-      buyingDate:
-          map.containsKey('buyingDate') ? (map['buyingDate'] ?? '') : '',
-      item: map.containsKey('item') ? (map['item'] ?? '') : '',
-      quantity: map.containsKey('quantity') ? (map['quantity'] ?? '') : '',
-      weight: map.containsKey('weight') ? (map['weight'] ?? '') : '',
-      price: map.containsKey('price') ? (map['price'] ?? '') : '',
-      mrp: map.containsKey('mrp') ? (map['mrp'] ?? '') : '',
-      buyerName: map.containsKey('buyerName') ? (map['buyerName'] ?? '') : '',
+      area: map.containsKey('area') ? (map['area'] ?? '') : '',
+      city: map.containsKey('city') ? (map['city'] ?? '') : '',
+      contactNumber:
+          map.containsKey('contactNumber') ? (map['contactNumber'] ?? '') : '',
+      contestName:
+          map.containsKey('contestName') ? (map['contestName'] ?? '') : '',
+      country: map.containsKey('country') ? (map['country'] ?? '') : '',
+      emailId: map.containsKey('emailId') ? (map['emailId'] ?? '') : '',
+      houseNo: map.containsKey('houseNo') ? (map['houseNo'] ?? '') : '',
+      name: map.containsKey('name') ? (map['name'] ?? '') : '',
+      paymentOption:
+          map.containsKey('paymentOption') ? (map['paymentOption'] ?? '') : '',
+      orderId: map.containsKey('orderId') ? (map['orderId'] ?? '') : '',
+      paymentOrderId: map.containsKey('paymentOrderId')
+          ? (map['paymentOrderId'] ?? '')
+          : '',
+      state: map.containsKey('state') ? (map['state'] ?? '') : '',
+      referralCode:
+          map.containsKey('referralCode') ? (map['referralCode'] ?? '') : '',
     );
   }
 }

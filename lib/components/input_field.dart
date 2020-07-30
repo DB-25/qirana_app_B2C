@@ -22,12 +22,14 @@ class InputField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onSaved;
   final bool isLast;
+  final TextInputType inputType;
 
   InputField({
     Key key,
     this.hintText,
     this.validator,
     this.onSaved,
+    this.inputType,
     this.isLast = false,
   }) : super(key: key);
 
@@ -39,7 +41,7 @@ class InputField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
-        keyboardType: TextInputType.text,
+        keyboardType: inputType,
         textAlignVertical: TextAlignVertical.top,
         cursorColor: Colors.black,
         autofocus: false,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
 import 'package:qirana_app/model/product_model.dart';
-import 'checkout_page.dart';
 import 'package:qirana_app/database/database.dart';
+import 'address_page.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -138,10 +138,15 @@ class _CartState extends State<Cart> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    if (products.isNotEmpty)
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CheckOutPage()));
+                          builder: (context) => AddressPage(
+                            products: products,
+                          ),
+                        ),
+                      );
                   },
                 ),
               ),
