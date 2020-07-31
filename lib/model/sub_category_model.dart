@@ -1,12 +1,12 @@
 class SubCategoryModel {
-  String primaryId;
+  String subCategoryId;
   String name;
   String description;
   String url;
   String status;
 
   SubCategoryModel({
-    this.primaryId,
+    this.subCategoryId,
     this.name,
     this.description,
     this.url,
@@ -15,7 +15,8 @@ class SubCategoryModel {
 
   factory SubCategoryModel.fromMap(Map<String, dynamic> map) {
     return SubCategoryModel(
-      primaryId: map.containsKey('primaryId') ? (map['primaryId'] ?? '') : '',
+      subCategoryId:
+          map.containsKey('subCategoryId') ? (map['subCategoryId'] ?? '') : '',
       name: map.containsKey('name') ? (map['name'] ?? '') : '',
       description:
           map.containsKey('description') ? (map['description'] ?? '') : '',

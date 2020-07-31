@@ -63,10 +63,10 @@ class CategoryCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => VerticalViewPage(
-                      getData(response.listData),
+                      getData(response.data),
                       subCategoryResponse == null
                           ? null
-                          : subCategoryResponse.listData,
+                          : subCategoryResponse.data,
                       text1)));
         },
         child: Container(
