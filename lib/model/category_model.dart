@@ -19,8 +19,11 @@ class CategoryModel {
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      categoryId:
-          map.containsKey('categoryId') ? (map['categoryId'] ?? '') : '',
+      categoryId: map.containsKey('categoryId')
+          ? (map['categoryId'] ?? '')
+          : (map.containsKey('subCategoryId')
+              ? (map['subCategoryId'] ?? '')
+              : ''),
       name: map.containsKey('name') ? (map['name'] ?? '') : '',
       description:
           map.containsKey('description') ? (map['description'] ?? '') : '',

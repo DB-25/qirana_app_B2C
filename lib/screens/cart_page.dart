@@ -23,6 +23,7 @@ class _CartState extends State<Cart> {
   void getData() async {
     products = await SQLiteDbProvider.db.getCart();
     if (products.isNotEmpty) {
+      quantity.clear();
       itemCount = products.length;
       total = 0;
       for (int i = 0; i < itemCount; i++)
@@ -30,6 +31,10 @@ class _CartState extends State<Cart> {
             (products[i].price.toInt() * int.parse(products[i].quantity));
       for (int i = 0; i < itemCount; i++)
         quantity.add(int.parse(products[i].quantity));
+    }
+    if (products.isEmpty) {
+      itemCount = 0;
+      total = 0;
     }
     Future.delayed(new Duration(seconds: 1), () {
       setState(() {});

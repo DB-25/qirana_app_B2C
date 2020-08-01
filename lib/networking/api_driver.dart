@@ -32,6 +32,28 @@ class ApiDriver {
     }
   }
 
+  Future<ApiResponse<dynamic>> getCategoryData(
+      {String url, String extendedUrl}) async {
+    final http.Response response = await http.post(baseUrl + extendedUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'companyId': companyId, 'url': url}));
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to save data');
+    } else {
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      if (responseMap["status"]) {
+        print(responseMap["status"]);
+        throw Exception('Failed to load data models');
+      } else {
+        return ApiResponse.fromMap(responseMap);
+      }
+    }
+  }
+
 //class ApiDriver {
 //  final String baseUrl = 'https://api.fagnum.com/ecom-store/';
 //  final String companyId = 'ff80818171b2ad0501720ab097fd0006';

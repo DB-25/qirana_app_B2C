@@ -35,16 +35,15 @@ class CategoryCard extends StatelessWidget {
   bool flag = false;
 
   String getCategoryUrl(String name) {
-    if (name == 'Grocery') return 'category-name/grocery';
-    if (name == 'Personal Care') return 'category-name/personal-care';
-    if (name == 'Snacks & All') return 'category-name/snacks-&-all';
-    if (name == 'Household Items') return 'category-name/household-items';
+    if (name == 'Grocery') return 'product-by-category';
+    if (name == 'Personal Care') return 'product-by-category';
+    if (name == 'Snacks & All') return 'product-by-category';
+    if (name == 'Household Items') return 'product-by-category';
     if (name == 'Beverages')
-      return 'category-name/beverages';
+      return 'product-by-category';
     else {
-      print(url);
       flag = true;
-      return 'sub-category-name/' + url;
+      return 'product-by-sub-category';
     }
   }
 
@@ -56,7 +55,8 @@ class CategoryCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
-          ApiResponse response = await apiDriver.getData(getCategoryUrl(text1));
+          ApiResponse response = await apiDriver.getCategoryData(
+              extendedUrl: getCategoryUrl(text1), url: url);
           if (!flag)
             subCategoryResponse = await apiDriver.getSubCategory(categoryId);
           Navigator.push(

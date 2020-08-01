@@ -1,20 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:qirana_app/components/input_field.dart';
-import 'package:qirana_app/components/password_field.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qirana_app/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-final _formKey = GlobalKey<FormState>();
 final scaffoldKey = GlobalKey<ScaffoldState>();
-var formData = {
-  'email': '',
-  'password': '',
-};
 
 class _LoginScreenState extends State<LoginScreen> {
+  GoogleSignInAccount _currentUser;
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
+  @override
+  void initState() {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      setState(() {
+        _currentUser = account;
+      });
+      if (_currentUser != null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    });
+    _googleSignIn.signInSilently();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,88 +52,84 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        body: SafeArea(
-          child: Container(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'LOG IN',
-                        style: TextStyle(
-                            color: Color(0xFFff5860),
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: InputField(
-                          hintText: 'Email',
-                          validator: emailValidator(),
-                          onSaved: (val) => formData['email'] = val,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: PasswordField(
-                          hintText: "Password",
-                          icon: Icons.lock,
-                          validator:
-                              passwordValidator("Password must not be empty"),
-                          onSaved: (val) => formData['password'] = val,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      RaisedButton(
-                        color: Color(0xFFff5860),
-                        child: Container(
-                          height: 50,
-                          width: double.infinity,
-                          child: Center(
-                            child: Text(
-                              "Log in",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        onPressed: () {
-                          _formKey.currentState.save();
-                          if (!_formKey.currentState.validate()) return;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.blue, Colors.pinkAccent])),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
+              child: Center(child: _buildBody()),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildBody() {
+    if (_currentUser != null) {
+      return Container();
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white.withOpacity(0),
+              radius: 100,
+              child: Image.asset(
+                'assets/logo.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+            RaisedButton(
+              color: Color(0xFFff5860),
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: ListTile(
+                    leading: Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        child: Image.asset(
+                          'assets/google.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 20.0, bottom: 5),
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              onPressed: () {
+                _handleSignIn();
+              },
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
