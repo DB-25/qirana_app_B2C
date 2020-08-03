@@ -8,7 +8,10 @@ import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/model/banner_model.dart';
-import 'package:qirana_app/screens/search_result.dart';
+import 'search_result.dart';
+import 'inventory_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage2 extends StatefulWidget {
   final BannerModel bannerModel;
@@ -31,6 +34,12 @@ class _HomePage2State extends State<HomePage2> {
 
   @override
   void initState() {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    autoLogin();
     refresh();
     super.initState();
   }
@@ -50,6 +59,97 @@ class _HomePage2State extends State<HomePage2> {
     });
   }
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  GoogleSignInAccount _currentUser;
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
+  Future<void> _handleSignIn() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await _googleSignIn.signIn();
+      await prefs.setBool('autoLogin', true);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Widget _buildBody() {
+    return (_currentUser != null)
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ListTile(
+                leading: GoogleUserCircleAvatar(
+                  identity: _currentUser,
+                ),
+                title: Text(
+                  _currentUser.displayName ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  _currentUser.email ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          )
+        : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  color: Color(0xFFff5860),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, bottom: 5),
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _handleSignIn();
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+  }
+
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+  void autoLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getBool('autoLogin' ?? false)) _googleSignIn.signInSilently();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,6 +160,86 @@ class _HomePage2State extends State<HomePage2> {
         }
       },
       child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchResult()));
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.notifications_active,
+                  color: Colors.black,
+                ),
+                onPressed: () {})
+          ],
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
+          title: Text(
+            'Qirana',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: _buildBody(),
+                decoration: BoxDecoration(
+                  color: Color(0xFFff5860),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Check Inventory',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFff5860),
+                      fontWeight: FontWeight.w700),
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Inventory()));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Log Out',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFff5860),
+                      fontWeight: FontWeight.w700),
+                ),
+                onTap: () {
+                  setState(() async {
+                    _handleSignOut();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('autoLogin', false);
+                  });
+
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -68,43 +248,8 @@ class _HomePage2State extends State<HomePage2> {
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                  child: SizedBox(
-                    height: 80,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                            flex: 8,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SearchResult()));
-                                },
-                                child: ListTile(
-                                  leading: Icon(Icons.search),
-                                  title: Text(
-                                    'Search a Product',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.black54),
-                                  ),
-                                ),
-                              ),
-                            )),
-                        Expanded(flex: 1, child: Icon(Icons.notifications))
-                      ],
-                    ),
-                  ),
-                ),
                 HorizontalCategory(
+                  showTitle: true,
                   categoryModel: categoryModel,
                 ),
                 SizedBox(

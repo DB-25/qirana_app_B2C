@@ -46,6 +46,7 @@ class _SearchState extends State<Search> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -54,14 +55,14 @@ class _SearchState extends State<Search> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                  SizedBox(
-                    height: 20,
-                  ),
+//                  IconButton(
+//                      icon: Icon(Icons.arrow_back),
+//                      onPressed: () {
+//                        Navigator.pop(context);
+//                      }),
+//                  SizedBox(
+//                    height: 20,
+//                  ),
                   Text(
                     'I\'M LOOKING',
                     style: TextStyle(

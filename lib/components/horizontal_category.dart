@@ -3,8 +3,9 @@ import 'package:qirana_app/model/category_model.dart';
 import 'category_card.dart';
 
 class HorizontalCategory extends StatelessWidget {
-  HorizontalCategory({this.categoryModel});
+  HorizontalCategory({this.categoryModel, this.showTitle});
   final List<CategoryModel> categoryModel;
+  final bool showTitle;
 
   IconData getIcon(String name) {
     if (name == 'Grocery') return Icons.local_mall;
@@ -39,14 +40,16 @@ class HorizontalCategory extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 125,
+        height: (showTitle) ? 125 : 102,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              'SHOP BY CATEGORIES',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
-            ),
+            (showTitle)
+                ? Text(
+                    'SHOP BY CATEGORIES',
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+                  )
+                : Container(),
             SizedBox(
               height: 5,
             ),

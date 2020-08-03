@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+//  Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
     });
-    _googleSignIn.signInSilently();
+//    _googleSignIn.signInSilently();
     super.initState();
   }
 

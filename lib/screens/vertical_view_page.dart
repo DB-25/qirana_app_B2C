@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_horizontal_view.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
-import 'search_result.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
+import 'search_result.dart';
 
 class VerticalViewPage extends StatefulWidget {
   final String title;
@@ -37,94 +37,64 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchResult()));
+              }),
+          IconButton(
+              icon: Icon(
+                Icons.notifications_active,
+                color: Colors.black,
+              ),
+              onPressed: () {})
+        ],
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 5),
             child: Container(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height - 170,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              color: Color(0xFFff5860),
-                              fontSize: 35,
-                              fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.1),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchResult()));
-                      },
-                      child: ListTile(
-                        leading: Icon(Icons.search),
-                        title: Text(
-                          'Search a Product',
-                          style: TextStyle(fontSize: 18, color: Colors.black54),
-                        ),
-//                                title: TextField(
-//                                  onSubmitted: (searchedTerm) {
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => SearchResult(
-//                                                  search: searchedTerm,
-//                                                )));
-//                                  },
-//                                  style: TextStyle(fontSize: 18),
-//                                  keyboardType: TextInputType.text,
-//                                  cursorColor: Colors.black,
-//                                  showCursor: true,
-//                                  autocorrect: true,
-//                                  autofocus: false,
-//                                  decoration: new InputDecoration(
-//                                      border: InputBorder.none,
-//                                      focusedBorder: InputBorder.none,
-//                                      enabledBorder: InputBorder.none,
-//                                      errorBorder: InputBorder.none,
-//                                      disabledBorder: InputBorder.none,
-//                                      contentPadding: EdgeInsets.only(
-//                                          bottom: 11, top: 11, right: 15),
-//                                      hintText: 'Search a Product'),
-//                                ),
-                      ),
-                    ),
-                  ),
                   subCategory == null
                       ? Container()
                       : HorizontalCategory(
+                          showTitle: false,
                           categoryModel: getData(subCategory),
                         ),
                   Expanded(
-                    child: Container(
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) =>
-                            ItemHorizontalView(
-                          product: productModel[index],
-                        ),
-                        itemCount: productModel.length,
+                    child: ListView.builder(
+                      itemBuilder: (BuildContext context, int index) =>
+                          ItemHorizontalView(
+                        product: productModel[index],
                       ),
+                      itemCount: productModel.length,
                     ),
                   ),
                 ],

@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'profile_page.dart';
 import 'cart_page.dart';
 import 'favorite_page.dart';
 import 'search_page.dart';
 import 'home_page_2.dart';
-import 'inventory_page.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   List<int> navigationStack = [];
   void _onItemTapped(int index) {
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       else if (_selectedIndex == 3)
         _navigatorKey.currentState.pushNamed('/fav');
       else if (_selectedIndex == 4)
-        _navigatorKey.currentState.pushNamed('/inventory');
+        _navigatorKey.currentState.pushNamed('/profile');
     });
   }
 
@@ -46,13 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("NO"),
+                ),
               ),
               SizedBox(height: 16),
               new GestureDetector(
                 onTap: () =>
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
-                child: Text("YES"),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("YES"),
+                ),
               ),
             ],
           ),
@@ -62,9 +70,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _navigatorKey = GlobalKey<NavigatorState>();
 
+//  void autoLogin() async {
+//    SharedPreferences prefs = await SharedPreferences.getInstance();
+//
+//    if (prefs.getBool('autoLogin' ?? false)) _googleSignIn.signInSilently();
+//  }
+
   @override
   void initState() {
     getDataForAll();
+//    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+//      setState(() {
+//        _currentUser = account;
+//      });
+//    });
+//    autoLogin();
     super.initState();
   }
 
@@ -98,9 +118,173 @@ class _HomeScreenState extends State<HomeScreen> {
     bannerModel = BannerModel.fromMap(map);
   }
 
+//  GoogleSignInAccount _currentUser;
+//  GoogleSignIn _googleSignIn = GoogleSignIn(
+//    scopes: [
+//      'email',
+//    ],
+//  );
+//  Future<void> _handleSignIn() async {
+//    try {
+//      SharedPreferences prefs = await SharedPreferences.getInstance();
+//      await _googleSignIn.signIn();
+//      await prefs.setBool('autoLogin', true);
+//    } catch (error) {
+//      print(error);
+//    }
+//  }
+//
+//  Widget _buildBody() {
+//    return (_currentUser != null)
+//        ? Column(
+//            mainAxisAlignment: MainAxisAlignment.end,
+//            children: <Widget>[
+//              ListTile(
+//                leading: GoogleUserCircleAvatar(
+//                  identity: _currentUser,
+//                ),
+//                title: Text(
+//                  _currentUser.displayName ?? '',
+//                  style: TextStyle(
+//                      color: Colors.white,
+//                      fontSize: 18,
+//                      fontWeight: FontWeight.w600),
+//                ),
+//                subtitle: Text(
+//                  _currentUser.email ?? '',
+//                  style: TextStyle(
+//                      color: Colors.white,
+//                      fontSize: 15,
+//                      fontWeight: FontWeight.w600),
+//                ),
+//              ),
+//            ],
+//          )
+//        : Center(
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                RaisedButton(
+//                  color: Color(0xFFff5860),
+//                  child: Container(
+//                    height: 50,
+//                    width: double.infinity,
+//                    child: Padding(
+//                      padding: const EdgeInsets.only(left: 30.0),
+//                      child: ListTile(
+//                        title: Padding(
+//                          padding: const EdgeInsets.only(left: 20.0, bottom: 5),
+//                          child: Text(
+//                            "Sign In",
+//                            style: TextStyle(
+//                              fontWeight: FontWeight.w800,
+//                              color: Colors.white,
+//                              fontSize: 25,
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                  shape: RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.circular(10),
+//                  ),
+//                  onPressed: () {
+//                    setState(() {
+//                      _handleSignIn();
+//                    });
+//                  },
+//                ),
+//              ],
+//            ),
+//          );
+//  }
+//
+//  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+//      appBar: AppBar(
+//        actions: <Widget>[
+//          IconButton(
+//              icon: Icon(
+//                Icons.search,
+//                color: Colors.black,
+//              ),
+//              onPressed: () {
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context) => SearchResult()));
+//              }),
+//          IconButton(
+//              icon: Icon(
+//                Icons.notifications_active,
+//                color: Colors.black,
+//              ),
+//              onPressed: () {})
+//        ],
+//        elevation: 0,
+//        leading: IconButton(
+//          icon: Icon(
+//            Icons.menu,
+//            color: Colors.black,
+//          ),
+//          onPressed: () {
+//            _scaffoldKey.currentState.openDrawer();
+//          },
+//        ),
+//        title: Text(
+//          appBarTitle,
+//          style: TextStyle(color: Colors.black),
+//        ),
+//        backgroundColor: Colors.white,
+//      ),
+//      drawer: Drawer(
+//        child: ListView(
+//          padding: EdgeInsets.zero,
+//          children: <Widget>[
+//            DrawerHeader(
+//              child: _buildBody(),
+//              decoration: BoxDecoration(
+//                color: Color(0xFFff5860),
+//              ),
+//            ),
+//            ListTile(
+//              title: Text(
+//                'Check Inventory',
+//                style: TextStyle(
+//                    fontSize: 18,
+//                    color: Color(0xFFff5860),
+//                    fontWeight: FontWeight.w700),
+//              ),
+//              onTap: () {
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context) => Inventory()));
+//              },
+//            ),
+//            ListTile(
+//              title: Text(
+//                'Log Out',
+//                style: TextStyle(
+//                    fontSize: 18,
+//                    color: Color(0xFFff5860),
+//                    fontWeight: FontWeight.w700),
+//              ),
+//              onTap: () {
+//                setState(() async {
+//                  _handleSignOut();
+//                  SharedPreferences prefs =
+//                      await SharedPreferences.getInstance();
+//                  await prefs.setBool('autoLogin', false);
+//                });
+//
+//                Navigator.pop(context);
+//              },
+//            ),
+//          ],
+//        ),
+//      ),
       body: WillPopScope(
         onWillPop: () async {
           if (navigationStack.isNotEmpty) {
@@ -140,8 +324,8 @@ class _HomeScreenState extends State<HomeScreen> {
               case '/fav':
                 builder = (BuildContext context) => Fav();
                 break;
-              case '/inventory':
-                builder = (BuildContext context) => Inventory();
+              case '/profile':
+                builder = (BuildContext context) => Profile();
                 break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
@@ -188,7 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.person),
             title: Text(
               '',
               style: TextStyle(fontSize: 0),
