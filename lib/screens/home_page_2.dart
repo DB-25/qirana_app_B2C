@@ -146,8 +146,9 @@ class _HomePage2State extends State<HomePage2> {
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
   void autoLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (prefs.getBool('autoLogin' ?? false)) _googleSignIn.signInSilently();
+    if (prefs.containsKey('autoLogin')) {
+      if (prefs.getBool('autoLogin' ?? false)) _googleSignIn.signInSilently();
+    }
   }
 
   @override
@@ -248,10 +249,18 @@ class _HomePage2State extends State<HomePage2> {
                 SizedBox(
                   height: 10,
                 ),
-                HorizontalCategory(
-                  showTitle: true,
-                  categoryModel: categoryModel,
-                ),
+                categoryModel == null
+                    ? Center(
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : HorizontalCategory(
+                        showTitle: true,
+                        categoryModel: categoryModel,
+                      ),
                 SizedBox(
                   height: 10,
                 ),
@@ -268,8 +277,12 @@ class _HomePage2State extends State<HomePage2> {
                       height: 200.0,
                       width: MediaQuery.of(context).size.width,
                       child: bannerModel == null
-                          ? Container(
-                              color: Colors.white,
+                          ? Center(
+                              child: SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator(),
+                              ),
                             )
                           : Carousel(
                               images: [
@@ -298,11 +311,19 @@ class _HomePage2State extends State<HomePage2> {
                 SizedBox(
                   height: 10,
                 ),
-                HorizontalView(
-                  productModel: productModel,
-                  title: 'BEST DEALS',
-                  axisDirection: Axis.horizontal,
-                ),
+                productModel == null
+                    ? Center(
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : HorizontalView(
+                        productModel: productModel,
+                        title: 'BEST DEALS',
+                        axisDirection: Axis.horizontal,
+                      ),
                 SizedBox(
                   height: 10,
                 ),
@@ -313,9 +334,17 @@ class _HomePage2State extends State<HomePage2> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
-                VerticalView(
-                  productModel: productModel,
-                ),
+                productModel == null
+                    ? Center(
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : VerticalView(
+                        productModel: productModel,
+                      ),
               ],
             ),
           ),

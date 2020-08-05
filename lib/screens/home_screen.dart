@@ -70,21 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-//  void autoLogin() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//
-//    if (prefs.getBool('autoLogin' ?? false)) _googleSignIn.signInSilently();
-//  }
-
   @override
   void initState() {
     getDataForAll();
-//    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
-//      setState(() {
-//        _currentUser = account;
-//      });
-//    });
-//    autoLogin();
     super.initState();
   }
 
@@ -94,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ProductModel> productModel = List<ProductModel>();
 
   void getDataForAll() async {
-//    ApiResponse responseBanner = await apiDriver.getData('banner-all');
-//    getBannerDetails(responseBanner.data[0]);
+    ApiResponse responseBanner = await apiDriver.getData('banner-all');
+    if (responseBanner != null) getBannerDetails(responseBanner.data[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
     ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
     getCategoryDetails(responseCategory.data);

@@ -79,14 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Colors.white.withOpacity(0),
-              radius: 100,
-              child: Image.asset(
-                'assets/logo.png',
-                fit: BoxFit.fill,
-              ),
-            ),
             RaisedButton(
               color: Color(0xFFff5860),
               child: Container(
