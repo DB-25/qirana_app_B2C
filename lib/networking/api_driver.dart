@@ -21,7 +21,6 @@ class ApiDriver {
     print(response.body);
     if (response.statusCode != 200) {
       return null;
-      throw Exception('Failed to save data');
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (responseMap["status"]) {
@@ -33,17 +32,51 @@ class ApiDriver {
     }
   }
 
-  Future<ApiResponse<dynamic>> getCategoryData(
-      {String url, String extendedUrl}) async {
-    final http.Response response = await http.post(baseUrl + extendedUrl,
+  Future<ApiResponse<dynamic>> login(String email, String password) async {
+    final http.Response response = await http.post(
+        'http://145.239.92.37:8080/auth-app/auth/login',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{'companyId': companyId, 'url': url}));
+        body: jsonEncode(<String, String>{
+          'companyId': companyId,
+          'email': email,
+          'password': password
+        }));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
-      throw Exception('Failed to save data');
+      return null;
+    } else {
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      if (!responseMap["status"]) {
+        print(responseMap["status"]);
+        throw Exception('Failed to load data models');
+      } else {
+        return ApiResponse.fromMap(responseMap);
+      }
+    }
+  }
+
+  Future<ApiResponse<dynamic>> getCategoryData(
+      {String url, String extendedUrl, int index}) async {
+    final http.Response response = await http.post(
+      baseUrl + extendedUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          'companyId': companyId,
+          'url': url,
+          'index': index.toString()
+        },
+      ),
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode != 200) {
+      return null;
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (responseMap["status"]) {
@@ -168,6 +201,9 @@ class ApiDriver {
         }));
     print(response.statusCode);
     print(response.body);
+    if (response.statusCode == 204) {
+      throw Error();
+    }
     if (response.statusCode != 200) {
       throw Exception('Failed to save data');
     } else {
@@ -194,6 +230,9 @@ class ApiDriver {
         }));
     print(response.statusCode);
     print(response.body);
+    if (response.statusCode == 204) {
+      throw Error();
+    }
     if (response.statusCode != 200) {
       throw Exception('Failed to save data');
     } else {

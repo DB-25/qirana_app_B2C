@@ -56,7 +56,7 @@ class CategoryCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           ApiResponse response = await apiDriver.getCategoryData(
-              extendedUrl: getCategoryUrl(text1), url: url);
+              extendedUrl: getCategoryUrl(text1), url: url, index: 0);
           if (!flag)
             subCategoryResponse = await apiDriver.getSubCategory(categoryId);
           Navigator.push(
@@ -67,7 +67,9 @@ class CategoryCard extends StatelessWidget {
                       subCategoryResponse == null
                           ? null
                           : subCategoryResponse.data,
-                      text1)));
+                      text1,
+                      url,
+                      getCategoryUrl(text1))));
         },
         child: Container(
           width: 85,

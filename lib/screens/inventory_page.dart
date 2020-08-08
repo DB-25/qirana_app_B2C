@@ -47,8 +47,10 @@ class _InventoryState extends State<Inventory> {
                 child: SearchBar<InventoryModel>(
                   onError: (error) {
                     return Center(
-                      child: Text("Item not Found"),
-                    );
+                        child: Text(
+                      'No Records Found',
+                      style: TextStyle(fontSize: 18),
+                    ));
                   },
                   onSearch: search,
                   onItemFound: (InventoryModel inventory, int index) {

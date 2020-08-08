@@ -37,7 +37,7 @@ class HorizontalView extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => VerticalViewPage(
-                                productModel, null, 'BEST DEALS')));
+                                productModel, null, 'BEST DEALS', null, null)));
                   },
                   child: Text(
                     'View all',

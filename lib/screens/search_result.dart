@@ -40,6 +40,13 @@ class _SearchResultState extends State<SearchResult> {
                 child: SearchBar(
                   hintText: 'Search a Product',
                   onSearch: search,
+                  onError: (error) {
+                    return Center(
+                        child: Text(
+                      'Item Not Found',
+                      style: TextStyle(fontSize: 18),
+                    ));
+                  },
                   onItemFound: (ProductModel products, int index) {
                     return ItemHorizontalView(
                       product: products,
