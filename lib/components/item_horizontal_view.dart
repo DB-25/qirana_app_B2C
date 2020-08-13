@@ -28,11 +28,12 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: ListTile(
-        leading: Container(
-          height: 100,
-          width: 50,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
           child: Image.network(
             'https://www.fagnum.com/wp' + productModel.imageOne,
+            height: 100,
+            width: 55,
             fit: BoxFit.contain,
           ),
         ),

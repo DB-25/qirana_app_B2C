@@ -48,28 +48,29 @@ class CategoryCard extends StatelessWidget {
   }
 
   ApiResponse subCategoryResponse;
-
   @override
   Widget build(BuildContext context) {
+    getCategoryUrl(text1);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
-          ApiResponse response = await apiDriver.getCategoryData(
-              extendedUrl: getCategoryUrl(text1), url: url, index: 0);
           if (!flag)
             subCategoryResponse = await apiDriver.getSubCategory(categoryId);
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => VerticalViewPage(
-                      getData(response.data),
-                      subCategoryResponse == null
-                          ? null
-                          : subCategoryResponse.data,
-                      text1,
-                      url,
-                      getCategoryUrl(text1))));
+            context,
+            MaterialPageRoute(
+              builder: (context) => VerticalViewPage(
+                subCategory: (subCategoryResponse == null)
+                    ? null
+                    : subCategoryResponse.data,
+                title: text1,
+                url: url,
+                extendedUrl: getCategoryUrl(text1),
+                bestDeals: null,
+              ),
+            ),
+          );
         },
         child: Container(
           width: 85,

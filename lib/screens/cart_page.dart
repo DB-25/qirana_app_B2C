@@ -98,12 +98,13 @@ class _CartState extends State<Cart> {
                             Container(
                           width: MediaQuery.of(context).size.width,
                           child: ListTile(
-                            leading: Container(
-                              height: 100,
-                              width: 50,
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
                                 'https://www.fagnum.com/wp' +
                                     products[index].imageOne,
+                                height: 100,
+                                width: 55,
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -287,7 +288,7 @@ class _CartState extends State<Cart> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   onPressed: () {
-                    if (products.isNotEmpty)
+                    if (total >= 2000)
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -296,6 +297,8 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                       );
+                    else
+                      _showDialog();
                   },
                 ),
               ),
@@ -306,6 +309,28 @@ class _CartState extends State<Cart> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Cart Value Low"),
+          content: new Text("Order min of Rs.2000"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+                child: new Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          ],
+        );
+      },
     );
   }
 }

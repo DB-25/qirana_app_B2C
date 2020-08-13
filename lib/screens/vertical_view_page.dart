@@ -8,31 +8,44 @@ import 'search_result.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 
 class VerticalViewPage extends StatefulWidget {
+  final List<ProductModel> bestDeals;
   final String url;
   final String extendedUrl;
   final String title;
-  final List<ProductModel> productModel;
   final List subCategory;
-  VerticalViewPage(this.productModel, this.subCategory, this.title, this.url,
-      this.extendedUrl);
+  VerticalViewPage(
+      {this.subCategory,
+      this.title,
+      this.url,
+      this.extendedUrl,
+      this.bestDeals});
   @override
   _VerticalViewPageState createState() => _VerticalViewPageState(
-      productModel, subCategory, title, url, extendedUrl);
+      bestDeals: bestDeals,
+      subCategory: subCategory,
+      title: title,
+      url: url,
+      extendedUrl: extendedUrl);
 }
 
 class _VerticalViewPageState extends State<VerticalViewPage> {
+  final List<ProductModel> bestDeals;
   final String url;
   final String extendedUrl;
   final String title;
   final List subCategory;
-  final List<ProductModel> productModel;
 
-  _VerticalViewPageState(this.productModel, this.subCategory, this.title,
-      this.url, this.extendedUrl);
+  _VerticalViewPageState(
+      {this.bestDeals,
+      this.subCategory,
+      this.title,
+      this.url,
+      this.extendedUrl});
 
   final List<CategoryModel> categoryModel = List<CategoryModel>();
-
+  List<ProductModel> productModel = List<ProductModel>();
   List<CategoryModel> getData(List data) {
+    categoryModel.clear();
     for (var i = 0; i < data.length; i++) {
       categoryModel.add(CategoryModel.fromMap(data[i]));
     }
@@ -41,6 +54,11 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
 
   @override
   void initState() {
+    if (bestDeals == null)
+      pageData();
+    else
+      productModel = bestDeals;
+//    if (productModel != null) if (productModel.length <= 10) end = true;
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -67,7 +85,8 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
     }
   }
 
-  int index = 0;
+  int index = -10;
+  bool end = false;
 
   void pageData() async {
     if (!isLoading) {
@@ -81,6 +100,7 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
             url: url, extendedUrl: extendedUrl, index: index);
         if (response != null) getNewData(response.data);
       }
+      if (tempList.length < 10) end = true;
       productModel.addAll(tempList);
       setState(() {
         isLoading = false;
@@ -154,22 +174,70 @@ class _VerticalViewPageState extends State<VerticalViewPage> {
                           showTitle: false,
                           categoryModel: getData(subCategory),
                         ),
-                  Expanded(
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == productModel.length) {
-                          return _buildProgressIndicator();
-                        } else
-                          return ItemHorizontalView(
-                            product: productModel[index],
-                          );
-                      },
-                      itemCount: (productModel.length != 0)
-                          ? productModel.length + 1
-                          : 0,
-                    ),
-                  ),
+                  (productModel == null)
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipOval(
+                              child: Container(
+                                height: 50,
+                                width: 250,
+                                color: Colors.deepOrange[500],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'No More Records Found',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == productModel.length && end == true) {
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipOval(
+                                      child: Container(
+                                        height: 50,
+                                        width: 200,
+                                        color: Colors.deepOrange[500],
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Center(
+                                            child: Text(
+                                              'That\'s all for now',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              if (index == productModel.length) {
+                                return _buildProgressIndicator();
+                              } else
+                                return ItemHorizontalView(
+                                  product: productModel[index],
+                                );
+                            },
+                            itemCount: (productModel.length != 0)
+                                ? productModel.length + 1
+                                : 1,
+                          ),
+                        ),
                 ],
               ),
             ),

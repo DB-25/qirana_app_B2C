@@ -120,6 +120,7 @@ class ApiDriver {
           "categoryId": categoryId,
           "companyId": companyId
         }));
+    print(categoryId);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
