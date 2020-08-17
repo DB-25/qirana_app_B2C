@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
@@ -8,11 +9,15 @@ import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/model/banner_model.dart';
+import 'package:qirana_app/screens/address_page.dart';
 import 'package:qirana_app/screens/login_screen.dart';
+import 'package:qirana_app/screens/manual_order_page.dart';
 import 'search_result.dart';
 import 'inventory_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 final ValueNotifier<bool> autoLoginBool = ValueNotifier<bool>(false);
 
@@ -84,6 +89,16 @@ class _HomePage2State extends State<HomePage2> {
     ],
   );
 
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -105,6 +120,21 @@ class _HomePage2State extends State<HomePage2> {
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SearchResult()));
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.add_a_photo,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  getImage();
+                  if (_image != null)
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddressPage(
+                                  products: null,
+                                )));
                 }),
             IconButton(
                 icon: Icon(
@@ -234,6 +264,13 @@ class _HomePage2State extends State<HomePage2> {
                   setState(() {});
                 },
               ),
+              ListTile(
+                title: Text('Order'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ManualOrder()));
+                },
+              )
             ],
           ),
         ),
