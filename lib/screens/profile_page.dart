@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qirana_app/screens/chat_screen.dart';
 import 'settings_page.dart';
 
 class Profile extends StatefulWidget {
@@ -151,11 +152,19 @@ class _ProfileState extends State<Profile> {
                       thickness: 1,
                     ),
                   ),
-                  ListTile(
-                    title: Text("Help & Supports"),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen()));
+                    },
+                    child: ListTile(
+                      title: Text("Help & Supports"),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                      ),
                     ),
                   ),
                   Padding(
