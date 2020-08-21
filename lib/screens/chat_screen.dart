@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              MessageStream(),
+//              MessageStream(),
               Container(
                 color: Color(0x48f14235),
 //                decoration: kMessageContainerDecoration,
@@ -94,45 +94,45 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class MessageStream extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.lightBlueAccent,
-            ),
-          );
-        }
-        final messages = snapshot.data.documents.reversed;
-        List<MessageBubble> messageBubbles = [];
-        for (var message in messages) {
-          final messageText = message.data['text'];
-          final messageSender = message.data['sender'];
-          final currentUser = loggedInUser.email;
-          final messageBubble = MessageBubble(
-            sender: messageSender,
-            text: messageText,
-            isMe: currentUser == messageSender,
-          );
-          messageBubbles.add(messageBubble);
-        }
-        return Expanded(
-          child: ListView(
-            controller: _scrollController,
-            reverse: true,
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            children: messageBubbles,
-          ),
-        );
-      },
-    );
-  }
-}
+//class MessageStream extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return StreamBuilder<QuerySnapshot>(
+//      stream: _firestore.snapshots(),
+//      builder: (context, snapshot) {
+//        if (!snapshot.hasData) {
+//          return Center(
+//            child: CircularProgressIndicator(
+//              backgroundColor: Colors.lightBlueAccent,
+//            ),
+//          );
+//        }
+//        final messages = snapshot.data.documents.reversed;
+//        List<MessageBubble> messageBubbles = [];
+//        for (var message in messages) {
+//          final messageText = message.data['text'];
+//          final messageSender = message.data['sender'];
+//          final currentUser = loggedInUser.email;
+//          final messageBubble = MessageBubble(
+//            sender: messageSender,
+//            text: messageText,
+//            isMe: currentUser == messageSender,
+//          );
+//          messageBubbles.add(messageBubble);
+//        }
+//        return Expanded(
+//          child: ListView(
+//            controller: _scrollController,
+//            reverse: true,
+//            shrinkWrap: true,
+//            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+//            children: messageBubbles,
+//          ),
+//        );
+//      },
+//    );
+//  }
+//}
 
 class MessageBubble extends StatelessWidget {
   MessageBubble({this.sender, this.text, this.isMe});

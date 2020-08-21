@@ -11,6 +11,6 @@ class ApiResponse<T> {
         message: map.containsKey('msg') ? (map['msg'] ?? '') : '',
         error: map.containsKey('msg') ? (map['msg'] ?? '') : '',
         status: map.containsKey('status') ? (map['status'] ?? '') : '',
-        data: map.containsKey("data") ? (map["data"] ?? '') : '');
+        data: map.containsKey("data") ? (map["data"] ?? [null]) : '');
   }
 }

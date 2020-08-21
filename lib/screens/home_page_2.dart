@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
@@ -48,7 +47,7 @@ class _HomePage2State extends State<HomePage2> {
 
   autoLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    admin.value = prefs.containsKey('adminPassword') ? true : false;
+    admin.value = prefs.containsKey('admin') ? true : false;
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     admin.notifyListeners();
     if (prefs.containsKey('autoLogin')) {
