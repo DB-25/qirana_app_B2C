@@ -206,6 +206,23 @@ class ApiDriver {
               "state": orderDetailModel.state,
               "products": requestBody
             }));
+    print(jsonEncode(<String, String>{
+      "name": orderDetailModel.name,
+      "area": orderDetailModel.area,
+      "city": orderDetailModel.city,
+      "companyId": companyId,
+      "contactNumber": orderDetailModel.contactNumber,
+      "contestName": orderDetailModel.contestName,
+      "country": orderDetailModel.country,
+      "emailId": orderDetailModel.emailId,
+      "houseNo": orderDetailModel.houseNo,
+      "orderId": orderDetailModel.orderId,
+      "paymentOption": orderDetailModel.paymentOption,
+      "paymentOrderId": orderDetailModel.paymentOrderId,
+      "referralCode": orderDetailModel.referralCode,
+      "state": orderDetailModel.state,
+      "products": requestBody
+    }));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {

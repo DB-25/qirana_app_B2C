@@ -3,6 +3,7 @@ import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/screens/vertical_view_page.dart';
+import 'package:qirana_app/screens/vertical_view_page_2.dart';
 
 // ignore: must_be_immutable
 class CategoryCard extends StatelessWidget {
@@ -60,7 +61,7 @@ class CategoryCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => VerticalViewPage(
+              builder: (context) => VerticalViewPage2(
                 subCategory: (subCategoryResponse == null)
                     ? null
                     : subCategoryResponse.data,

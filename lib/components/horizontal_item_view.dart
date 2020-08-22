@@ -14,7 +14,7 @@ class HorizontalView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        height: 375,
+        height: 325,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -60,6 +60,7 @@ class HorizontalView extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return ItemViewVertical(
                       productModel: productModel[index],
+                      showQuantity: false,
                     );
                   }),
             )
