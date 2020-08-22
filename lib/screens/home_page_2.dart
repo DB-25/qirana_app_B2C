@@ -318,11 +318,11 @@ class _HomePage2State extends State<HomePage2> {
                             )
                           : Carousel(
                               images: [
-                                NetworkImage('https://www.fagnum.com/wp' +
+                                NetworkImage('https://api.fagnum.com/wp' +
                                     bannerModel.bannerOne),
-                                NetworkImage('https://www.fagnum.com/wp' +
+                                NetworkImage('https://api.fagnum.com/wp' +
                                     bannerModel.bannerTwo),
-                                NetworkImage('https://www.fagnum.com/wp' +
+                                NetworkImage('https://api.fagnum.com/wp' +
                                     bannerModel.bannerThree)
                               ],
                               boxFit: BoxFit.fill,

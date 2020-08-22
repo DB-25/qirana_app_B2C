@@ -31,7 +31,7 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.network(
-            'https://www.fagnum.com/wp' + productModel.imageOne,
+            'https://api.fagnum.com/wp' + productModel.imageOne,
             height: 100,
             width: 55,
             fit: BoxFit.contain,
