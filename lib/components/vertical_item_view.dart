@@ -16,8 +16,9 @@ class VerticalView extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height - 200,
+          height: MediaQuery.of(context).size.height * 2 + 140,
           child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
             childAspectRatio: (itemWidth / itemHeight),
             shrinkWrap: true,
             mainAxisSpacing: 10,

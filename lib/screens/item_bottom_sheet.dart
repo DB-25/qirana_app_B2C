@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/database/database.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 
 class ItemBottomSheet extends StatefulWidget {
   ItemBottomSheet({this.product});
@@ -22,166 +23,180 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xff757575),
-      child: Container(
-        height: 275,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 50,
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              color: Colors.black12,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 350.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Carousel(
+                      images: [
+                        NetworkImage('https://api.fagnum.com/wp' +
+                            productModel.imageOne),
+                        NetworkImage('https://api.fagnum.com/wp' +
+                            productModel.imageOne),
+                      ],
+                      boxFit: BoxFit.contain,
+                      showIndicator: true,
+                      dotIncreaseSize: 1.5,
+                      dotBgColor: Colors.black.withOpacity(0),
+                      dotColor: Colors.white.withOpacity(0.4),
+                      borderRadius: false,
+                      moveIndicatorFromBottom: 180.0,
+                      noRadiusForIndicator: true,
+                      overlayShadow: false,
+                      overlayShadowColors: Colors.white,
+                      overlayShadowSize: 0.7,
                     ),
-                    FloatingActionButton(
-                        elevation: 0.5,
-                        backgroundColor: Color(0xfff6f6f6),
-                        onPressed: () {
-                          setState(() {
-                            if (quantity > 0) quantity--;
-                            productModel.quantity = quantity.toString();
-                          });
-                        },
-                        child: Text(
-                          '-',
-                          style: TextStyle(fontSize: 30, color: Colors.black),
-                        )),
-                    Text(
-                      quantity.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
-                    ),
-                    FloatingActionButton(
-                      elevation: 0.5,
-                      backgroundColor: Color(0xfff6f6f6),
-                      onPressed: () {
-                        setState(() {
-                          quantity++;
-                          productModel.quantity = quantity.toString();
-                        });
-                      },
-                      child: Text(
-                        '+',
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 100,
-                          width: 100,
-                          child: Card(
-                            child: Image.network(
-                              'https://www.fagnum.com/wp' +
-                                  productModel.imageOne,
-                              fit: BoxFit.scaleDown,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height - 456,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                        ),
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            child: Text(
+                              productModel.name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 25),
+                              maxLines: 2,
+                              softWrap: true,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          SizedBox(
+                            height: 30,
+                          ),
+                          (quantity == 0)
+                              ? Text(
+                                  'Rs ' + productModel.price.round().toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFFff5860),
+                                      fontSize: 25),
+                                )
+                              : Text(
+                                  'Rs ' +
+                                      (productModel.price * quantity)
+                                          .round()
+                                          .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFFff5860),
+                                      fontSize: 25),
+                                ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
+                              SizedBox(
+                                width: 50,
+                              ),
+                              FloatingActionButton(
+                                  elevation: 0.5,
+                                  backgroundColor: Color(0xfff6f6f6),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (quantity > 0) quantity--;
+                                      productModel.quantity =
+                                          quantity.toString();
+                                    });
+                                  },
+                                  child: Text(
+                                    '-',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.black),
+                                  )),
                               Text(
-                                productModel.metaDescription,
+                                quantity.toString(),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 20),
-                                maxLines: 2,
-                                softWrap: true,
+                                    fontWeight: FontWeight.w700, fontSize: 25),
+                              ),
+                              FloatingActionButton(
+                                elevation: 0.5,
+                                backgroundColor: Color(0xfff6f6f6),
+                                onPressed: () {
+                                  setState(() {
+                                    quantity++;
+                                    productModel.quantity = quantity.toString();
+                                  });
+                                },
+                                child: Text(
+                                  '+',
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.black),
+                                ),
                               ),
                               SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                productModel.size,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18,
-                                    color: Colors.black.withOpacity(0.7)),
-                                maxLines: 2,
-                                softWrap: true,
+                                width: 50,
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    (quantity == 0)
-                        ? Text(
-                            'Rs ' + productModel.price.round().toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 20),
-                          )
-                        : Text(
-                            'Rs ' +
-                                (productModel.price * quantity)
-                                    .round()
-                                    .toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 20),
+                          SizedBox(
+                            height: 50,
                           ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  color: Color(0xFFff5860),
-                  child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        "Add to cart",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              color: Color(0xFFff5860),
+                              child: Container(
+                                height: 50,
+                                width: double.infinity,
+                                child: Center(
+                                  child: Text(
+                                    "Add to cart",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              onPressed: () {
+                                if (quantity != 0)
+                                  SQLiteDbProvider.db
+                                      .insert(productModel, 1, 0);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: () {
-                    if (quantity != 0)
-                      SQLiteDbProvider.db.insert(productModel, 1, 0);
-                    Navigator.pop(context);
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+            IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ],
         ),
       ),
     );

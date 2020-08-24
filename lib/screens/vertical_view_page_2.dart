@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qirana_app/components/item_horizontal_view.dart';
 import 'package:qirana_app/components/item_view_vertical.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
@@ -95,14 +94,23 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
         isLoading = true;
       });
       index += 10;
-      tempList.clear();
+      if (tempList != null) tempList.clear();
       if (url != null) {
         ApiResponse response = await apiDriver.getCategoryData(
             url: url, extendedUrl: extendedUrl, index: index);
         if (response != null) getNewData(response.data);
+        if (response == null) {
+          tempList = null;
+          end = true;
+        }
       }
-      if (tempList.length < 10) end = true;
-      productModel.addAll(tempList);
+      if (tempList != null) {
+        if (tempList.length < 10) end = true;
+        productModel.addAll(tempList);
+      }
+      if (tempList == null && productModel.length == 0) {
+        productModel = null;
+      }
       setState(() {
         isLoading = false;
       });
@@ -127,7 +135,6 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
     final double itemHeight = (size.height - kToolbarHeight - 150) / 2;
     final double itemWidth = size.width / 2;
     return Scaffold(
-//      backgroundColor: Colors.white,
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
@@ -167,7 +174,7 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 5),
             child: Container(
-              height: MediaQuery.of(context).size.height - 170,
+              height: MediaQuery.of(context).size.height - 165,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -212,8 +219,10 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                               shrinkWrap: true,
                               mainAxisSpacing: 10,
                               crossAxisCount: 2,
-                              children:
-                                  List.generate(productModel.length, (index) {
+                              children: List.generate(
+                                  (productModel.length == 0)
+                                      ? 1
+                                      : productModel.length + 1, (index) {
                                 if (index == productModel.length &&
                                     end == true) {
                                   return Center(
@@ -251,6 +260,30 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                             ),
                           ),
                         ),
+//                  (end)
+//                      ? Center(
+//                          child: Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: ClipOval(
+//                              child: Container(
+//                                height: 50,
+//                                width: 250,
+//                                color: Colors.deepOrange[500],
+//                                child: Padding(
+//                                  padding: const EdgeInsets.all(8.0),
+//                                  child: Center(
+//                                    child: Text(
+//                                      'No More Records Found',
+//                                      style: TextStyle(
+//                                          fontSize: 18, color: Colors.white),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        )
+//                      : Container(),
                 ],
               ),
             ),

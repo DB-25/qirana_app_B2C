@@ -55,10 +55,12 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
       padding: const EdgeInsets.all(5.0),
       child: GestureDetector(
         onTap: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) =>
-                  ItemBottomSheet(product: productModel));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ItemBottomSheet(
+                        product: productModel,
+                      )));
         },
         child: SizedBox(
           width: MediaQuery.of(context).size.width / 3 + 45,
@@ -88,7 +90,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                     child: Text(
                       productModel.name,
                       style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                       maxLines: 2,
                       softWrap: true,
                     ),
@@ -103,7 +105,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                           ? Text(
                               'Rs ' + productModel.price.round().toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 17),
+                                  fontWeight: FontWeight.w700, fontSize: 16),
                             )
                           : Text(
                               'Rs ' +
@@ -111,7 +113,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                       .round()
                                       .toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 17),
+                                  fontWeight: FontWeight.w700, fontSize: 16),
                             ),
                       (showQuantity)
                           ? SizedBox(
@@ -142,6 +144,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                             else
                                               SQLiteDbProvider.db
                                                   .update(productModel, 1, 0);
+                                            if (quantity != 0)
+                                              _showToast('Item added to Cart');
                                           });
                                         },
                                         child: Text(
@@ -182,6 +186,8 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                           else
                                             SQLiteDbProvider.db
                                                 .update(productModel, 1, 0);
+                                          if (quantity != 0)
+                                            _showToast('Item added to Cart');
                                         });
                                       },
                                       child: Text(

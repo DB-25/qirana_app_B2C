@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/screens/vertical_view_page_2.dart';
 import 'item_view_vertical.dart';
 import 'package:qirana_app/screens/vertical_view_page.dart';
 
@@ -36,7 +37,7 @@ class HorizontalView extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VerticalViewPage(
+                            builder: (context) => VerticalViewPage2(
                                 bestDeals: productModel,
                                 url: null,
                                 title: 'BEST DEALS',
