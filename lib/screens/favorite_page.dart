@@ -16,8 +16,18 @@ class _FavState extends State<Fav> {
     super.initState();
   }
 
+  bool isLoading = false;
+
   void getData() async {
-    products = await SQLiteDbProvider.db.getFav();
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+      products = await SQLiteDbProvider.db.getFav();
+      setState(() {
+        isLoading = false;
+      });
+    }
     Future.delayed(new Duration(seconds: 1), () {
       setState(() {});
     });
@@ -63,22 +73,29 @@ class _FavState extends State<Fav> {
                           fontWeight: FontWeight.w900),
                     ),
                   ),
-                  (products.isEmpty)
-                      ? Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              'No Items in Favorite',
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black.withOpacity(0.6)),
-                            ),
+                  (isLoading)
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Center(
+                            child: new CircularProgressIndicator(),
                           ),
                         )
-                      : VerticalView(
-                          productModel: products,
-                        ),
+                      : (products.isEmpty)
+                          ? Container(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  'No Items in Favorite',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                            )
+                          : VerticalView(
+                              productModel: products,
+                            ),
                 ],
               ),
             ),

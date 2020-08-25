@@ -64,7 +64,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
         },
         child: SizedBox(
           width: MediaQuery.of(context).size.width / 3 + 45,
-          height: MediaQuery.of(context).size.height / 6,
+          height: MediaQuery.of(context).size.height / 6 + 10,
           child: Card(
             elevation: 0,
             child: Column(
@@ -85,7 +85,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, top: 5),
                   child: Container(
                     child: Text(
                       productModel.name,

@@ -86,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (responseBanner != null) getBannerDetails(responseBanner.data[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
     ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
-    getCategoryDetails(responseCategory.data);
-    getBestDealsDetails(responseBestDeals.data);
+    if (responseCategory != null) getCategoryDetails(responseCategory.data);
+    if (responseBestDeals != null) getBestDealsDetails(responseBestDeals.data);
   }
 
   void getBestDealsDetails(List data) {

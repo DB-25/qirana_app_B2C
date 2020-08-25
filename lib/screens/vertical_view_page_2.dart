@@ -132,7 +132,7 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 150) / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 100) / 2;
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
@@ -174,7 +174,7 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 5),
             child: Container(
-              height: MediaQuery.of(context).size.height - 165,
+              height: MediaQuery.of(context).size.height - 100,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,

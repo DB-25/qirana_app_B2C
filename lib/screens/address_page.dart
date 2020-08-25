@@ -4,6 +4,7 @@ import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/model/order_detail_model.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/networking/api_driver.dart';
+import 'package:qirana_app/screens/order_confirm.dart';
 
 class AddressPage extends StatefulWidget {
   final List<ProductModel> products;
@@ -438,7 +439,15 @@ class _AddressPageState extends State<AddressPage> {
                           ApiResponse response = await apiDriver.orderDetails(
                               orderDetailModel: addressDetails,
                               productModel: products);
-                          print(response.data);
+                          if (response.data != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderConfirm(
+                                          orderNo: response.data[0]['cOrderId'],
+                                          products: products,
+                                        )));
+                          }
                         },
                       ),
                     ],
