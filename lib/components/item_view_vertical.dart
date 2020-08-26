@@ -63,7 +63,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                       )));
         },
         child: SizedBox(
-          width: MediaQuery.of(context).size.width / 3 + 45,
+          width: MediaQuery.of(context).size.width / 2 - 20,
           height: MediaQuery.of(context).size.height / 6 + 10,
           child: Card(
             elevation: 0,
@@ -84,157 +84,189 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 5),
-                  child: Container(
-                    child: Text(
-                      productModel.name,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                      maxLines: 2,
-                      softWrap: true,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 5),
+                    child: Container(
+                      child: Text(
+                        productModel.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                        softWrap: true,
+                      ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      (quantity == 0)
-                          ? Text(
-                              'Rs ' + productModel.price.round().toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 16),
-                            )
-                          : Text(
-                              'Rs ' +
-                                  (productModel.price * quantity)
-                                      .round()
-                                      .toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 16),
-                            ),
-                      (showQuantity)
-                          ? SizedBox(
-                              width: 30,
-                            )
-                          : SizedBox(
-                              width: 10,
-                            ),
-                      (showQuantity)
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  height: 25,
-                                  width: 25,
-                                  child: FittedBox(
-                                    child: FloatingActionButton(
-                                        elevation: 5,
-                                        backgroundColor: Colors.white,
-                                        onPressed: () {
-                                          setState(() {
-                                            if (quantity > 0) quantity--;
-                                            productModel.quantity =
-                                                quantity.toString();
-                                            if (quantity == 0)
-                                              SQLiteDbProvider.db.delete(
-                                                  productModel.productId);
-                                            else
-                                              SQLiteDbProvider.db
-                                                  .update(productModel, 1, 0);
-                                            if (quantity != 0)
-                                              _showToast('Item added to Cart');
-                                          });
-                                        },
-                                        child: Text(
-                                          '-',
-                                          style: TextStyle(
-                                              fontSize: 30,
-                                              color: Color(0xFFff5860)),
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  quantity.toString(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        (quantity == 0)
+                            ? Expanded(
+                                child: Text(
+                                  'Rs ' + productModel.price.round().toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 15),
+                                      fontSize: 16),
                                 ),
-                                SizedBox(
-                                  width: 5,
+                              )
+                            : Expanded(
+                                child: Text(
+                                  'Rs ' +
+                                      (productModel.price * quantity)
+                                          .round()
+                                          .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16),
                                 ),
-                                Container(
-                                  height: 25,
-                                  width: 25,
-                                  child: FittedBox(
-                                    child: FloatingActionButton(
-                                      elevation: 5,
-                                      backgroundColor: Colors.white,
-                                      onPressed: () {
-                                        setState(() {
-                                          quantity++;
-                                          productModel.quantity =
-                                              quantity.toString();
-                                          if (quantity == 1)
-                                            SQLiteDbProvider.db
-                                                .insert(productModel, 1, 0);
-                                          else
-                                            SQLiteDbProvider.db
-                                                .update(productModel, 1, 0);
-                                          if (quantity != 0)
-                                            _showToast('Item added to Cart');
-                                        });
-                                      },
-                                      child: Text(
-                                        '+',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Color(0xFFff5860)),
+                              ),
+                        // (showQuantity)
+                        //     ? SizedBox(
+                        //         width: 30,
+                        //       )
+                        //     : SizedBox(
+                        //         width: 10,
+                        //       ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        (showQuantity)
+                            ? Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Container(
+                                        height: 25,
+                                        width: 25,
+                                        child: FittedBox(
+                                          child: FloatingActionButton(
+                                              elevation: 5,
+                                              backgroundColor: Colors.white,
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (quantity > 0) quantity--;
+                                                  productModel.quantity =
+                                                      quantity.toString();
+                                                  if (quantity == 0)
+                                                    SQLiteDbProvider.db.delete(
+                                                        productModel.productId);
+                                                  else
+                                                    SQLiteDbProvider.db.update(
+                                                        productModel, 1, 0);
+                                                  if (quantity != 0)
+                                                    _showToast(
+                                                        'Item added to Cart');
+                                                });
+                                              },
+                                              child: Text(
+                                                '-',
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    color: Color(0xFFff5860)),
+                                              )),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      quantity.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 15),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 25,
+                                        width: 25,
+                                        child: FittedBox(
+                                          child: FloatingActionButton(
+                                            elevation: 5,
+                                            backgroundColor: Colors.white,
+                                            onPressed: () {
+                                              setState(() {
+                                                quantity++;
+                                                productModel.quantity =
+                                                    quantity.toString();
+                                                if (quantity == 1)
+                                                  SQLiteDbProvider.db.insert(
+                                                      productModel, 1, 0);
+                                                else
+                                                  SQLiteDbProvider.db.update(
+                                                      productModel, 1, 0);
+                                                if (quantity != 0)
+                                                  _showToast(
+                                                      'Item added to Cart');
+                                              });
+                                            },
+                                            child: Text(
+                                              '+',
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  color: Color(0xFFff5860)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    )
+                                  ],
                                 ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                IconButton(
-                                  padding: EdgeInsets.all(0),
-                                  icon: Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.red,
-                                    size: 18,
-                                  ),
-                                  onPressed: () {
-                                    productModel.quantity = 1.toString();
-                                    SQLiteDbProvider.db
-                                        .insert(productModel, 0, 1);
-                                    _showToast('Item added to Favorite');
-                                  },
+                              )
+                            : Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: IconButton(
+                                        padding: EdgeInsets.all(0),
+                                        icon: Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.red,
+                                          size: 18,
+                                        ),
+                                        onPressed: () {
+                                          productModel.quantity = 1.toString();
+                                          SQLiteDbProvider.db
+                                              .insert(productModel, 0, 1);
+                                          _showToast('Item added to Favorite');
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: IconButton(
+                                        padding: EdgeInsets.all(0),
+                                        icon: Icon(
+                                          Icons.shopping_cart,
+                                          color: Colors.black45,
+                                          size: 18,
+                                        ),
+                                        onPressed: () {
+                                          productModel.quantity = 1.toString();
+                                          SQLiteDbProvider.db
+                                              .insert(productModel, 1, 0);
+                                          _showToast('Item added to Cart');
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                IconButton(
-                                  padding: EdgeInsets.all(0),
-                                  icon: Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.black45,
-                                    size: 18,
-                                  ),
-                                  onPressed: () {
-                                    productModel.quantity = 1.toString();
-                                    SQLiteDbProvider.db
-                                        .insert(productModel, 1, 0);
-                                    _showToast('Item added to Cart');
-                                  },
-                                ),
-                              ],
-                            ),
-                    ],
+                              ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

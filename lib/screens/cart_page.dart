@@ -38,6 +38,7 @@ class _CartState extends State<Cart> {
       setState(() {
         isLoading = true;
       });
+
       products = await SQLiteDbProvider.db.getCart();
       if (products.isNotEmpty) {
         quantity.clear();
@@ -57,18 +58,6 @@ class _CartState extends State<Cart> {
         isLoading = false;
       });
     }
-//    Future.delayed(new Duration(seconds: 1), () {
-//      setState(() {});
-//    });
-//    Future.delayed(new Duration(seconds: 2), () {
-//      setState(() {});
-//    });
-//    Future.delayed(new Duration(seconds: 3), () {
-//      setState(() {});
-//    });
-//    Future.delayed(new Duration(seconds: 5), () {
-//      setState(() {});
-//    });
   }
 
   @override
@@ -108,188 +97,165 @@ class _CartState extends State<Cart> {
                   thickness: 2,
                 ),
               ),
-              isLoading
-                  ? _buildProgressIndicator()
-                  : Expanded(
-                      child: products.isEmpty
-                          ? Text(
-                              'No Items in the Cart',
+              // isLoading
+              //     ? _buildProgressIndicator()
+              //     :
+              Expanded(
+                child: products.isEmpty
+                    ? Text(
+                        'No Items in the Cart',
+                        style: TextStyle(fontSize: 30, color: Colors.black54),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: ListTile(
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                'https://api.fagnum.com/wp' +
+                                    products[index].imageOne,
+                                height: 100,
+                                width: 55,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            title: Text(
+                              products[index].name,
                               style: TextStyle(
-                                  fontSize: 30, color: Colors.black54),
-                            )
-                          : ListView.builder(
-                              itemBuilder: (BuildContext context, int index) =>
-                                  Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: ListTile(
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://api.fagnum.com/wp' +
-                                          products[index].imageOne,
-                                      height: 100,
-                                      width: 55,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  title: Text(
-                                    products[index].name,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 17),
-                                    maxLines: 2,
-                                    softWrap: true,
-                                  ),
-                                  subtitle: Text(
-                                    products[index].size,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16),
-                                  ),
-                                  trailing: Container(
-                                    height: 100,
-                                    width: 90,
-                                    child: Center(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          (quantity[index] == 0)
-                                              ? Text(
-                                                  'Rs ' +
-                                                      products[index]
-                                                          .price
-                                                          .round()
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 17),
-                                                )
-                                              : Text(
-                                                  'Rs ' +
-                                                      (products[index].price *
-                                                              quantity[index])
-                                                          .round()
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 17),
-                                                ),
-                                          SizedBox(
-                                            height: 5,
+                                  fontWeight: FontWeight.w700, fontSize: 17),
+                              maxLines: 2,
+                              softWrap: true,
+                            ),
+                            subtitle: Text(
+                              products[index].size,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 16),
+                            ),
+                            trailing: Container(
+                              height: 100,
+                              width: 90,
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    (quantity[index] == 0)
+                                        ? Text(
+                                            'Rs ' +
+                                                products[index]
+                                                    .price
+                                                    .round()
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 17),
+                                          )
+                                        : Text(
+                                            'Rs ' +
+                                                (products[index].price *
+                                                        quantity[index])
+                                                    .round()
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 17),
                                           ),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                height: 25,
-                                                width: 25,
-                                                child: FittedBox(
-                                                  child: FloatingActionButton(
-                                                      elevation: 5,
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          if (quantity[index] >
-                                                              0)
-                                                            quantity[index]--;
-                                                          products[index]
-                                                                  .quantity =
-                                                              quantity[index]
-                                                                  .toString();
-                                                          if (quantity[index] ==
-                                                              0)
-                                                            SQLiteDbProvider.db
-                                                                .delete(products[
-                                                                        index]
-                                                                    .productId);
-                                                          else
-                                                            SQLiteDbProvider.db
-                                                                .update(
-                                                                    products[
-                                                                        index],
-                                                                    1,
-                                                                    0);
-                                                          getData();
-                                                        });
-                                                      },
-                                                      child: Text(
-                                                        '-',
-                                                        style: TextStyle(
-                                                            fontSize: 30,
-                                                            color: Color(
-                                                                0xFFff5860)),
-                                                      )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                quantity[index].toString(),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          height: 25,
+                                          width: 25,
+                                          child: FittedBox(
+                                            child: FloatingActionButton(
+                                                elevation: 5,
+                                                backgroundColor: Colors.white,
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (quantity[index] > 0)
+                                                      quantity[index]--;
+                                                    products[index].quantity =
+                                                        quantity[index]
+                                                            .toString();
+                                                    if (quantity[index] == 0)
+                                                      SQLiteDbProvider.db
+                                                          .delete(
+                                                              products[index]
+                                                                  .productId);
+                                                    else
+                                                      SQLiteDbProvider.db
+                                                          .update(
+                                                              products[index],
+                                                              1,
+                                                              0);
+                                                    getData();
+                                                  });
+                                                },
+                                                child: Text(
+                                                  '-',
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      color: Color(0xFFff5860)),
+                                                )),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          quantity[index].toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Container(
+                                          height: 25,
+                                          width: 25,
+                                          child: FittedBox(
+                                            child: FloatingActionButton(
+                                              elevation: 5,
+                                              backgroundColor: Colors.white,
+                                              onPressed: () {
+                                                setState(() {
+                                                  quantity[index]++;
+                                                  products[index].quantity =
+                                                      quantity[index]
+                                                          .toString();
+                                                  if (quantity[index] == 1)
+                                                    SQLiteDbProvider.db.insert(
+                                                        products[index], 1, 0);
+                                                  else
+                                                    SQLiteDbProvider.db.update(
+                                                        products[index], 1, 0);
+                                                  getData();
+                                                });
+                                              },
+                                              child: Text(
+                                                '+',
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15),
+                                                    fontSize: 30,
+                                                    color: Color(0xFFff5860)),
                                               ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Container(
-                                                height: 25,
-                                                width: 25,
-                                                child: FittedBox(
-                                                  child: FloatingActionButton(
-                                                    elevation: 5,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        quantity[index]++;
-                                                        products[index]
-                                                                .quantity =
-                                                            quantity[index]
-                                                                .toString();
-                                                        if (quantity[index] ==
-                                                            1)
-                                                          SQLiteDbProvider.db
-                                                              .insert(
-                                                                  products[
-                                                                      index],
-                                                                  1,
-                                                                  0);
-                                                        else
-                                                          SQLiteDbProvider.db
-                                                              .update(
-                                                                  products[
-                                                                      index],
-                                                                  1,
-                                                                  0);
-                                                        getData();
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      '+',
-                                                      style: TextStyle(
-                                                          fontSize: 30,
-                                                          color: Color(
-                                                              0xFFff5860)),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                              itemCount: itemCount,
                             ),
-                    ),
+                          ),
+                        ),
+                        itemCount: itemCount,
+                      ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Divider(

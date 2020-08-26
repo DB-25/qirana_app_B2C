@@ -132,8 +132,11 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 100) / 2;
-    final double itemWidth = size.width / 2;
+    final double itemHeight = (size.width >= 390)
+        ? (size.height - kToolbarHeight) / 3
+        : (size.height - kToolbarHeight - 120) / 2;
+    final double itemWidth =
+        (size.height < 700) ? size.width / 2 - 40 : size.width / 2 - 30;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
