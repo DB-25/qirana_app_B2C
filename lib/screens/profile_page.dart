@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qirana_app/screens/chat_screen.dart';
 import 'settings_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -19,6 +20,24 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _image = File(pickedFile.path);
     });
+  }
+
+  void getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (prefs.containsKey('emailId')) emailId = prefs.getString('emailId');
+      if (prefs.containsKey('name')) name = prefs.getString('name');
+    });
+  }
+
+  String emailId = 'qirana@gmail.com';
+  String name = 'New User';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
   }
 
   @override
@@ -39,23 +58,23 @@ class _ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'FIRST NAME',
+                      name,
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w900,
                         color: Color(0xffFF5858),
                       ),
                     ),
+                    // Text(
+                    //   'LAST NAME',
+                    //   style: TextStyle(
+                    //     fontSize: 40,
+                    //     fontWeight: FontWeight.w900,
+                    //     color: Color(0xffFF5858),
+                    //   ),
+                    // ),
                     Text(
-                      'LAST NAME',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffFF5858),
-                      ),
-                    ),
-                    Text(
-                      'email@gmail.com',
+                      emailId,
                       style: TextStyle(fontSize: 18),
                     )
                   ],

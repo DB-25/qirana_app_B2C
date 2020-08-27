@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: InputField(
-                        hintText: 'Email',
+                        hintText: 'Enter your Email',
                         validator: emailValidator(),
                         onSaved: (val) => formData['email'] = val,
                       ),
@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: PasswordField(
-                        hintText: "Password",
+                        hintText: "Enter your Password",
                         icon: Icons.lock,
                         validator:
                             passwordValidator("Password must not be empty"),
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: PasswordField(
-                        hintText: "Confirm Password",
+                        hintText: "Confirm your Password",
                         icon: Icons.lock,
                         validator:
                             passwordValidator("Password must not be empty"),

@@ -37,24 +37,23 @@ class PasswordField extends StatelessWidget {
         onSaved: onSaved,
         validator: validator,
         style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w500,
-        ),
+            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
         obscureText: true,
         decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 12.0),
-              child: Text(
-                hintText,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.5)),
-              ),
-            ),
-          ),
+          hintText: hintText,
+          // prefixIcon: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(top: 12.0),
+          //     child: Text(
+          //       hintText,
+          //       style: TextStyle(
+          //           fontSize: 18,
+          //           fontWeight: FontWeight.w400,
+          //           color: Colors.black.withOpacity(0.5)),
+          //     ),
+          //   ),
+          // ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(

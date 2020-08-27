@@ -131,12 +131,6 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.width >= 390)
-        ? (size.height - kToolbarHeight) / 3
-        : (size.height - kToolbarHeight - 120) / 2;
-    final double itemWidth =
-        (size.height < 700) ? size.width / 2 - 40 : size.width / 2 - 30;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -177,7 +171,7 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 5),
             child: Container(
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery.of(context).size.height - 160,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -215,42 +209,45 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                       : Expanded(
                           child: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height - 200,
+                            height: MediaQuery.of(context).size.height,
                             child: GridView.count(
                               controller: _scrollController,
-                              childAspectRatio: (itemWidth / itemHeight),
+                              childAspectRatio: (2 / 2.75),
                               shrinkWrap: true,
                               mainAxisSpacing: 10,
                               crossAxisCount: 2,
                               children: List.generate(
-                                  (productModel.length == 0)
-                                      ? 1
-                                      : productModel.length + 1, (index) {
+                                  productModel.length
+                                  // (productModel.length == 0)
+                                  //     ? 1
+                                  //     : productModel.length + 1
+                                  , (index) {
                                 if (index == productModel.length &&
                                     end == true) {
-                                  return Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipOval(
-                                        child: Container(
-                                          height: 50,
-                                          width: 200,
-                                          color: Colors.deepOrange[500],
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Center(
-                                              child: Text(
-                                                'That\'s all for now',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
+                                  return Container();
+                                  // return Center(
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.all(8.0),
+                                  //     child: ClipOval(
+                                  //       child: Container(
+                                  //         height: 50,
+                                  //         width: 200,
+                                  //         color: Colors.deepOrange[500],
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsets.all(8.0),
+                                  //           child: Center(
+                                  //             child: Text(
+                                  //               'That\'s all for now',
+                                  //               style: TextStyle(
+                                  //                   fontSize: 18,
+                                  //                   color: Colors.white),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // );
                                 }
                                 if (index == productModel.length) {
                                   return _buildProgressIndicator();
@@ -263,30 +260,6 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                             ),
                           ),
                         ),
-//                  (end)
-//                      ? Center(
-//                          child: Padding(
-//                            padding: const EdgeInsets.all(8.0),
-//                            child: ClipOval(
-//                              child: Container(
-//                                height: 50,
-//                                width: 250,
-//                                color: Colors.deepOrange[500],
-//                                child: Padding(
-//                                  padding: const EdgeInsets.all(8.0),
-//                                  child: Center(
-//                                    child: Text(
-//                                      'No More Records Found',
-//                                      style: TextStyle(
-//                                          fontSize: 18, color: Colors.white),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ),
-//                            ),
-//                          ),
-//                        )
-//                      : Container(),
                 ],
               ),
             ),
@@ -296,43 +269,3 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
     );
   }
 }
-//
-//Widget old() {
-//  return Expanded(
-//    child: ListView.builder(
-//      controller: _scrollController,
-//      itemBuilder: (BuildContext context, int index) {
-//        if (index == productModel.length && end == true) {
-//          return Center(
-//            child: Padding(
-//              padding: const EdgeInsets.all(8.0),
-//              child: ClipOval(
-//                child: Container(
-//                  height: 50,
-//                  width: 200,
-//                  color: Colors.deepOrange[500],
-//                  child: Padding(
-//                    padding: const EdgeInsets.all(8.0),
-//                    child: Center(
-//                      child: Text(
-//                        'That\'s all for now',
-//                        style: TextStyle(fontSize: 18, color: Colors.white),
-//                      ),
-//                    ),
-//                  ),
-//                ),
-//              ),
-//            ),
-//          );
-//        }
-//        if (index == productModel.length) {
-//          return _buildProgressIndicator();
-//        } else
-//          return ItemViewVertical(
-//            productModel: productModel[index],
-//          );
-//      },
-//      itemCount: (productModel.length != 0) ? productModel.length + 1 : 1,
-//    ),
-//  );
-//}

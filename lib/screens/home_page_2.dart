@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
@@ -163,61 +164,42 @@ class _HomePage2State extends State<HomePage2> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                child: ValueListenableBuilder<bool>(
-                    valueListenable: autoLoginBool,
-                    builder: (BuildContext context, bool value, Widget child) {
-                      return (value)
-                          ? Container()
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  RaisedButton(
-                                    color: Color(0xFFff5860),
-                                    child: Container(
-                                      height: 50,
-                                      width: double.infinity,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 30.0),
-                                        child: ListTile(
-                                          title: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20.0, bottom: 5),
-                                            child: Text(
-                                              "Log In",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                color: Colors.white,
-                                                fontSize: 25,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
-                                      setState(() {
-                                        autoLogin();
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                    }),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      'Qirana',
+                      style: TextStyle(fontSize: 55, color: Colors.white),
+                    ),
+                  ],
+                ),
                 decoration: BoxDecoration(
                   color: Color(0xFFff5860),
                 ),
               ),
+              ValueListenableBuilder<bool>(
+                  valueListenable: autoLoginBool,
+                  builder: (BuildContext context, bool value, Widget child) {
+                    return (value)
+                        ? Container()
+                        : ListTile(
+                            title: Text(
+                              "Log In",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFFff5860),
+                                fontSize: 18,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                          );
+                  }),
               ValueListenableBuilder<bool>(
                   valueListenable: admin,
                   builder: (BuildContext context, bool value, Widget child) {
@@ -241,35 +223,57 @@ class _HomePage2State extends State<HomePage2> {
                   }),
               ListTile(
                 title: Text(
-                  'Log Out',
+                  'Shop by Category',
                   style: TextStyle(
                       fontSize: 18,
                       color: Color(0xFFff5860),
                       fontWeight: FontWeight.w700),
                 ),
-                onTap: () async {
-                  setState(() {
-                    _handleSignOut();
-                  });
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  autoLoginBool.value = false;
-                  // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-                  autoLoginBool.notifyListeners();
-                  await prefs.clear();
-                  admin.value = false;
-                  // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-                  admin.notifyListeners();
-                  setState(() {});
-                },
+                onTap: () {},
               ),
               ListTile(
-                title: Text('Order'),
+                title: Text(
+                  'Order',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFff5860),
+                      fontWeight: FontWeight.w700),
+                ),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ManualOrder()));
                 },
-              )
+              ),
+              ValueListenableBuilder<bool>(
+                  valueListenable: autoLoginBool,
+                  builder: (BuildContext context, bool value, Widget child) {
+                    return (value)
+                        ? ListTile(
+                            title: Text(
+                              'Log Out',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFFff5860),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            onTap: () async {
+                              setState(() {
+                                _handleSignOut();
+                              });
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              autoLoginBool.value = false;
+                              // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                              autoLoginBool.notifyListeners();
+                              await prefs.clear();
+                              admin.value = false;
+                              // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                              admin.notifyListeners();
+                              setState(() {});
+                            },
+                          )
+                        : Container();
+                  }),
             ],
           ),
         ),
@@ -363,7 +367,7 @@ class _HomePage2State extends State<HomePage2> {
                   padding: const EdgeInsets.only(left: 25),
                   child: Text(
                     'POPULAR THIS WEEK',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
                   ),
                 ),
                 productModel == null

@@ -224,7 +224,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getProduct(String value) async {
     final http.Response response = await http.post(
-        'https://api.fagnum.com/ecom-store/product/search',
+        'https://api.fagnum.com/product/search',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -239,7 +239,7 @@ class ApiDriver {
       throw Error();
     }
     if (response.statusCode != 200) {
-      throw Exception('Failed to save data');
+      throw Error();
     } else {
       Map<String, dynamic> responseMap = jsonDecode(response.body);
       if (responseMap["status"]) {

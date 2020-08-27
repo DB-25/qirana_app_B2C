@@ -33,6 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await _googleSignIn.signIn();
       await prefs.setBool('autoLogin', true);
+      await prefs.setString('emailId', _googleSignIn.currentUser.email);
+      await prefs.setString('name', _googleSignIn.currentUser.displayName);
+      await _showMyDialog(title: 'Login Successful', body: 'USER LOGIN.');
     } catch (error) {
       print(error);
     }
@@ -80,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: InputField(
-                        hintText: 'Email',
+                        hintText: 'Enter your Email',
                         validator: emailValidator(),
                         onSaved: (val) => formData['email'] = val,
                       ),
@@ -88,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: PasswordField(
-                        hintText: "Password",
+                        hintText: "Enter your Password",
                         icon: Icons.lock,
                         validator:
                             passwordValidator("Password must not be empty"),
@@ -127,15 +130,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (response != null) {
                           if (response.status) {
                             await prefs.clear();
+                            await prefs.setBool('autoLogin', true);
                             await prefs.setString('email', loginModel.email);
+                            await prefs.setString('emailId', loginModel.email);
                             await prefs.setString(
                                 'password', loginModel.password);
                             if (response.data[0]['userType'] == 'ROLE_ADMIN') {
                               prefs.setBool('admin', true);
                               setState(() {
                                 admin.value = true;
+                                autoLoginBool.value = true;
                                 // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
                                 admin.notifyListeners();
+                                // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                                autoLoginBool.notifyListeners();
                               });
                               _showMyDialog(
                                   title: 'Login Successful',
@@ -144,8 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             } else {
                               setState(() {
                                 admin.value = false;
+                                autoLoginBool.value = true;
                                 // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
                                 admin.notifyListeners();
+                                // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                                autoLoginBool.notifyListeners();
                               });
                               _showMyDialog(
                                   title: 'Login Successful',
@@ -185,12 +196,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         _handleSignIn();
+
                         await prefs.setBool('autoLogin', true);
                         setState(() {
                           autoLoginBool.value = true;
                           // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
                           autoLoginBool.notifyListeners();
                         });
+
                         Navigator.pop(context);
                       },
                     ),

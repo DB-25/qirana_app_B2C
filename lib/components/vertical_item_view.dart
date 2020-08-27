@@ -9,21 +9,14 @@ class VerticalView extends StatelessWidget {
   VerticalView({this.productModel});
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    final double itemHeight = (size.width >= 390)
-        ? (size.height - kToolbarHeight) / 3
-        : (size.height - kToolbarHeight - 120) / 2;
-    final double itemWidth =
-        (size.height < 700) ? size.width / 2 - 40 : size.width / 2 - 30;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 2 + 140,
+          height: MediaQuery.of(context).size.height * 2 + 70,
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: (itemWidth / itemHeight),
+            childAspectRatio: (2 / 2.75),
             shrinkWrap: true,
             mainAxisSpacing: 10,
             crossAxisCount: 2,
