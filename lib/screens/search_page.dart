@@ -97,31 +97,6 @@ class _SearchState extends State<Search> {
                           'Search a Product',
                           style: TextStyle(fontSize: 18, color: Colors.black54),
                         ),
-//                                title: TextField(
-//                                  onSubmitted: (searchedTerm) {
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => SearchResult(
-//                                                  search: searchedTerm,
-//                                                )));
-//                                  },
-//                                  style: TextStyle(fontSize: 18),
-//                                  keyboardType: TextInputType.text,
-//                                  cursorColor: Colors.black,
-//                                  showCursor: true,
-//                                  autocorrect: true,
-//                                  autofocus: false,
-//                                  decoration: new InputDecoration(
-//                                      border: InputBorder.none,
-//                                      focusedBorder: InputBorder.none,
-//                                      enabledBorder: InputBorder.none,
-//                                      errorBorder: InputBorder.none,
-//                                      disabledBorder: InputBorder.none,
-//                                      contentPadding: EdgeInsets.only(
-//                                          bottom: 11, top: 11, right: 15),
-//                                      hintText: 'Search a Product'),
-//                                ),
                       ),
                     ),
                   ),
@@ -196,6 +171,7 @@ class _SearchState extends State<Search> {
                     productModel: productModel,
                     title: 'BEST DEALS',
                     axisDirection: Axis.horizontal,
+                    duration: 1,
                   ),
                 ],
               ),

@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'category_card.dart';
 
-class HorizontalCategory extends StatelessWidget {
-  HorizontalCategory({this.categoryModel, this.showTitle});
+class HorizontalCategory extends StatefulWidget {
+  HorizontalCategory({this.categoryModel, this.showTitle, this.duration});
   final List<CategoryModel> categoryModel;
   final bool showTitle;
+  final int duration;
 
+  @override
+  _HorizontalCategoryState createState() => _HorizontalCategoryState();
+}
+
+class _HorizontalCategoryState extends State<HorizontalCategory> {
   IconData getIcon(String name) {
     if (name == 'Grocery') return Icons.local_mall;
     if (name == 'Personal Care') return Icons.favorite_border;
@@ -35,16 +41,27 @@ class HorizontalCategory extends StatelessWidget {
     return Color(0xffF3DCEC);
   }
 
+  bool loading = true;
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: widget.duration), () {
+      setState(() {
+        loading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: (showTitle) ? 125 : 102,
+        height: (widget.showTitle) ? 125 : 102,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            (showTitle)
+            (widget.showTitle)
                 ? Text(
                     'SHOP BY CATEGORIES',
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
@@ -54,20 +71,44 @@ class HorizontalCategory extends StatelessWidget {
               height: 5,
             ),
             Expanded(
-                child: categoryModel == null
-                    ? Container()
-                    : ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categoryModel.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            CategoryCard(
-                                text1: categoryModel[index].name,
-                                text2: categoryModel[index].description,
-                                icon: getIcon(categoryModel[index].name),
-                                color1: getColor1(index),
-                                color2: getColor2(index),
-                                categoryId: categoryModel[index].categoryId,
-                                url: categoryModel[index].url)))
+                child: widget.categoryModel == null
+                    ? Center(
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : loading
+                        ? ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 4,
+                            itemBuilder: (BuildContext context, int index) =>
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 85,
+                                    width: 85,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.grey[200]),
+                                  ),
+                                ))
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget.categoryModel.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                CategoryCard(
+                                    text1: widget.categoryModel[index].name,
+                                    text2:
+                                        widget.categoryModel[index].description,
+                                    icon: getIcon(
+                                        widget.categoryModel[index].name),
+                                    color1: getColor1(index),
+                                    color2: getColor2(index),
+                                    categoryId:
+                                        widget.categoryModel[index].categoryId,
+                                    url: widget.categoryModel[index].url)))
           ],
         ),
       ),

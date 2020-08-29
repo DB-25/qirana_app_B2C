@@ -1,15 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qirana_app/components/item_empty.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/screens/vertical_view_page_2.dart';
 import 'item_view_vertical.dart';
 import 'package:qirana_app/screens/vertical_view_page.dart';
 
-class HorizontalView extends StatelessWidget {
+class HorizontalView extends StatefulWidget {
   final List<ProductModel> productModel;
   final String title;
   final Axis axisDirection;
-  HorizontalView({this.title, this.axisDirection, this.productModel});
+  final int duration;
+  HorizontalView(
+      {this.title, this.axisDirection, this.productModel, this.duration});
+
+  @override
+  _HorizontalViewState createState() => _HorizontalViewState();
+}
+
+class _HorizontalViewState extends State<HorizontalView> {
+  bool loading = true;
+  @override
+  void initState() {
+    Future.delayed(new Duration(seconds: widget.duration), () {
+      setState(() {
+        loading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +45,7 @@ class HorizontalView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 25,
@@ -38,7 +58,7 @@ class HorizontalView extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => VerticalViewPage2(
-                                bestDeals: productModel,
+                                bestDeals: widget.productModel,
                                 url: null,
                                 title: 'BEST DEALS',
                                 extendedUrl: null,
@@ -54,17 +74,26 @@ class HorizontalView extends StatelessWidget {
                 )
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                  scrollDirection: axisDirection,
-                  itemCount: productModel.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ItemViewVertical(
-                      productModel: productModel[index],
-                      showQuantity: false,
-                    );
-                  }),
-            )
+            loading
+                ? Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ItemEmpty();
+                        }),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.productModel.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ItemViewVertical(
+                            productModel: widget.productModel[index],
+                            showQuantity: true,
+                          );
+                        }),
+                  )
           ],
         ),
       ),

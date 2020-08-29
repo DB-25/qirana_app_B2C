@@ -95,6 +95,7 @@ class _FavState extends State<Fav> {
                             )
                           : VerticalView(
                               productModel: products,
+                              duration: 1,
                             ),
                 ],
               ),

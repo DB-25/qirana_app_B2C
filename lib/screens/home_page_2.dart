@@ -69,7 +69,9 @@ class _HomePage2State extends State<HomePage2> {
 
   void refresh() {
     Future.delayed(new Duration(seconds: 1), () {
-      setState(() {});
+      setState(() {
+        loading = false;
+      });
     });
     Future.delayed(new Duration(seconds: 2), () {
       setState(() {});
@@ -98,6 +100,8 @@ class _HomePage2State extends State<HomePage2> {
       _image = File(pickedFile.path);
     });
   }
+
+  bool loading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -296,6 +300,7 @@ class _HomePage2State extends State<HomePage2> {
                     : HorizontalCategory(
                         showTitle: true,
                         categoryModel: categoryModel,
+                        duration: 3,
                       ),
                 SizedBox(
                   height: 10,
@@ -312,7 +317,7 @@ class _HomePage2State extends State<HomePage2> {
                     child: SizedBox(
                       height: 200.0,
                       width: MediaQuery.of(context).size.width,
-                      child: bannerModel == null
+                      child: loading
                           ? Center(
                               child: SizedBox(
                                 height: 30,
@@ -322,12 +327,12 @@ class _HomePage2State extends State<HomePage2> {
                             )
                           : Carousel(
                               images: [
-                                NetworkImage('https://api.fagnum.com/wp' +
-                                    bannerModel.bannerOne),
-                                NetworkImage('https://api.fagnum.com/wp' +
-                                    bannerModel.bannerTwo),
-                                NetworkImage('https://api.fagnum.com/wp' +
-                                    bannerModel.bannerThree)
+                                NetworkImage(
+                                    'https://api.fagnum.com/wp/home/ff80818171b2ad0501720ab097fd0006/bannerOne/banner-one.png'),
+                                NetworkImage(
+                                    'https://api.fagnum.com/wp/home/ff80818171b2ad0501720ab097fd0006/bannerTwo/banner-2.jpg'),
+                                NetworkImage(
+                                    'https://api.fagnum.com/wp/home/ff80818171b2ad0501720ab097fd0006/bannerThree/banner-3.png')
                               ],
                               boxFit: BoxFit.fill,
                               showIndicator: true,
@@ -359,6 +364,7 @@ class _HomePage2State extends State<HomePage2> {
                         productModel: productModel,
                         title: 'BEST DEALS',
                         axisDirection: Axis.horizontal,
+                        duration: 5,
                       ),
                 SizedBox(
                   height: 10,
@@ -380,6 +386,7 @@ class _HomePage2State extends State<HomePage2> {
                       )
                     : VerticalView(
                         productModel: productModel,
+                        duration: 5,
                       ),
               ],
             ),

@@ -182,6 +182,7 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                       : HorizontalCategory(
                           showTitle: false,
                           categoryModel: getData(subCategory),
+                          duration: 1,
                         ),
                   (productModel == null)
                       ? Center(
@@ -217,11 +218,12 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                               mainAxisSpacing: 10,
                               crossAxisCount: 2,
                               children: List.generate(
-                                  productModel.length
-                                  // (productModel.length == 0)
-                                  //     ? 1
-                                  //     : productModel.length + 1
-                                  , (index) {
+                                  // productModel.length
+                                  (productModel.length == 0)
+                                      ? 1
+                                      : (end)
+                                          ? productModel.length
+                                          : productModel.length + 1, (index) {
                                 if (index == productModel.length &&
                                     end == true) {
                                   return Container();
