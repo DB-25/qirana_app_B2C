@@ -16,7 +16,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
   bool isLoading = false;
   double discount = 0.05;
   double superDiscount = 0.10;
-  int delivery = 100;
+  int delivery = 0;
   int noDelivery = 0;
 
   @override

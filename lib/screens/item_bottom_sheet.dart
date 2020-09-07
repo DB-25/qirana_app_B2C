@@ -59,27 +59,28 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                     child: Container(
                       height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
-                      child: Hero(
-                        tag: 'image',
-                        child: Carousel(
-                          images: [
-                            NetworkImage('https://api.fagnum.com/wp' +
-                                productModel.imageOne),
-                            NetworkImage('https://api.fagnum.com/wp' +
-                                productModel.imageOne),
-                          ],
-                          boxFit: BoxFit.contain,
-                          showIndicator: true,
-                          dotIncreaseSize: 1.5,
-                          dotBgColor: Colors.black.withOpacity(0),
-                          dotColor: Colors.white.withOpacity(0.4),
-                          borderRadius: false,
-                          moveIndicatorFromBottom: 180.0,
-                          noRadiusForIndicator: true,
-                          overlayShadow: false,
-                          overlayShadowColors: Colors.white,
-                          overlayShadowSize: 0.7,
-                        ),
+                      child: Carousel(
+                        images: [
+                          Hero(
+                              tag: 'image',
+                              child: Image(
+                                  image: NetworkImage(
+                                      'https://api.fagnum.com/wp' +
+                                          productModel.imageOne))),
+                          NetworkImage('https://api.fagnum.com/wp' +
+                              productModel.imageOne),
+                        ],
+                        boxFit: BoxFit.contain,
+                        showIndicator: true,
+                        dotIncreaseSize: 1.5,
+                        dotBgColor: Colors.black.withOpacity(0),
+                        dotColor: Colors.white.withOpacity(0.4),
+                        borderRadius: false,
+                        moveIndicatorFromBottom: 180.0,
+                        noRadiusForIndicator: true,
+                        overlayShadow: false,
+                        overlayShadowColors: Colors.white,
+                        overlayShadowSize: 0.7,
                       ),
                     ),
                   ),

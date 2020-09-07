@@ -37,7 +37,7 @@ class PasswordField extends StatelessWidget {
         onSaved: onSaved,
         validator: validator,
         style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
+            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
         obscureText: true,
         decoration: InputDecoration(
           hintText: hintText,

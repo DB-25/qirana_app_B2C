@@ -22,6 +22,7 @@ class InputField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onSaved;
   final bool isLast;
+
   final TextInputType inputType;
 
   InputField({
@@ -49,7 +50,7 @@ class InputField extends StatelessWidget {
         onSaved: onSaved,
         validator: validator,
         style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
+            color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
         decoration: InputDecoration(
           hintText: hintText,
 //          prefixIcon: Padding(
