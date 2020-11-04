@@ -1,8 +1,8 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qirana_app/database/database.dart';
 import 'package:qirana_app/model/product_model.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ItemBottomSheet extends StatefulWidget {
   ItemBottomSheet({this.product});
@@ -19,7 +19,8 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
   FToast fToast;
   @override
   void initState() {
-    fToast = FToast(context);
+    fToast = FToast();
+    fToast.init(context);
     quantity = int.parse(productModel.quantity);
     super.initState();
   }
@@ -51,7 +52,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
         child: Stack(
           children: <Widget>[
             Container(
-              color: Colors.black12,
+              color: Colors.white38,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -96,10 +97,11 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Container(
                               child: Text(
@@ -110,72 +112,139 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 softWrap: true,
                               ),
                             ),
+
+                            Container(
+                              child: Text(
+                                productModel.size,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
+                                softWrap: true,
+                              ),
+                            ),
 //                          SizedBox(
 //                            height: 30,
 //                          ),
-                            (quantity == 0)
-                                ? Text(
-                                    'Rs ' +
-                                        productModel.price.round().toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFFff5860),
-                                        fontSize: 25),
-                                  )
-                                : Text(
-                                    'Rs ' +
-                                        (productModel.price * quantity)
-                                            .round()
-                                            .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFFff5860),
-                                        fontSize: 25),
-                                  ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // SizedBox(
+                                //   width: 40,
+                                // ),
+                                Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: (quantity == 0)
+                                      ? Text(
+                                          'Product MRP: ₹ ' +
+                                              productModel.mrp
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        )
+                                      : Text(
+                                          'Product MRP: ₹ ' +
+                                              (productModel.mrp * quantity)
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: (quantity == 0)
+                                      ? Text(
+                                          'Selling Price: ₹ ' +
+                                              productModel.retailPrice
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFFff5860),
+                                              fontSize: 21),
+                                        )
+                                      : Text(
+                                          'Selling Price: ₹ ' +
+                                              (productModel.retailPrice *
+                                                      quantity)
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFFff5860),
+                                              fontSize: 21),
+                                        ),
+                                ),
+                              ],
+                            ),
 //                          SizedBox(
 //                            height: 30,
 //                          ),
+                            Container(
+                              child: Text(
+                                productModel.description,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
+                                maxLines: 3,
+                                softWrap: true,
+                              ),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
                                 SizedBox(
                                   width: 50,
                                 ),
-                                FloatingActionButton(
-                                    elevation: 0.5,
-                                    backgroundColor: Color(0xfff6f6f6),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (quantity > 0) quantity--;
-                                        productModel.quantity =
-                                            quantity.toString();
-                                      });
-                                    },
-                                    child: Text(
-                                      '-',
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black),
-                                    )),
+                                SizedBox(
+                                  height: 50,
+                                  child: FloatingActionButton(
+                                      elevation: 0.5,
+                                      backgroundColor: Color(0xfff6f6f6),
+                                      onPressed: () {
+                                        setState(() {
+                                          if (quantity > 0) quantity--;
+                                          productModel.quantity =
+                                              quantity.toString();
+                                        });
+                                      },
+                                      child: Text(
+                                        '-',
+                                        style: TextStyle(
+                                            fontSize: 25, color: Colors.black),
+                                      )),
+                                ),
                                 Text(
                                   quantity.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 25),
                                 ),
-                                FloatingActionButton(
-                                  elevation: 0.5,
-                                  backgroundColor: Color(0xfff6f6f6),
-                                  onPressed: () {
-                                    setState(() {
-                                      quantity++;
-                                      productModel.quantity =
-                                          quantity.toString();
-                                    });
-                                  },
-                                  child: Text(
-                                    '+',
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black),
+                                SizedBox(
+                                  height: 50,
+                                  child: FloatingActionButton(
+                                    elevation: 0.5,
+                                    backgroundColor: Color(0xfff6f6f6),
+                                    onPressed: () {
+                                      setState(() {
+                                        quantity++;
+                                        productModel.quantity =
+                                            quantity.toString();
+                                      });
+                                    },
+                                    child: Text(
+                                      '+',
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.black),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -227,7 +296,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
             IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: Colors.black,
                   size: 30,
                 ),
                 onPressed: () {
