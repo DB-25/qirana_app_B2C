@@ -1,23 +1,24 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qirana_app/components/horizontal_category.dart';
-import 'package:qirana_app/components/vertical_item_view.dart';
 import 'package:qirana_app/components/horizontal_item_view.dart';
+import 'package:qirana_app/components/vertical_item_view.dart';
+import 'package:qirana_app/model/banner_model.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/networking/api_driver.dart';
-import 'package:qirana_app/model/banner_model.dart';
 import 'package:qirana_app/screens/address_page.dart';
 import 'package:qirana_app/screens/login_screen.dart';
 import 'package:qirana_app/screens/manual_order_page.dart';
-import 'search_result.dart';
-import 'inventory_page.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
+import 'inventory_page.dart';
+import 'search_result.dart';
 
 final ValueNotifier<bool> autoLoginBool = ValueNotifier<bool>(false);
 
@@ -40,6 +41,8 @@ class _HomePage2State extends State<HomePage2> {
   BannerModel bannerModel;
   List<CategoryModel> categoryModel;
   List<ProductModel> productModel;
+  List<ProductModel> bestDeals;
+  List<ProductModel> popular;
   _HomePage2State({this.bannerModel, this.productModel, this.categoryModel});
 
   _handleSignOut() {
@@ -63,6 +66,14 @@ class _HomePage2State extends State<HomePage2> {
   @override
   void initState() {
     autoLogin();
+
+    //
+    // for (int i = 0; i < productModelLength; i++) {
+    //   if (i < (productModelLength / 2))
+    //     bestDeals.add(productModel[i]);
+    //   else
+    //     popular.add(productModel[i]);
+
     refresh();
     super.initState();
   }
@@ -105,6 +116,9 @@ class _HomePage2State extends State<HomePage2> {
 
   @override
   Widget build(BuildContext context) {
+    int productModelLength = productModel.length;
+    bestDeals = productModel.sublist(0, (productModelLength / 2).floor());
+    popular = productModel.sublist((productModelLength / 2).floor());
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -361,7 +375,7 @@ class _HomePage2State extends State<HomePage2> {
                         ),
                       )
                     : HorizontalView(
-                        productModel: productModel,
+                        productModel: bestDeals,
                         title: 'BEST DEALS',
                         axisDirection: Axis.horizontal,
                         duration: 5,
@@ -385,7 +399,7 @@ class _HomePage2State extends State<HomePage2> {
                         ),
                       )
                     : VerticalView(
-                        productModel: productModel,
+                        productModel: popular,
                         duration: 5,
                       ),
               ],

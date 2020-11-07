@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_empty.dart';
 import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/screens/vertical_view_page_2.dart';
+
 import 'item_view_vertical.dart';
-import 'package:qirana_app/screens/vertical_view_page.dart';
 
 class HorizontalView extends StatefulWidget {
   final List<ProductModel> productModel;
@@ -90,7 +90,7 @@ class _HorizontalViewState extends State<HorizontalView> {
                         itemBuilder: (BuildContext context, int index) {
                           return ItemViewVertical(
                             productModel: widget.productModel[index],
-                            showQuantity: true,
+                            showQuantity: false,
                           );
                         }),
                   )

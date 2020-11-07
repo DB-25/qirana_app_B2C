@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/item_empty.dart';
-import 'item_view_vertical.dart';
 import 'package:qirana_app/model/product_model.dart';
+
+import 'item_view_vertical.dart';
 
 class VerticalView extends StatefulWidget {
   final List<ProductModel> productModel;
@@ -30,25 +31,26 @@ class _VerticalViewState extends State<VerticalView> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 2 + 70,
-          child: GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: (2 / 2.75),
-            shrinkWrap: true,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-            children: loading
-                ? List.generate(10, (index) {
-                    return ItemEmpty();
-                  })
-                : List.generate(widget.productModel.length, (index) {
-                    return ItemViewVertical(
-                      productModel: widget.productModel[index],
-                      showQuantity: true,
-                    );
-                  }),
-          )),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 2 - 200,
+        child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
+          childAspectRatio: (2 / 2.75),
+          shrinkWrap: true,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: loading
+              ? List.generate(10, (index) {
+                  return ItemEmpty();
+                })
+              : List.generate(widget.productModel.length, (index) {
+                  return ItemViewVertical(
+                    productModel: widget.productModel[index],
+                    showQuantity: false,
+                  );
+                }),
+        ),
+      ),
     );
   }
 }

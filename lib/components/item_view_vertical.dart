@@ -103,7 +103,6 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                       child: Container(
                         child: Text(
                           productModel.name,
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
@@ -121,49 +120,49 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                       leading: Container(
                         width: 125,
-                        alignment: Alignment(-1.3, 0),
+                        alignment: Alignment(-1.2, -0.5),
                         child: RichText(
                           text: TextSpan(
                             text: 'Size: ',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                             children: <TextSpan>[
                               TextSpan(
                                 text: productModel.size,
                                 style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold),
+                                    fontSize: 15, fontWeight: FontWeight.bold),
                               )
                             ],
                           ),
                         ),
                       ),
-                      trailing: SizedBox(
-                        width: 48,
-                        height: 15,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3))),
-                          child: Center(
-                            child: Text(
-                              ((productModel.retailPrice != 0.0)
-                                          ? ((productModel.mrp -
-                                                  productModel.retailPrice) /
-                                              productModel.mrp *
-                                              100)
-                                          : (100.0))
-                                      .floor()
-                                      .toString() +
-                                  "% OFF",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // trailing: SizedBox(
+                      //   width: 48,
+                      //   height: 15,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.green,
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(3))),
+                      //     child: Center(
+                      //       child: Text(
+                      //         ((productModel.retailPrice != 0.0)
+                      //                     ? ((productModel.mrp -
+                      //                             productModel.retailPrice) /
+                      //                         productModel.mrp *
+                      //                         100)
+                      //                     : (100.0))
+                      //                 .floor()
+                      //                 .toString() +
+                      //             "% OFF",
+                      //         style:
+                      //             TextStyle(color: Colors.white, fontSize: 10),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ),
                   ),
                 ),
