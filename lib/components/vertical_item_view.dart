@@ -46,7 +46,7 @@ class _VerticalViewState extends State<VerticalView> {
               : List.generate(widget.productModel.length, (index) {
                   return ItemViewVertical(
                     productModel: widget.productModel[index],
-                    showQuantity: false,
+                    showQuantity: true,
                   );
                 }),
         ),

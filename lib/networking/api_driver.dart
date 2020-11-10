@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:qirana_app/model/order_detail_model.dart';
 import 'package:qirana_app/model/order_model.dart';
-import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/networking/ApiResponse.dart';
+
 import 'ApiResponse.dart';
 
 class ApiDriver {
@@ -154,6 +156,7 @@ class ApiDriver {
       order.add(OrderProduct(
         productId: productModel[i].productId,
         quantity: productModel[i].quantity,
+        size: productModel[i].size,
       ));
     }
     final http.Response response =
@@ -171,7 +174,6 @@ class ApiDriver {
               "country": orderDetailModel.country,
               "emailId": orderDetailModel.emailId,
               "houseNo": orderDetailModel.houseNo,
-              "orderId": orderDetailModel.orderId,
               "paymentOption": orderDetailModel.paymentOption,
               "paymentOrderId": orderDetailModel.paymentOrderId,
               "referralCode": orderDetailModel.referralCode,
@@ -224,15 +226,12 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getProduct(String value) async {
     final http.Response response = await http.post(
-        'https://api.fagnum.com/product/search',
+        'https://api.fagnum.com/ecom-store/product-search',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          "param": "name",
-          "companyId": companyId,
-          "value": value
-        }));
+        body: jsonEncode(
+            <String, String>{"companyId": companyId, "name": value}));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 204) {

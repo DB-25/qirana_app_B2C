@@ -1,9 +1,10 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
+
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SQLiteDbProvider {
   SQLiteDbProvider._();
@@ -29,6 +30,8 @@ class SQLiteDbProvider {
             "name TEXT,"
             "metaDescription TEXT,"
             "price INTEGER,"
+            "retailPrice INTEGER,"
+            "mrp INTEGER,"
             "imageOne TEXT,"
             "size TEXT,"
             "quantity TEXT,"
@@ -65,19 +68,22 @@ class SQLiteDbProvider {
       }
     } else {
       var result = await db.rawInsert(
-          "INSERT Into Product (productId, name, metaDescription, price, imageOne,cart,fav,quantity,size)"
-          " VALUES (?, ?, ?, ?, ?,?,?,?,?)",
+          "INSERT Into Product (productId, name, metaDescription, price, retailPrice, mrp, imageOne, cart, fav, quantity, size)"
+          " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             product.productId,
             product.name,
             product.metaDescription,
             product.price,
+            product.retailPrice,
+            product.mrp,
             product.imageOne,
             cart,
             fav,
             product.quantity,
             product.size
           ]);
+      print(result);
       return result;
     }
   }

@@ -90,7 +90,7 @@ class _HorizontalViewState extends State<HorizontalView> {
                         itemBuilder: (BuildContext context, int index) {
                           return ItemViewVertical(
                             productModel: widget.productModel[index],
-                            showQuantity: false,
+                            showQuantity: true,
                           );
                         }),
                   )

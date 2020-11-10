@@ -7,7 +7,6 @@ class OrderDetailModel {
   String emailId;
   String houseNo;
   String name;
-  String orderId;
   String paymentOption;
   String paymentOrderId;
   String state;
@@ -22,7 +21,6 @@ class OrderDetailModel {
       this.emailId,
       this.houseNo,
       this.name,
-      this.orderId,
       this.paymentOption,
       this.paymentOrderId,
       this.state,
@@ -42,7 +40,6 @@ class OrderDetailModel {
       name: map.containsKey('name') ? (map['name'] ?? '') : '',
       paymentOption:
           map.containsKey('paymentOption') ? (map['paymentOption'] ?? '') : '',
-      orderId: map.containsKey('orderId') ? (map['orderId'] ?? '') : '',
       paymentOrderId: map.containsKey('paymentOrderId')
           ? (map['paymentOrderId'] ?? '')
           : '',

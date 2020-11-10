@@ -104,7 +104,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                         child: Text(
                           productModel.name,
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 17, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

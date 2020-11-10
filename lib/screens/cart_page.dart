@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qirana_app/model/product_model.dart';
 import 'package:qirana_app/database/database.dart';
+import 'package:qirana_app/model/product_model.dart';
+
 import 'address_page.dart';
 
 class Cart extends StatefulWidget {
@@ -50,7 +51,8 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
         total = 0;
         for (int i = 0; i < itemCount; i++)
           total = total +
-              (products[i].price.toInt() * int.parse(products[i].quantity));
+              (products[i].retailPrice.toInt() *
+                  int.parse(products[i].quantity));
         for (int i = 0; i < itemCount; i++)
           quantity.add(int.parse(products[i].quantity));
       }
@@ -178,7 +180,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
                                                   ? Text(
                                                       'Rs ' +
                                                           products[index]
-                                                              .price
+                                                              .retailPrice
                                                               .round()
                                                               .toString(),
                                                       style: TextStyle(
@@ -189,7 +191,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
                                                   : Text(
                                                       'Rs ' +
                                                           (products[index]
-                                                                      .price *
+                                                                      .retailPrice *
                                                                   quantity[
                                                                       index])
                                                               .round()
@@ -460,7 +462,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
                                                   ? Text(
                                                       'Rs ' +
                                                           products[index]
-                                                              .price
+                                                              .retailPrice
                                                               .round()
                                                               .toString(),
                                                       style: TextStyle(
@@ -471,7 +473,7 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
                                                   : Text(
                                                       'Rs ' +
                                                           (products[index]
-                                                                      .price *
+                                                                      .retailPrice *
                                                                   quantity[
                                                                       index])
                                                               .round()
