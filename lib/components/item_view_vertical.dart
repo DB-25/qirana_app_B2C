@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qirana_app/components/icon_btn.dart';
 import 'package:qirana_app/database/database.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/screens/item_bottom_sheet.dart';
 
 class ItemViewVertical extends StatefulWidget {
@@ -56,7 +59,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(2.0),
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -70,13 +73,17 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
           width: MediaQuery.of(context).size.width / 2 - 20,
           height: MediaQuery.of(context).size.height / 6 + 10,
           child: Card(
-            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            color: Colors.white,
+            elevation: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  flex: 6,
+                  flex: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5.0, left: 5, right: 5),
                     child: Center(
@@ -84,12 +91,26 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                         height: MediaQuery.of(context).size.height / 6,
                         width: MediaQuery.of(context).size.width / 3 + 15,
                         child: Hero(
-                          tag: 'image',
-                          child: Image.network(
+                            tag: 'image',
+                            child: CachedNetworkImage(
+                              imageUrl:ApiDriver().getBaseUrl()+'/wp' +
+                                  productModel.imageOne,
+                              placeholder: (context, url) => Container(child:Image.asset('assets/logo.png',width: 80,height: 80,)),
+                              errorWidget: (context, url, error) => Container(width: 150,height: 150,child:Image.asset('assets/no_image.png',)),
+                            ),
+                            /*FadeInImage(
+                              // here `bytes` is a Uint8List containing the bytes for the in-memory image
+                              placeholder: AssetImage('assets/logo.png'),
+                              image: NetworkImage(
+                                'https://api.fagnum.com/wp' +
+                                    productModel.imageOne,
+                              ),
+                            )*/
+                            /*Image.network(
                             'https://api.fagnum.com/wp' + productModel.imageOne,
                             fit: BoxFit.contain,
-                          ),
-                        ),
+                          ),*/
+                            ),
                       ),
                     ),
                   ),
@@ -104,7 +125,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                         child: Text(
                           productModel.name,
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                              fontSize: 14, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -123,11 +144,11 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                         alignment: Alignment(-1.2, -0.5),
                         child: RichText(
                           text: TextSpan(
-                            text: 'Size: ',
+                            text: /*'Size: '*/ "",
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                                color: Colors.black54),
                             children: <TextSpan>[
                               TextSpan(
                                 text: productModel.size,
@@ -210,7 +231,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                           decoration:
                                               TextDecoration.lineThrough,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 15),
+                                          fontSize: 14),
                                     )
                                   : Text(
                                       '₹ ' +
@@ -237,11 +258,30 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: 30,
+                                        width: 30,
                                         child: FittedBox(
-                                          child: FloatingActionButton(
-                                            elevation: 5,
+                                          child: IconBtn(
+                                              icon: Icon(Icons.remove,
+                                                  color: Colors.black54),
+                                              press:
+                                                  () {
+                                                setState(() {
+                                                  if (quantity > 0) quantity--;
+                                                  productModel.quantity =
+                                                      quantity.toString();
+                                                  if (quantity == 0)
+                                                    SQLiteDbProvider.db.delete(
+                                                        productModel.productId);
+                                                  else
+                                                    SQLiteDbProvider.db.update(
+                                                        productModel, 1, 0);
+                                                  if (quantity != 0)
+                                                    _showToast(
+                                                        'Item added to Cart');
+                                                });
+                                              }), /*FloatingActionButton(
+                                            elevation: 0,
                                             backgroundColor: Colors.white,
                                             onPressed: () {
                                               setState(() {
@@ -259,13 +299,15 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                                       'Item added to Cart');
                                               });
                                             },
-                                            child: Text(
+                                            child:  Text(
                                               '-',
                                               style: TextStyle(
-                                                  fontSize: 30,
-                                                  color: Color(0xFFff5860)),
+                                                  fontSize: 40,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black45),
                                             ),
-                                          ),
+                                            // }
+                                          ),*/
                                         ),
                                       ),
                                     ),
@@ -276,18 +318,37 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                       quantity.toString(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 15),
+                                          fontSize: 14),
                                     ),
                                     SizedBox(
                                       width: 3,
                                     ),
                                     Expanded(
                                       child: Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: 30,
+                                        width: 30,
                                         child: FittedBox(
-                                          child: FloatingActionButton(
-                                            elevation: 5,
+                                          child: IconBtn(
+                                              icon: Icon(Icons.add,
+                                                  color: Colors.black54),
+                                              press:
+                                                  () {
+                                                    setState(() {
+                                                      quantity++;
+                                                      productModel.quantity =
+                                                          quantity.toString();
+                                                      if (quantity == 1)
+                                                        SQLiteDbProvider.db.insert(
+                                                            productModel, 1, 0);
+                                                      else
+                                                        SQLiteDbProvider.db.update(
+                                                            productModel, 1, 0);
+                                                      if (quantity != 0)
+                                                        _showToast(
+                                                            'Item added to Cart');
+                                                    });
+                                              }),/*FloatingActionButton(
+                                            elevation: 0,
                                             backgroundColor: Colors.white,
                                             onPressed: () {
                                               setState(() {
@@ -308,10 +369,11 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                             child: Text(
                                               '+',
                                               style: TextStyle(
-                                                  fontSize: 30,
-                                                  color: Color(0xFFff5860)),
+                                                  fontSize: 40,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black45),
                                             ),
-                                          ),
+                                          ),*/
                                         ),
                                       ),
                                     ),

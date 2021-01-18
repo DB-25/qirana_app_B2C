@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
                     Text(
                       name,
                       style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 21,
                         fontWeight: FontWeight.w900,
                         color: Color(0xffFF5858),
                       ),
@@ -75,7 +75,7 @@ class _ProfileState extends State<Profile> {
                     // ),
                     Text(
                       emailId,
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     )
                   ],
                 ),
@@ -85,25 +85,25 @@ class _ProfileState extends State<Profile> {
                       child: (_image == null)
                           ? Image.asset(
                               'assets/download.png',
-                              height: 130,
-                              width: 130,
+                              height: 100,
+                              width: 100,
                               fit: BoxFit.cover,
                             )
                           : Image.file(
                               _image,
-                              height: 130,
-                              width: 130,
+                              height: 100,
+                              width: 100,
                               fit: BoxFit.cover,
                             ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 85.0, left: 85),
+                      padding: const EdgeInsets.only(top: 60.0, left: 60),
                       child: FloatingActionButton(
                         elevation: 0,
                         backgroundColor: Color(0xffFfbd50),
                         onPressed: getImage,
                         tooltip: 'Pick Image',
-                        child: Icon(Icons.add_a_photo),
+                        child: Icon(Icons.add_a_photo, size: 25),
                       ),
                     ),
                   ],

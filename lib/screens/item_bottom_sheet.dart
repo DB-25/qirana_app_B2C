@@ -1,12 +1,16 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qirana_app/components/icon_btn.dart';
 import 'package:qirana_app/database/database.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/networking/api_driver.dart';
 
 class ItemBottomSheet extends StatefulWidget {
   ItemBottomSheet({this.product});
+
   final ProductModel product;
+
   @override
   _ItemBottomSheetState createState() =>
       _ItemBottomSheetState(productModel: product);
@@ -14,9 +18,11 @@ class ItemBottomSheet extends StatefulWidget {
 
 class _ItemBottomSheetState extends State<ItemBottomSheet> {
   _ItemBottomSheetState({this.productModel});
+
   ProductModel productModel;
   int quantity;
   FToast fToast;
+
   @override
   void initState() {
     fToast = FToast();
@@ -60,15 +66,16 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                     child: Container(
                       height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(top: 50),
                       child: Carousel(
                         images: [
                           Hero(
                               tag: 'image',
                               child: Image(
                                   image: NetworkImage(
-                                      'https://api.fagnum.com/wp' +
+                                      ApiDriver().getBaseUrl()+'/wp' +
                                           productModel.imageOne))),
-                          NetworkImage('https://api.fagnum.com/wp' +
+                          NetworkImage(ApiDriver().getBaseUrl()+'/wp' +
                               productModel.imageOne),
                         ],
                         boxFit: BoxFit.contain,
@@ -107,7 +114,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                               child: Text(
                                 productModel.name,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 25),
+                                    fontWeight: FontWeight.w700, fontSize: 21),
                                 maxLines: 2,
                                 softWrap: true,
                               ),
@@ -144,7 +151,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                               decoration:
                                                   TextDecoration.lineThrough,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 18),
+                                              fontSize: 16),
                                         )
                                       : Text(
                                           'Product MRP: ₹ ' +
@@ -170,7 +177,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               color: Color(0xFFff5860),
-                                              fontSize: 21),
+                                              fontSize: 20),
                                         )
                                       : Text(
                                           'Selling Price: ₹ ' +
@@ -293,7 +300,15 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                 ],
               ),
             ),
-            IconButton(
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: IconBtn(
+                  icon: Icon(Icons.arrow_back, color: Colors.black54),
+                  press: () {
+                    Navigator.pop(context);
+                  }),
+            ),
+            /*IconButton(
                 icon: Icon(
                   Icons.arrow_back,
                   color: Colors.black,
@@ -301,7 +316,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                }),
+                }),*/
           ],
         ),
       ),

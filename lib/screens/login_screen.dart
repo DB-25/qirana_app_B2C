@@ -23,6 +23,7 @@ var formData = {
 ApiDriver apiDriver = ApiDriver();
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool enableGoogleLogin = false;
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -133,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             await prefs.setBool('autoLogin', true);
                             await prefs.setString('email', loginModel.email);
                             await prefs.setString('emailId', loginModel.email);
+                            await prefs.setString('accessToken', response.data[0]['accessToken']);
                             await prefs.setString(
                                 'password', loginModel.password);
                             if (response.data[0]['userType'] == 'ROLE_ADMIN') {
@@ -174,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    RaisedButton(
+                    enableGoogleLogin ? RaisedButton(
                       color: Color(0xFFff5860),
                       child: Container(
                         height: 50,
@@ -206,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         Navigator.pop(context);
                       },
-                    ),
+                    ) : Container(),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 600,
                     ),

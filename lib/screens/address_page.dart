@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qirana_app/components/input_field.dart';
 import 'package:qirana_app/model/product_model.dart';
@@ -5,6 +7,7 @@ import 'package:qirana_app/model/order_detail_model.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/screens/order_confirm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressPage extends StatefulWidget {
   final List<ProductModel> products;
@@ -71,7 +74,7 @@ class _AddressPageState extends State<AddressPage> {
                             'Delivery Details',
                             style: TextStyle(
                                 color: Color(0xFFff5860),
-                                fontSize: 35,
+                                fontSize: 28,
                                 fontWeight: FontWeight.w900),
                           ),
                         ],
@@ -346,6 +349,11 @@ class _AddressPageState extends State<AddressPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         onPressed: () async {
+                          SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                          await prefs.setBool('address_added', true);
+                          //print(json.encode(formData));
+                          await prefs.setString('address_form_data', json.encode(formData));
                           _formKey.currentState.save();
                           if (!_formKey.currentState.validate()) return;
                           addressDetails = OrderDetailModel.fromMap(formData);

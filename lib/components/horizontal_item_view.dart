@@ -48,7 +48,7 @@ class _HorizontalViewState extends State<HorizontalView> {
                     widget.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 25,
+                      fontSize: 22,
                     ),
                   ),
                 ),
@@ -60,14 +60,14 @@ class _HorizontalViewState extends State<HorizontalView> {
                             builder: (context) => VerticalViewPage2(
                                 bestDeals: widget.productModel,
                                 url: null,
-                                title: 'BEST DEALS',
+                                title: 'Best Deals',
                                 extendedUrl: null,
                                 subCategory: null)));
                   },
                   child: Text(
                     'View all',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       color: Color(0xFFff5860),
                     ),
                   ),

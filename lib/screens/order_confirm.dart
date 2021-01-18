@@ -10,7 +10,7 @@ class OrderConfirm extends StatelessWidget {
   Widget build(BuildContext context) {
     int total = 0;
     for (int i = 0; i < products.length; i++)
-      total += products[i].price.round() * int.parse(products[i].quantity);
+      total += products[i].retailPrice.round() * int.parse(products[i].quantity);
     double leftPadding = MediaQuery.of(context).size.width - 45;
     return Scaffold(
       backgroundColor: Color(0xff183B8C),
@@ -103,11 +103,11 @@ class OrderConfirm extends StatelessWidget {
                               style: TextStyle(color: Colors.white),
                             ),
                             trailing: Text(
-                              products[index].price.round().toString() +
+                              products[index].retailPrice.round().toString() +
                                   ' x ' +
                                   products[index].quantity +
                                   ' = ' +
-                                  (products[index].price.round() *
+                                  (products[index].retailPrice.round() *
                                           int.parse(products[index].quantity))
                                       .toString(),
                               style: TextStyle(color: Colors.white),

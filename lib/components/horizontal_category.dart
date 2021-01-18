@@ -24,20 +24,20 @@ class _HorizontalCategoryState extends State<HorizontalCategory> {
   Color getColor1(int num) {
     num = num % 5;
     if (num == 0) return Color(0xff066E4B);
-    if (num == 1) return Color(0xffA8DEEA);
-    if (num == 2) return Color(0xffFEBE50);
-    if (num == 3) return Color(0xffF3DCEC);
+    if (num == 1) return Colors.blueAccent;
+    if (num == 2) return Colors.brown;
+    if (num == 3) return Colors.redAccent;
     if (num == 4) return Color(0xffFEBE50);
     return Color(0xff183B8C);
   }
 
   Color getColor2(int num) {
     num = num % 5;
-    if (num == 0) return Color(0xffFFB74A);
-    if (num == 1) return Color(0xff066E4B);
-    if (num == 2) return Color(0xffFF5465);
-    if (num == 3) return Color(0xff1D4491);
-    if (num == 4) return Color(0xffFFFFFF);
+    if (num == 0) return Colors.white70;
+    if (num == 1) return Colors.white70;
+    if (num == 2) return Colors.white70;
+    if (num == 3) return Colors.white70;
+    if (num == 4) return Colors.white70;
     return Color(0xffF3DCEC);
   }
 
@@ -55,15 +55,16 @@ class _HorizontalCategoryState extends State<HorizontalCategory> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left:8.0,right: 8),
       child: Container(
         height: (widget.showTitle) ? 125 : 102,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             (widget.showTitle)
                 ? Text(
-                    'SHOP BY CATEGORIES',
+                    'Shop by Categories',
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
                   )
                 : Container(),

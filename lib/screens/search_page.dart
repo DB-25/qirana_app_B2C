@@ -64,17 +64,17 @@ class _SearchState extends State<Search> {
 //                    height: 20,
 //                  ),
                   Text(
-                    'I\'M LOOKING',
+                    'I\'m looking',
                     style: TextStyle(
                         color: Color(0xFFff5860),
-                        fontSize: 35,
+                        fontSize: 22,
                         fontWeight: FontWeight.w900),
                   ),
                   Text(
-                    'FOR...',
+                    'for...',
                     style: TextStyle(
                         color: Color(0xFFff5860),
-                        fontSize: 35,
+                        fontSize: 22,
                         fontWeight: FontWeight.w900),
                   ),
                   SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qirana_app/components/icon_btn.dart';
 import 'package:qirana_app/components/item_view_vertical.dart';
 import 'package:qirana_app/model/category_model.dart';
 import 'package:qirana_app/model/product_model.dart';
@@ -143,15 +144,21 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SearchResult()));
               }),
-          IconButton(
+          IconBtn(
+            icon: Icon(Icons.notifications_active, color: Colors.black45),
+            press: () {
+            },
+          ),
+
+         /* IconButton(
               icon: Icon(
                 Icons.notifications_active,
                 color: Colors.black,
               ),
-              onPressed: () {})
+              onPressed: () {})*/
         ],
         elevation: 0,
-        leading: IconButton(
+        leading:/* IconButton(
           icon: Icon(
             Icons.arrow_back,
             color: Colors.black,
@@ -159,7 +166,14 @@ class _VerticalViewPage2State extends State<VerticalViewPage2> {
           onPressed: () {
             Navigator.pop(context);
           },
+        ),*/
+        IconBtn(
+          icon: Icon(Icons.arrow_back, color: Colors.black45),
+          press: () {
+            Navigator.pop(context);
+          },
         ),
+
         title: Text(
           title,
           style: TextStyle(color: Colors.black),

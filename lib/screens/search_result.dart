@@ -38,6 +38,7 @@ class _SearchResultState extends State<SearchResult> {
               child: Container(
 //                height: 500,
                 child: SearchBar(
+                  searchBarPadding: EdgeInsets.only(left: 5,right: 5),
                   hintText: 'Search a Product',
                   onSearch: search,
                   onError: (error) {

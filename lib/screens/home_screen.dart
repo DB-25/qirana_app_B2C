@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qirana_app/routes.dart';
+import 'package:qirana_app/size_config.dart';
 import 'profile_page.dart';
 import 'cart_page.dart';
 import 'favorite_page.dart';
@@ -29,13 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (_selectedIndex == 0)
         _navigatorKey.currentState.pushNamed('/');
       else if (_selectedIndex == 1)
-        _navigatorKey.currentState.pushNamed('/search');
+        _navigatorKey.currentState.pushNamed(searchRoute);
       else if (_selectedIndex == 2)
-        _navigatorKey.currentState.pushNamed('/cart');
+        _navigatorKey.currentState.pushNamed(cartRoute);
       else if (_selectedIndex == 3)
-        _navigatorKey.currentState.pushNamed('/fav');
+        _navigatorKey.currentState.pushNamed(favRoute);
       else if (_selectedIndex == 4)
-        _navigatorKey.currentState.pushNamed('/profile');
+        _navigatorKey.currentState.pushNamed(profileRoute);
     });
   }
 
@@ -79,20 +81,29 @@ class _HomeScreenState extends State<HomeScreen> {
   ApiDriver apiDriver = new ApiDriver();
   BannerModel bannerModel;
   List<CategoryModel> categoryModel = List<CategoryModel>();
-  List<ProductModel> productModel = List<ProductModel>();
+  List<ProductModel> popularProductModel = List<ProductModel>();
+  List<ProductModel> bestDealModel = List<ProductModel>();
 
   void getDataForAll() async {
     // ApiResponse responseBanner = await apiDriver.getData('banner-all');
     // if (responseBanner != null) getBannerDetails(responseBanner.data[0]);
     ApiResponse responseCategory = await apiDriver.getData('category-all');
-    ApiResponse responseBestDeals = await apiDriver.getData('product-slider');
+    ApiResponse responsePopularDeals = await apiDriver.getData('product-slider');
+    ApiResponse responseBestDeals = await apiDriver.getData('best-deal');
     if (responseCategory != null) getCategoryDetails(responseCategory.data);
+    if (responsePopularDeals != null) getPopularDealsDetails(responsePopularDeals.data);
     if (responseBestDeals != null) getBestDealsDetails(responseBestDeals.data);
+  }
+
+  void getPopularDealsDetails(List data) {
+    for (var i = 0; i < data.length; i++) {
+      popularProductModel.add(ProductModel.fromMap(data[i]));
+    }
   }
 
   void getBestDealsDetails(List data) {
     for (var i = 0; i < data.length; i++) {
-      productModel.add(ProductModel.fromMap(data[i]));
+      bestDealModel.add(ProductModel.fromMap(data[i]));
     }
   }
 
@@ -108,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       key: _scaffoldKey,
       body: WillPopScope(
@@ -133,23 +145,24 @@ class _HomeScreenState extends State<HomeScreen> {
             switch (settings.name) {
               case '/':
                 builder = (BuildContext context) => HomePage2(
-                      productModel: productModel,
+                      popularProductModel: popularProductModel,
+                      bestDealModel: popularProductModel,
                       bannerModel: bannerModel,
                       categoryModel: categoryModel,
                     );
                 break;
-              case '/search':
+              case searchRoute:
                 builder = (BuildContext context) => Search(
-                      productModel: productModel,
+                      productModel: popularProductModel,
                     );
                 break;
-              case '/cart':
+              case cartRoute:
                 builder = (BuildContext context) => Cart();
                 break;
-              case '/fav':
+              case favRoute:
                 builder = (BuildContext context) => Fav();
                 break;
-              case '/profile':
+              case profileRoute:
                 builder = (BuildContext context) => Profile();
                 break;
               default:

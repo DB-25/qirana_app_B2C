@@ -65,11 +65,10 @@ class _FavState extends State<Fav> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 10),
-                    child: Text(
-                      'FAVOURITES',
+                    child: Text('Favourites',
                       style: TextStyle(
                           color: Color(0xFFff5860),
-                          fontSize: 35,
+                          fontSize: 25,
                           fontWeight: FontWeight.w900),
                     ),
                   ),
@@ -87,7 +86,7 @@ class _FavState extends State<Fav> {
                                 child: Text(
                                   'No Items in Favorite',
                                   style: TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.6)),
                                 ),

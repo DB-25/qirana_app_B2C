@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/database/database.dart';
 import 'package:qirana_app/model/product_model.dart';
+import 'package:qirana_app/networking/api_driver.dart';
 
 // ignore: must_be_immutable
 class ItemHorizontalView extends StatefulWidget {
@@ -31,7 +32,7 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.network(
-            'https://api.fagnum.com/wp' + productModel.imageOne,
+            ApiDriver().getBaseUrl()+'/wp' + productModel.imageOne,
             height: 100,
             width: 55,
             fit: BoxFit.contain,
@@ -56,13 +57,13 @@ class _ItemHorizontalViewState extends State<ItemHorizontalView> {
               children: <Widget>[
                 (quantity == 0)
                     ? Text(
-                        'Rs ' + productModel.price.round().toString(),
+                        'Rs ' + productModel.retailPrice.round().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 17),
                       )
                     : Text(
                         'Rs ' +
-                            (productModel.price * quantity).round().toString(),
+                            (productModel.retailPrice * quantity).round().toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 17),
                       ),

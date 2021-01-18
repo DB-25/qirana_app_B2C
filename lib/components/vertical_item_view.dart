@@ -32,7 +32,7 @@ class _VerticalViewState extends State<VerticalView> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 2 - 200,
+        height: MediaQuery.of(context).size.height * 2,
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           childAspectRatio: (2 / 2.75),
