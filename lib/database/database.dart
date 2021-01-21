@@ -42,7 +42,7 @@ class SQLiteDbProvider {
     );
   }
 
-  Future<List<ProductModel>> getAllProducts() async {
+  Future<List<ProductModel>> getAllecom-store() async {
     final db = await database;
     List<Map> results =
         await db.query("Product", columns: ProductModel.columns);

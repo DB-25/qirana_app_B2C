@@ -24,7 +24,7 @@ class ApiDriver {
   }
 
   Future<ApiResponse<dynamic>> getData(String type) async {
-    final http.Response response = await http.post(getBaseUrl()+"/w-ecom-store/" + type,
+    final http.Response response = await http.post(getBaseUrl()+"/ecom-store/" + type,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -105,7 +105,7 @@ class ApiDriver {
   Future<ApiResponse<dynamic>> getCategoryData(
       {String url, String extendedUrl, int index}) async {
     final http.Response response = await http.post(
-      getBaseUrl()+"/w-ecom-store/" + extendedUrl,
+      getBaseUrl()+"/ecom-store/" + extendedUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -134,7 +134,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getSubCategory(String categoryId) async {
     final http.Response response = await http.post(
-        getBaseUrl()+ '/w-ecom-store/sub-category-by-category-id',
+        getBaseUrl()+ '/ecom-store/sub-category-by-category-id',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -189,7 +189,7 @@ class ApiDriver {
     });
 
     final http.Response response =
-        await http.post(getBaseUrl() + '/w-ecom-store/order-submit',
+        await http.post(getBaseUrl() + '/ecom-store/order-submit',
             headers: <String, String>{
               'Content-Typecart': 'application/json; charset=UTF-8',
             },
@@ -241,18 +241,20 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getOrders() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String emailId = prefs.getString('emailId');
+    //String emailId = prefs.getString('emailId');
+    String emailId = "9997013009";
+    var params = {
+      "companyId": companyId,
+      "emailId": emailId,
+    };
     String accessToken = prefs.getString('accessToken');
     final http.Response response = await http.post(
         getBaseUrl()+'/ecom-store/get-order',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': "Bearer "+accessToken,
+          'Authorization': accessToken,
         },
-        body: jsonEncode(<String, String>{
-          "emailId": emailId,
-          "companyId": companyId,
-        }));
+        body: jsonEncode(params));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 204) {
@@ -273,7 +275,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getProduct(String value) async {
     final http.Response response = await http.post(
-        getBaseUrl()+'/w-ecom-store/product-search',
+        getBaseUrl()+'/ecom-store/product-search',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

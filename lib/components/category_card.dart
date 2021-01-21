@@ -83,14 +83,14 @@ class CategoryCard extends StatelessWidget {
               )),*/
           Container(
             width: 125,
-            height: 85,
+            height: 95,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: color1),
           ),
 
           Container(
             width: 125,
-            height: 85,
+            height: 95,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

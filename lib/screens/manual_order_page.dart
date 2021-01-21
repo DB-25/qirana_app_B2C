@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qirana_app/model/orders_model.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
 import 'package:qirana_app/networking/api_driver.dart';
+import 'package:qirana_app/screens/order_detail_page.dart';
 
 class ManualOrder extends StatefulWidget {
   @override
@@ -67,7 +68,14 @@ class _ManualOrderState extends State<ManualOrder> {
             ),
             Expanded(
               child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) => Column(
+                itemBuilder: (BuildContext context, int index) =>
+                    GestureDetector(
+                      onTap: () =>
+                      {
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => OrderDetail(data:orders[index].orderDetail))),
+                      },
+                      child:Column(
                   children: [
                     Container(
                       color: Colors.grey.withOpacity(0.1),
@@ -93,7 +101,7 @@ class _ManualOrderState extends State<ManualOrder> {
                           width: 100,
                           child: Center(
                             child: Text(
-                              "Rs."+orders[index].orderId+"/-",
+                              "Rs."+orders[index].amount.toString()+" /-",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 16),
                             ),
@@ -102,7 +110,7 @@ class _ManualOrderState extends State<ManualOrder> {
                       ),
                     ),
                   ],
-                ),
+                ),),
                 itemCount:orders.length,
               ),
             ),

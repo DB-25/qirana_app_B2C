@@ -57,7 +57,7 @@ class _HorizontalCategoryState extends State<HorizontalCategory> {
     return Padding(
       padding: const EdgeInsets.only(left:8.0,right: 8),
       child: Container(
-        height: (widget.showTitle) ? 125 : 102,
+        height: (widget.showTitle) ? 125 : 118,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

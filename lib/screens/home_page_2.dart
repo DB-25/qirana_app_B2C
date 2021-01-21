@@ -33,14 +33,16 @@ class HomePage2 extends StatefulWidget {
   final List<ProductModel> popularProductModel;
   final List<ProductModel> bestDealModel;
 
-  HomePage2({this.bannerModel, this.popularProductModel, this.bestDealModel, this.categoryModel});
+  HomePage2(
+      {this.bannerModel, this.popularProductModel, this.bestDealModel, this.categoryModel});
 
   @override
-  _HomePage2State createState() => _HomePage2State(
-      bannerModel: bannerModel,
-      popular: popularProductModel,
-      bestDeals: bestDealModel,
-      categoryModel: categoryModel);
+  _HomePage2State createState() =>
+      _HomePage2State(
+          bannerModel: bannerModel,
+          popular: popularProductModel,
+          bestDeals: bestDealModel,
+          categoryModel: categoryModel);
 }
 
 class _HomePage2State extends State<HomePage2> {
@@ -49,8 +51,10 @@ class _HomePage2State extends State<HomePage2> {
   List<CategoryModel> categoryModel;
   List<ProductModel> bestDeals;
   List<ProductModel> popular;
+  bool isLoggedIn = false;
 
-  _HomePage2State({this.bannerModel, this.popular, this.bestDeals, this.categoryModel});
+  _HomePage2State(
+      {this.bannerModel, this.popular, this.bestDeals, this.categoryModel});
 
   _handleSignOut() {
     _googleSignIn.disconnect();
@@ -58,6 +62,7 @@ class _HomePage2State extends State<HomePage2> {
 
   autoLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    isLoggedIn = prefs.getBool("");
     admin.value = prefs.containsKey('admin') ? true : false;
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     admin.notifyListeners();
@@ -73,7 +78,6 @@ class _HomePage2State extends State<HomePage2> {
   @override
   void initState() {
     autoLogin();
-
     //
     // for (int i = 0; i < productModelLength; i++) {
     //   if (i < (productModelLength / 2))
@@ -124,8 +128,8 @@ class _HomePage2State extends State<HomePage2> {
   @override
   Widget build(BuildContext context) {
     //int productModelLength = productModel.length;
-   // productModel.sublist(0, (productModelLength / 2).floor());
-   // popular = productModel.sublist((productModelLength / 2).floor());
+    // productModel.sublist(0, (productModelLength / 2).floor());
+    // popular = productModel.sublist((productModelLength / 2).floor());
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -137,65 +141,68 @@ class _HomePage2State extends State<HomePage2> {
         key: _scaffoldKey,
         appBar: AppBar(
           actions: <Widget>[
-         Container(width: SizeConfig.screenWidth * 1,
-            child: Row(children: [
-              Expanded(
-                flex:0,
-                child: Container(
-                child:IconButton(
-                  icon: Icon(
-                    Icons.segment,
-                    color: Colors.black54,
-                  ),
-                  onPressed: () {
-                    _scaffoldKey.currentState.openDrawer();
-                  },
-                ),),),
-              Expanded(
-                flex:1,
-                child:InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchResult()));
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 5, top: 10),
-                  child: SearchField(),
-                ),
-              ),),
-
-              Expanded(
-                flex: 0,
-                child:Container(
-                margin: EdgeInsets.only(left:10,top: 10,right: 0),
-                child: IconBtn(
-                  icon: Icon(Icons.add_a_photo, color: Colors.black45),
-                  press: () {
-                    getImage();
-                    if (_image != null)
-                      Navigator.push(
-                          context,
+            Container(width: SizeConfig.screenWidth * 1,
+              child: Row(children: [
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.segment,
+                        color: Colors.black54,
+                      ),
+                      onPressed: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
+                    ),),),
+                Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
                           MaterialPageRoute(
-                              builder: (context) => AddressPage(
-                                products: null,
-                              )));
-                  },
-                ),
-              ),),
+                              builder: (context) => SearchResult()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5, top: 10),
+                      child: SearchField(),
+                    ),
+                  ),),
 
-              Expanded(
-                flex: 0,
-                child:Container(
-                margin: EdgeInsets.only(left:5,top: 10,right: 5),
-                child: IconBtn(
-                  icon: Icon(Icons.notifications_active, color: Colors.black45),
-                  press: () {},
-                ),
-              ),),
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, top: 10, right: 0),
+                    child: IconBtn(
+                      icon: Icon(Icons.add_a_photo, color: Colors.black45),
+                      press: () {
+                        getImage();
+                        if (_image != null)
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddressPage(
+                                        products: null,
+                                      )));
+                      },
+                    ),
+                  ),),
 
-            ],),),
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 5, top: 10, right: 5),
+                    child: IconBtn(
+                      icon: Icon(
+                          Icons.notifications_active, color: Colors.black45),
+                      press: () {},
+                    ),
+                  ),),
 
-           /*IconButton(
+              ],),),
+
+            /*IconButton(
               icon: Icon(
                 Icons.search,
                 color: Colors.black,
@@ -206,7 +213,7 @@ class _HomePage2State extends State<HomePage2> {
               }),*/
 
 
-           /*IconButton(
+            /*IconButton(
               icon: Icon(
                 Icons.add_a_photo,
                 color: Colors.black,
@@ -308,19 +315,25 @@ class _HomePage2State extends State<HomePage2> {
                 ),
                 onTap: () {},
               ),
-              ListTile(
-                title: Text(
-                  'Order',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w700),
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ManualOrder()));
-                },
-              ),
+              ValueListenableBuilder<bool>(
+                  valueListenable: autoLoginBool,
+                  builder: (BuildContext context, bool value, Widget child) {
+                    return (value) ?
+                    ListTile(
+                      title: Text(
+                        'Order',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) =>
+                                ManualOrder()));
+                      },
+                    ) : Container();
+                  }),
               ValueListenableBuilder<bool>(
                   valueListenable: autoLoginBool,
                   builder: (BuildContext context, bool value, Widget child) {
@@ -390,7 +403,10 @@ class _HomePage2State extends State<HomePage2> {
                     ),
                     child: SizedBox(
                       height: 180.0,
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
                       child: loading
                           ? Center(
                         child: SizedBox(
@@ -402,11 +418,14 @@ class _HomePage2State extends State<HomePage2> {
                           : Carousel(
                         images: [
                           NetworkImage(
-                              ApiDriver().getBaseUrl()+'/wp/home/ff80818171b2ad0501720ab097fd0006/bannerOne/banner-one.png'),
+                              ApiDriver().getBaseUrl() +
+                                  '/wp/home/ff80818171b2ad0501720ab097fd0006/bannerOne/banner-one.png'),
                           NetworkImage(
-                              ApiDriver().getBaseUrl()+'/wp/home/ff80818171b2ad0501720ab097fd0006/bannerTwo/banner-2.jpg'),
+                              ApiDriver().getBaseUrl() +
+                                  '/wp/home/ff80818171b2ad0501720ab097fd0006/bannerTwo/banner-2.jpg'),
                           NetworkImage(
-                              ApiDriver().getBaseUrl()+'/wp/home/ff80818171b2ad0501720ab097fd0006/bannerThree/banner-3.png')
+                              ApiDriver().getBaseUrl() +
+                                  '/wp/home/ff80818171b2ad0501720ab097fd0006/bannerThree/banner-3.png')
                         ],
                         boxFit: BoxFit.fill,
                         showIndicator: true,
