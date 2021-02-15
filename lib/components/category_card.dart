@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qirana_app/model/product_model.dart';
-import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/networking/ApiResponse.dart';
-import 'package:qirana_app/screens/vertical_view_page.dart';
+import 'package:qirana_app/networking/api_driver.dart';
 import 'package:qirana_app/screens/vertical_view_page_2.dart';
 
 // ignore: must_be_immutable
@@ -40,6 +39,7 @@ class CategoryCard extends StatelessWidget {
     if (name == 'Personal Care') return 'product-by-category';
     if (name == 'Snacks & All') return 'product-by-category';
     if (name == 'Household Items') return 'product-by-category';
+    if (name == 'Confectionery') return 'product-by-category';
     if (name == 'Beverages')
       return 'product-by-category';
     else {
@@ -73,61 +73,62 @@ class CategoryCard extends StatelessWidget {
             ),
           );
         },
-        child: Stack(children: [
-          /*Container(
+        child: Stack(
+          children: [
+            /*Container(
               width: 125,
               height: 85,
               child: Image.network(
                 'http://api.fagnum.com/wp//home/ff80818171b2ad0501720ab097fd0006/personal-care/images/personal-care-1.jpg',
                 fit: BoxFit.fill,
               )),*/
-          Container(
-            width: 125,
-            height: 95,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: color1),
-          ),
-
-          Container(
-            width: 125,
-            height: 95,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(7.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(
-                        icon,
-                        color: color2,
-                      )
-                    ],
+            Container(
+              width: 125,
+              height: 95,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: color1),
+            ),
+            Container(
+              width: 125,
+              height: 95,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Icon(
+                          icon,
+                          color: color2,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            text1,
-                            style: TextStyle(color: color2),
-                            maxLines: 2,
-                            softWrap: true,
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Text(
+                              text1,
+                              style: TextStyle(color: color2),
+                              maxLines: 2,
+                              softWrap: true,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],),
+          ],
+        ),
       ),
     );
   }

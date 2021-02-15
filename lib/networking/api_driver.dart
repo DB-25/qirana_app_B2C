@@ -10,25 +10,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'ApiResponse.dart';
 
 class ApiDriver {
-  final String environment = "test";
+  final String environment = "live";
   final String companyId = 'ff80818171b2ad0501720ab097fd0006';
 
-  getBaseUrl()
-  {
-    return environment=="live" ? 'https://api.fagnum.com' : "http://145.239.92.37:8080/fagnum-test-api";
+  getBaseUrl() {
+    return environment == "live"
+        ? 'https://api.fagnum.com'
+        : "http://145.239.92.37:8080/fagnum-test-api";
   }
 
-  getAuthUrl()
-  {
-    return environment=="live" ? "https://auth.fagnum.com/ecom-auth" : 'http://145.239.92.37:8080/auth-app/ecom-auth' ;
+  getAuthUrl() {
+    return environment == "live"
+        ? "https://auth.fagnum.com/ecom-auth"
+        : 'http://145.239.92.37:8080/auth-app/ecom-auth';
   }
 
   Future<ApiResponse<dynamic>> getData(String type) async {
-    final http.Response response = await http.post(getBaseUrl()+"/ecom-store/" + type,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{'companyId': companyId}));
+    final http.Response response =
+        await http.post(getBaseUrl() + "/ecom-store/" + type,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{'companyId': companyId}));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode != 200) {
@@ -45,8 +48,7 @@ class ApiDriver {
   }
 
   Future<ApiResponse<dynamic>> login(String email, String password) async {
-    final http.Response response = await http.post(
-        getAuthUrl()+ '/login',
+    final http.Response response = await http.post(getAuthUrl() + '/login',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -72,17 +74,16 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> register(
       String email, String password, String confirmPassword) async {
-    final http.Response response =
-        await http.post(getAuthUrl()+ '/signup',
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{
-              'companyId': companyId,
-              'email': email,
-              'password': password,
-              'confirmPassword': confirmPassword
-            }));
+    final http.Response response = await http.post(getAuthUrl() + '/signup',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'companyId': companyId,
+          'email': email,
+          'password': password,
+          'confirmPassword': confirmPassword
+        }));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 302) {
@@ -105,7 +106,7 @@ class ApiDriver {
   Future<ApiResponse<dynamic>> getCategoryData(
       {String url, String extendedUrl, int index}) async {
     final http.Response response = await http.post(
-      getBaseUrl()+"/ecom-store/" + extendedUrl,
+      getBaseUrl() + "/ecom-store/" + extendedUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -134,7 +135,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getSubCategory(String categoryId) async {
     final http.Response response = await http.post(
-        getBaseUrl()+ '/ecom-store/sub-category-by-category-id',
+        getBaseUrl() + '/ecom-store/sub-category-by-category-id',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -193,7 +194,7 @@ class ApiDriver {
             headers: <String, String>{
               'Content-Typecart': 'application/json; charset=UTF-8',
             },
-            body:bodyStr);
+            body: bodyStr);
 
     print(response.statusCode);
     print(response.body);
@@ -212,7 +213,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getInventory(String value) async {
     final http.Response response = await http.post(
-        getBaseUrl()+'/ecom-inventory/search',
+        getBaseUrl() + '/ecom-inventory/search',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -248,13 +249,13 @@ class ApiDriver {
       "emailId": emailId,
     };
     String accessToken = prefs.getString('accessToken');
-    final http.Response response = await http.post(
-        getBaseUrl()+'/ecom-store/get-order',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': accessToken,
-        },
-        body: jsonEncode(params));
+    final http.Response response =
+        await http.post(getBaseUrl() + '/ecom-store/get-order',
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': accessToken,
+            },
+            body: jsonEncode(params));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 204) {
@@ -275,7 +276,7 @@ class ApiDriver {
 
   Future<ApiResponse<dynamic>> getProduct(String value) async {
     final http.Response response = await http.post(
-        getBaseUrl()+'/ecom-store/product-search',
+        getBaseUrl() + '/ecom-store/product-search',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
