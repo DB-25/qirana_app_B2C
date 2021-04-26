@@ -102,11 +102,27 @@ class SQLiteDbProvider {
       return false;
   }
 
+  Future<String> checkQuantity(String id) async {
+    final db = await database;
+    var result =
+        await db.rawQuery("SELECT * FROM Product WHERE productId LIKE '%$id%'");
+    if (result.isNotEmpty) {
+      ProductModel product = ProductModel.fromMap(result[0]);
+      return product.quantity;
+    } else
+      return "0";
+  }
+
   update(ProductModel product, int cart, int fav) async {
     final db = await database;
     var result = await db.update("Product", product.toMap(cart, fav),
         where: "productId = ?", whereArgs: [product.productId]);
     return result;
+  }
+
+  clearTable() async {
+    final db = await database;
+    db.delete("Product");
   }
 
   delete(String id) async {

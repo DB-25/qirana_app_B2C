@@ -10,7 +10,8 @@ class OrderConfirm extends StatelessWidget {
   Widget build(BuildContext context) {
     int total = 0;
     for (int i = 0; i < products.length; i++)
-      total += products[i].retailPrice.round() * int.parse(products[i].quantity);
+      total +=
+          products[i].retailPrice.round() * int.parse(products[i].quantity);
     double leftPadding = MediaQuery.of(context).size.width - 45;
     return Scaffold(
       backgroundColor: Color(0xff183B8C),
@@ -143,8 +144,8 @@ class OrderConfirm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    Navigator.pop(context, "refresh");
+                    // Navigator.pop(context);
                   },
                 ),
               ),

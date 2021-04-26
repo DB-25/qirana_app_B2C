@@ -27,6 +27,11 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
 
   FToast fToast;
   int quantity = 0;
+  String sQuantity = "0";
+  void checkQuantityInDb() async {
+    sQuantity = await SQLiteDbProvider.db.checkQuantity(productModel.productId);
+    quantity = int.parse(sQuantity);
+  }
 
   _showToast(String msg) {
     Widget toast = Container(
@@ -50,10 +55,28 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
 
   @override
   void initState() {
+    checkQuantityInDb();
+    if (productModel != null) quantity = int.parse(sQuantity);
     fToast = FToast();
     fToast.init(context);
-    if (productModel != null) quantity = int.parse(productModel.quantity);
+    refresh();
     super.initState();
+  }
+
+  void refresh() async {
+    setState(() {});
+    await Future.delayed(new Duration(seconds: 1), () {
+      setState(() {});
+    });
+    await Future.delayed(new Duration(seconds: 2), () {
+      setState(() {});
+    });
+    // Future.delayed(new Duration(seconds: 3), () {
+    //   setState(() {});
+    // });
+    // Future.delayed(new Duration(seconds: 5), () {
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -91,14 +114,25 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                         height: MediaQuery.of(context).size.height / 6,
                         width: MediaQuery.of(context).size.width / 3 + 15,
                         child: Hero(
-                            tag: 'image',
-                            child: CachedNetworkImage(
-                              imageUrl:ApiDriver().getBaseUrl()+'/wp' +
-                                  productModel.imageOne,
-                              placeholder: (context, url) => Container(child:Image.asset('assets/logo.png',width: 80,height: 80,)),
-                              errorWidget: (context, url, error) => Container(width: 150,height: 150,child:Image.asset('assets/no_image.png',)),
-                            ),
-                            /*FadeInImage(
+                          tag: 'image',
+                          child: CachedNetworkImage(
+                            imageUrl: ApiDriver().getBaseUrl() +
+                                '/wp' +
+                                productModel.imageOne,
+                            placeholder: (context, url) => Container(
+                                child: Image.asset(
+                              'assets/logo.png',
+                              width: 80,
+                              height: 80,
+                            )),
+                            errorWidget: (context, url, error) => Container(
+                                width: 150,
+                                height: 150,
+                                child: Image.asset(
+                                  'assets/no_image.png',
+                                )),
+                          ),
+                          /*FadeInImage(
                               // here `bytes` is a Uint8List containing the bytes for the in-memory image
                               placeholder: AssetImage('assets/logo.png'),
                               image: NetworkImage(
@@ -106,27 +140,29 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                     productModel.imageOne,
                               ),
                             )*/
-                            /*Image.network(
+                          /*Image.network(
                             'https://api.fagnum.com/wp' + productModel.imageOne,
                             fit: BoxFit.contain,
                           ),*/
-                            ),
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: SizedBox(
-                    height: 30,
+                    height: 40,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 8.0, top: 5),
+                      padding: EdgeInsets.only(left: 8.0, top: 5, right: 5),
                       child: Container(
                         child: Text(
                           productModel.name,
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                              fontSize: productModel.name.length > 20 ? 15 : 16,
+                              fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                       ),
                     ),
@@ -222,29 +258,34 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(0.0),
-                              child: (quantity == 0)
-                                  ? Text(
-                                      '₹ ' +
-                                          productModel.mrp.round().toString(),
-                                      style: TextStyle(
-                                          color: Colors.grey[600],
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    )
-                                  : Text(
-                                      '₹ ' +
-                                          (productModel.mrp * quantity)
-                                              .round()
-                                              .toString(),
-                                      style: TextStyle(
-                                          color: Colors.grey[600],
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15),
-                                    ),
+                              child: productModel.retailPrice ==
+                                      productModel.mrp
+                                  ? Container()
+                                  : (quantity == 0)
+                                      ? Text(
+                                          '₹ ' +
+                                              productModel.mrp
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        )
+                                      : Text(
+                                          '₹ ' +
+                                              (productModel.mrp * quantity)
+                                                  .round()
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15),
+                                        ),
                             ),
                           ],
                         ),
@@ -264,8 +305,7 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                           child: IconBtn(
                                               icon: Icon(Icons.remove,
                                                   color: Colors.black54),
-                                              press:
-                                                  () {
+                                              press: () {
                                                 setState(() {
                                                   if (quantity > 0) quantity--;
                                                   productModel.quantity =
@@ -331,23 +371,22 @@ class _ItemViewVerticalState extends State<ItemViewVertical> {
                                           child: IconBtn(
                                               icon: Icon(Icons.add,
                                                   color: Colors.black54),
-                                              press:
-                                                  () {
-                                                    setState(() {
-                                                      quantity++;
-                                                      productModel.quantity =
-                                                          quantity.toString();
-                                                      if (quantity == 1)
-                                                        SQLiteDbProvider.db.insert(
-                                                            productModel, 1, 0);
-                                                      else
-                                                        SQLiteDbProvider.db.update(
-                                                            productModel, 1, 0);
-                                                      if (quantity != 0)
-                                                        _showToast(
-                                                            'Item added to Cart');
-                                                    });
-                                              }),/*FloatingActionButton(
+                                              press: () {
+                                                setState(() {
+                                                  quantity++;
+                                                  productModel.quantity =
+                                                      quantity.toString();
+                                                  if (quantity == 1)
+                                                    SQLiteDbProvider.db.insert(
+                                                        productModel, 1, 0);
+                                                  else
+                                                    SQLiteDbProvider.db.update(
+                                                        productModel, 1, 0);
+                                                  if (quantity != 0)
+                                                    _showToast(
+                                                        'Item added to Cart');
+                                                });
+                                              }), /*FloatingActionButton(
                                             elevation: 0,
                                             backgroundColor: Colors.white,
                                             onPressed: () {

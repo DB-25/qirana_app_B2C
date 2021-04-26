@@ -459,7 +459,7 @@ class _HomePage2State extends State<HomePage2> {
                         productModel: bestDeals,
                         title: 'Best Deals',
                         axisDirection: Axis.horizontal,
-                        duration: 5,
+                        duration: 3,
                       ),
                 SizedBox(
                   height: 10,
@@ -481,7 +481,7 @@ class _HomePage2State extends State<HomePage2> {
                       )
                     : VerticalView(
                         productModel: popular,
-                        duration: 5,
+                        duration: 3,
                       ),
               ],
             ),
